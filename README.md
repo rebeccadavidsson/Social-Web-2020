@@ -1,2 +1,1 @@
-# Social-Web-2020
-Social Web VU Amsterdam
+# Social Web VU Amsterdam 2020
