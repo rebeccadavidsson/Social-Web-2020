@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import permission_required
 
 def index(request):
     context = {}
-    return render(request, 'home.html', context) #TODO
+    return render(request, 'login.html', context)
 
 
 def login_view(request):
@@ -16,12 +16,13 @@ def login_view(request):
     return render(request, 'login.html', context)
 
 
-@permission_required('admin.can_view_csv')
-def load_csv(request):
+def register_view(request):
+    context = {}
+    return render(request, 'register.html', context)
 
-    file = request.FILES['file']
 
-    if not file.name.endswith('.csv'):
-        return "TODO"
-
-    return "TOODOOOO"
+def home_view(request):
+    context = {}
+    # van https://html.crumina.net/html-olympus/17-FriendGroups.html
+    # ALS VOORBEELD
+    return render(request, 'test.html', context)
