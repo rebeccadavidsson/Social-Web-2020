@@ -1,18 +1,33 @@
-#mainschedule {
-  background-color: 0c101c;
-  height: 80vh;
+.mainschedule {
+  height: 90vh;
   margin-top: 4%;
   margin-left: 10%;
-  width: 40%;
+  width: 55%;
   float:left;
   color: white;
 }
 
 #mainfeed {
-  background-color: black;
-  height:80vh;
-  margin-top: 4%;
-  width:30%;
-  float:left;
+  background: rgba(31, 31, 31, 0.5);
+  height: 100vh;
+  width:24%;
+  padding: 10px;
+  position: absolute;
   color: white;
+  right: 0;
+  overflow-y: scroll
+}
+
+.feed-message {
+    background: #d2d6de none repeat scroll 0 0;
+    border: 1px solid #d2d6de;
+    border-radius: 5px;
+    color: #444;
+    margin: 35px 0 0 10px;
+    padding: 5px 10px;
+    position: relative;
+}
+
+.total-feed img {
+  width: 70%;
 }
