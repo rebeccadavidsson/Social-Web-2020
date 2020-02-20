@@ -9,10 +9,7 @@ from django.contrib.auth.decorators import permission_required
 def index(request):
     context = {}
     # TODO
-
-    print("OPENING HOMEPAGE")
-
-    return render(request, 'home.html', context)
+    return render(request, 'mainpage.html', context)
 
 
 def login_view(request):
@@ -38,6 +35,25 @@ def register_view(request):
     # TODO
     return render(request, 'register.html', context)
 
+def personal_view(request):
+    context = {}
+    # TODO
+    return render(request, 'personal.html', context)
+
+def settings_view(request):
+    context = {}
+    # TODO
+    return render(request, 'settings.html', context)
+
+def schedule_view(request):
+    context = {}
+    # TODO
+    return render(request, 'schedule.html', context)
+
+def schedule_view(request):
+    context = {}
+    # TODO
+    return render(request, 'schedule.html', context)
 
 def home_view(request):
     context = {}

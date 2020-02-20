@@ -1,0 +1,18 @@
+#mainschedule {
+  background-color: 0c101c;
+  height: 80vh;
+  margin-top: 4%;
+  margin-left: 10%;
+  width: 40%;
+  float:left;
+  color: white;
+}
+
+#mainfeed {
+  background-color: black;
+  height:80vh;
+  margin-top: 4%;
+  width:30%;
+  float:left;
+  color: white;
+}
