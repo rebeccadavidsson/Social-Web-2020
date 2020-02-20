@@ -9,36 +9,12 @@
       	<div class="login100-pic js-tilt" data-tilt>
       	<img src="{% static 'images/img-01.png' %}" alt="IMG">
       	</div>
-
       	<form class="login100-form validate-form" method="POST" action="{% url 'register' %}">
-					{% csrf_token %}
-					<span class="login100-form-title">
+        	<span class="login100-form-title">
         	Register
         	</span>
-
-        	<div class="wrap-input100 validate-input" data-validate="Choose a unique username">
-          	<input autocomplete="off" class="input100" type="text" name="username" placeholder="Username">
-          	<span class="focus-input100"></span>
-          	<span class="symbol-input100">
-          	<i class="fa fa-envelope" aria-hidden="true"></i>
-          	</span>
-        	</div>
-        	<div class="wrap-input100 validate-input" data-validate="First name is required">
-          	<input autocomplete="off" class="input100" type="text" name="first_name" placeholder="First name">
-          	<span class="focus-input100"></span>
-          	<span class="symbol-input100">
-          	<i class="fa fa-envelope" aria-hidden="true"></i>
-          	</span>
-        	</div>
-        	<div class="wrap-input100 validate-input" data-validate="Last name is required">
-          	<input autocomplete="off" class="input100" type="text" name="last_name" placeholder="Last name">
-          	<span class="focus-input100"></span>
-          	<span class="symbol-input100">
-          	<i class="fa fa-envelope" aria-hidden="true"></i>
-          	</span>
-        	</div>
         	<div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
-          	<input autocomplete="off" class="input100" type="text" name="email" placeholder="Email">
+          	<input autocomplete="off" class="input100" type="text" name="username" placeholder="Email">
           	<span class="focus-input100"></span>
           	<span class="symbol-input100">
           	<i class="fa fa-envelope" aria-hidden="true"></i>
