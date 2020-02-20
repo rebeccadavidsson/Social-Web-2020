@@ -2,13 +2,15 @@
 
 {% block body %}
 <div id="wrapper">
+        {% load static %}
 
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
+              <br>
                 <li class="sidebar-brand">
                     <a href="#">
-                        KIJK EENS!!
+                      <img src="{% static 'images/logo_2.png' %}" alt="IMG" width="75px">
                     </a>
                 </li>
                 <li>
@@ -72,7 +74,7 @@
 						</div>
 						<div class="friend-avatar">
 							<div class="author-thumb">
-								<img src="img/logo.png" alt="photo">
+								<img src="{% static 'images/sp_logo.jpg' %}" alt="photo" width="90%">
 							</div>
 							<div class="author-content">
 								<a href="#" class="h5 author-name">Science Park</a>
@@ -121,7 +123,7 @@
 						</div>
 						<div class="friend-avatar">
 							<div class="author-thumb">
-								<img src="img/friend-group1.png" alt="photo">
+								<img src="{% static 'images/home.jpg' %}" alt="photo" width="100%" background="blue">
 							</div>
 							<div class="author-content">
 								<a href="#" class="h5 author-name">Home</a>
@@ -169,7 +171,7 @@
 						</div>
 						<div class="friend-avatar">
 							<div class="author-thumb">
-								<img src="img/friend-group2.jpg" alt="photo">
+								<img src="{% static 'images/friends.jpg' %}" alt="photo" width="80%">
 							</div>
 							<div class="author-content">
 								<a href="#" class="h5 author-name">Close Friends</a>
@@ -220,7 +222,7 @@
 						</div>
 						<div class="friend-avatar">
 							<div class="author-thumb">
-								<img src="img/friend-group3.jpg" alt="photo">
+								<img src="{% static 'images/cls.png' %}" alt="photo" width="100%">
 							</div>
 							<div class="author-content">
 								<a href="#" class="h5 author-name">Computational Science</a>
@@ -269,7 +271,7 @@
 						</div>
 						<div class="friend-avatar">
 							<div class="author-thumb">
-								<img src="img/friend-group4.jpg" alt="photo">
+								<img src="{% static 'images/vu_logo.png' %}" alt="photo" width="100%">
 							</div>
 							<div class="author-content">
 								<a href="#" class="h5 author-name">VU</a>
