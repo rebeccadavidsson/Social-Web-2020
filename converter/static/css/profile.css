@@ -4,19 +4,23 @@
 
 .emp-profile{
     padding: 7%;
-    margin-right: 7%;
+    margin-right: 6%;
     border-radius: 0.5rem;
     background: rgba(61, 61, 61, 0.3);
     color: white;
+    overflow-y: scroll;
+    max-height: 800px;
 }
 
 .profile-img{
     text-align: center;
 }
 .profile-img img{
+    margin-top: -17%;
     width: 70%;
     height: 100%;
 }
+
 .profile-img .file {
     position: relative;
     overflow: hidden;
@@ -33,7 +37,7 @@
     right: 0;
     top: 0;
 }
-.profile-head h5{
+.profile-head h4{
     color: white;
     text-transform: capitalize;
 }
@@ -42,14 +46,15 @@
     text-transform: capitalize;
 }
 .profile-edit-btn{
-  background-color: #363636;
+  background-color: rgb(41, 41, 41, 0.5);
     border: none;
-    border-radius: 1.5rem;
+    border-radius: 1.0rem;
     width: 80%;
     padding: 5%;
     font-weight: 600;
     color: white;
     cursor: pointer;
+    margin-left: 10%;
 }
 
 .profile-head .nav-tabs{
@@ -98,7 +103,7 @@
     margin: 0 0 10px auto;
     width: 100%;
     right: 3%;
-    max-width: 63%;
+    max-width: 98%;
     height: 48px;
     background: #fff;
     border-radius: 2px;
@@ -159,4 +164,24 @@ ul#wrapper {
   text-align: left;
   text-transform: capitalize;
   font-size: 18px;
+}
+
+#firstgraph {
+  width: 70%;
+  margin-left: 10%;
+}
+
+.toprated {
+  /* background: rgb(41, 41, 41, 0.2); */
+  height: 100px;
+  margin-left: 10%;
+}
+
+.toprated h5{
+  margin-left: 5px;
+  margin-top: 30px;
+}
+
+.toprated p, span {
+  margin-left: 5px;
 }

@@ -1,10 +1,15 @@
+
 .mainschedule {
   height: 90vh;
   margin-top: 4%;
-  margin-left: 10%;
-  width: 55%;
+  margin-left: 5%;
+  width: 57%;
   float:left;
   color: white;
+}
+
+.mainschedule img {
+  width: 100%;
 }
 
 #mainfeed {
@@ -15,7 +20,7 @@
   position: absolute;
   color: white;
   right: 0;
-  overflow-y: scroll
+  overflow-y: scroll;
 }
 
 .feed-message {
@@ -72,6 +77,7 @@ hr {
   border-radius: 5px;
   padding: 10px;
   margin: 10px 0;
+  color: black;
 }
 
 /* Darker chat container */
