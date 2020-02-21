@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import permission_required
 
 def index(request):
     """ Render main page when website is opened for the first time. """
-    print(request.user.is_authenticated, "AUTHETICATION")
+
     # Check if user is logged in
     if not request.user.is_authenticated:
         return render(request, "login.html")
@@ -43,7 +43,6 @@ def login_view(request):
 def register_view(request):
     """Register new user"""
 
-    print("Registering! :)")
     if request.POST:
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -75,10 +74,22 @@ def personal_view(request):
 
     # TODO: ingelogde user ophalen
     context = {
-    "user": request.user
+    "user": request.user,
+    "users": User.objects.all()
     }
     # TODO
     return render(request, 'personal.html', context)
+
+def searchprofile(request, user): #TODO, dit moet userid worden
+    """Go to someone else their profile page"""
+
+    context = {
+    "user": user,
+    "users": User.objects.all()
+    }
+
+    return render(request, 'personal.html', context)
+
 
 def settings_view(request):
     context = {}

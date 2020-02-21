@@ -13,4 +13,5 @@ urlpatterns = [
     path('settings/', views.settings_view, name='settings'),
     path('schedule/', views.schedule_view, name='schedule'),
     path('mainpage/', views.index, name='mainpage'),
+    path('searchprofile/<str:user>', views.searchprofile, name='searchprofile'),
 ]
