@@ -9,12 +9,74 @@
 
 <div class="mainschedule">
     <h1>HIER KOMT EEN ROOSTER</h1>
+
+       <!-- <form id="content">
+        <input type="text" name="input" class="input" id="search-input">
+        <button type="reset" class="search" id="search-btn"></button>
+      </form>
+      <div class="space"></div>
+      <div class="space"></div> -->
  </div>
 
  <div id="mainfeed">
-    <h2>Hier komt een feeed</h2>
 
+    <h4>This week</h4>
+<hr>
     <!-- Message. Default to the left -->
+
+      <div class="containerfeed darker">
+        <img src="https://media-exp1.licdn.com/dms/image/C5603AQF54EcNtyGnyA/profile-displayphoto-shrink_200_200/0?e=1586995200&v=beta&t=TMMRXfh0RcT04rV6f8N-iJmTuxLo6Li5NU479VPgIVs" alt="Avatar" class="right">
+        <!-- <h4>Eline followed:</h4> -->
+        <h4>Spinning class</h4>
+        <p>Evert van der Zee</p>
+        <span class="time-left">Eline - Fr 21 Feb</span>
+        <span class="time-right">
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star"></span>
+        </span>
+      </div>
+    <br>
+    <div class="containerfeed darker">
+      <img src="https://i.vimeocdn.com/portrait/24338979_640x640" alt="Avatar" class="right">
+      <!-- <h4>Eline followed:</h4> -->
+      <h4>Boxing class</h4>
+      <p>Ruud de Ligte</p>
+      <span class="time-left">Annemijn - Sat 22 Feb</span>
+      <span class="time-right">
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+      </span>
+    </div>
+    <br>
+
+    <h4>WAY Back</h4>
+    <hr>
+
+    <div class="containerfeed darker">
+      <img src="https://media-exp1.licdn.com/dms/image/C5603AQF54EcNtyGnyA/profile-displayphoto-shrink_200_200/0?e=1586995200&v=beta&t=TMMRXfh0RcT04rV6f8N-iJmTuxLo6Li5NU479VPgIVs" alt="Avatar" class="right">
+      <!-- <h4>Eline followed:</h4> -->
+      <h4>Spinning class</h4>
+      <p>Monique Hoek</p>
+      <span class="time-left">Eline - Wed 12 Feb</span>
+      <span class="time-right">
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+      </span>
+      <br>
+        <hr>
+        <p class="comments">  Stupid teacher!!! WAAH! </p>
+
+    </div>
+
 
     <div class="total-feed">
       <div class="feed-message">
@@ -51,5 +113,19 @@
 
     </div>
  </div>
+
+ <script type="text/javascript">
+
+    const input = document.getElementById("search-input");
+    const searchBtn = document.getElementById("search-btn");
+
+    const expand = () => {
+      searchBtn.classList.toggle("close");
+      input.classList.toggle("square");
+    };
+
+    searchBtn.addEventListener("click", expand);
+
+ </script>
 
 {% endblock %}
