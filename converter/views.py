@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.decorators import permission_required
+from .models import History, Profile
 
 
 def index(request):
@@ -42,9 +43,12 @@ def login_view(request):
 
 def register_view(request):
     """Register new user"""
+    Profile.objects.all().delete()
 
     if request.POST:
         username = request.POST.get('username')
+        firstname = request.POST.get('firstname')
+        lastname = request.POST.get('lastname')
         password = request.POST.get('password')
         password_check = request.POST.get('password_confirm')
 
@@ -60,8 +64,14 @@ def register_view(request):
         user = User.objects.create_user(
             username=username, password=password)
         user.username = username
+        user.first_name = firstname
+        user.last_name = lastname
         user.save()
         user = authenticate(request, username=username, password=password)
+
+        # Create a new profile! :)
+        new_user = Profile(user=user)
+        new_user.save()
 
         if user is not None:
             login(request, user)
@@ -69,27 +79,45 @@ def register_view(request):
 
     return render(request, "register.html")
 
+
 def personal_view(request):
     """Render personal profile"""
 
     # TODO: ingelogde user ophalen
     context = {
-    "user": request.user,
+    "username": request.user,
+    "firstname": request.user.first_name,
+    "lastname": request.user.last_name,
     "users": User.objects.all()
     }
     # TODO
     return render(request, 'personal.html', context)
 
+
 def searchprofile(request, user): #TODO, dit moet userid worden
     """Go to someone else their profile page"""
 
     context = {
-    "user": user,
-    "users": User.objects.all()
+        "username": request.user,
+        "firstname": request.user.first_name,
+        "lastname": request.user.last_name,
+        "users": User.objects.all()
     }
 
     return render(request, 'personal.html', context)
 
+
+def follow(request, username):
+
+    # Get user profile
+    # TODO: DOET HET NOG NIET
+    profile = Profile.objects.get(user=request.user)
+    to_follow = Profile.objects.filter(user__username=username)
+
+    profile.following.add(to_follow)
+    profile.save()
+
+    return redirect("profile")
 
 def settings_view(request):
     context = {}

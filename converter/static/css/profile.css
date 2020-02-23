@@ -155,7 +155,7 @@ ul#wrapper {
 
 #friendoption img {
   width: 25px;
-  border-radius: 50%;
+  border-radius: 5%;
   margin-right: 10px;
   margin-top: 10px;
 }
@@ -169,6 +169,17 @@ ul#wrapper {
 #firstgraph {
   width: 70%;
   margin-left: 10%;
+}
+
+.followbutton {
+  background-color: #4CAF50;
+  margin-top: 10px;
+  border-radius: 5%;
+  margin-right: 10px;
+}
+
+.followbutton a{
+  color: white;
 }
 
 .toprated {

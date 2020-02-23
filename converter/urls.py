@@ -14,4 +14,5 @@ urlpatterns = [
     path('schedule/', views.schedule_view, name='schedule'),
     path('mainpage/', views.index, name='mainpage'),
     path('searchprofile/<str:user>', views.searchprofile, name='searchprofile'),
+    path('follow/<str:username>', views.follow, name="follow")
 ]
