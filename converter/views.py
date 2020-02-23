@@ -1,10 +1,9 @@
-from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
 from django.shortcuts import render
-from django.urls import reverse
-from django.contrib.auth.decorators import permission_required
+# from django.contrib.auth.decorators import permission_required
+from .helpers import get_profile
 from .models import History, Profile
 
 
@@ -85,18 +84,18 @@ def personal_view(request):
 
     # TODO: ingelogde user ophalen
     context = {
-    "username": request.user,
-    "firstname": request.user.first_name,
-    "lastname": request.user.last_name,
-    "users": User.objects.all()
+        "username": request.user,
+        "firstname": request.user.first_name,
+        "lastname": request.user.last_name,
+        "users": User.objects.all()
     }
     # TODO
     return render(request, 'personal.html', context)
 
 
-def searchprofile(request, user): #TODO, dit moet userid worden
+def searchprofile(request, user):  # TODO, dit moet user_id worden
     """Go to someone else their profile page"""
-
+    # TODO: deze functie en personal_view samenvoegen?
     context = {
         "username": request.user,
         "firstname": request.user.first_name,
@@ -108,31 +107,30 @@ def searchprofile(request, user): #TODO, dit moet userid worden
 
 
 def follow(request, username):
+    """Add follower to the profile of logged in user"""
 
     # Get user profile
     # TODO: DOET HET NOG NIET
-    profile = Profile.objects.get(user=request.user)
-    to_follow = Profile.objects.filter(user__username=username)
-
+    return render(request, "error.html")
+    profile = get_profile(request)
+    to_follow = Profile.objects.get(user__username=username)
+    print(to_follow, "TOFOLLOW")
     profile.following.add(to_follow)
     profile.save()
 
     return redirect("profile")
 
+
 def settings_view(request):
-    context = {}
     # TODO
-    return render(request, 'settings.html', context)
+    return redirect("profile")
+
 
 def schedule_view(request):
     context = {}
     # TODO
     return render(request, 'schedule.html', context)
 
-def schedule_view(request):
-    context = {}
-    # TODO
-    return render(request, 'schedule.html', context)
 
 def home_view(request):
     context = {}

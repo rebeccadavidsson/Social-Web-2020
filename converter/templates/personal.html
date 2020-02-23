@@ -8,7 +8,6 @@
 
 <div class="space"></div>
 <div class="container emp-profile">
-
     <form method="post" action="{% url 'settings' %}">
       {% csrf_token %}
         <div class="row">
@@ -16,6 +15,10 @@
                 <div class="profile-img">
                     <img src="https://usc.uva.nl/wp-content/themes/usc/img/logo-usc.png" alt="FOTOFOTO"/>
                 </div>
+                <!-- <div class="profile-img">
+                  <p>{{ MEDIA_URL }}</p>
+                    <img src="{{ MEDIA_URL }}logo.png" alt="FOTOFOTO"/>
+                </div> -->
             </div>
             <div class="col-md-8">
               <div class="search-bar">
@@ -26,7 +29,8 @@
                       <div id="friendoption" style="display:none;">
                         <a href="{% url 'searchprofile' name %}" style="color:white">{{ name }}</a>
                         <span class="time-right">
-                          <button type="button" name="button" class="followbutton"><a href="{% url 'follow' name %}"">Follow +</a></button>
+                          <button type="button" name="button" class="followbutton"><a href="{% url 'follow' name %}">Follow +</a></button>
+                          <!-- <a href="{% url 'follow' username %}" class="btn btn-success">Follow +</a> -->
                         </span>
                         <span class="time-right"><img src="https://media-exp1.licdn.com/dms/image/C5603AQF54EcNtyGnyA/profile-displayphoto-shrink_200_200/0?e=1586995200&v=beta&t=TMMRXfh0RcT04rV6f8N-iJmTuxLo6Li5NU479VPgIVs" alt="Avatar" class="right"></span>
                       </div>
@@ -38,8 +42,63 @@
                     <ul class="nav nav-tabs" id="myTab" role="tablist" style="width:97%;">
                       <br>
                     </ul>
-                    <h5>Mensen die je volgt hier?</h5>
-                    <p>Of interesses enzo?</p>
+                    <div class="friendsview">
+
+                      <div class="row" id="friendsrow">
+                        <div class="arrows">
+                          <a class="arrow right" id="scrollfriends"></a>
+                        </div>
+                        <div class="col-sm">
+                          <div class="card">
+                            <div class="cardbackground">
+                              <div class="card-body">
+                                <h5 class="card-title">Eline</h5>
+                                <p>Rietdijk</p>
+                                <img src="https://media-exp1.licdn.com/dms/image/C5603AQF54EcNtyGnyA/profile-displayphoto-shrink_200_200/0?e=1586995200&v=beta&t=TMMRXfh0RcT04rV6f8N-iJmTuxLo6Li5NU479VPgIVs" alt="">
+                                <a href="{% url 'follow' username %}" class="btn btn-success">Follow +</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm">
+                          <div class="card">
+                            <div class="cardbackground">
+                              <div class="card-body">
+                                <h5 class="card-title">Eline</h5>
+                                <p>Rietdijk</p>
+                                <img src="https://media-exp1.licdn.com/dms/image/C5603AQF54EcNtyGnyA/profile-displayphoto-shrink_200_200/0?e=1586995200&v=beta&t=TMMRXfh0RcT04rV6f8N-iJmTuxLo6Li5NU479VPgIVs" alt="">
+                                <a href="{% url 'follow' username %}" class="btn btn-light">Unfollow</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm">
+                          <div class="card">
+                            <div class="cardbackground">
+                              <div class="card-body">
+                                <h5 class="card-title">Eline</h5>
+                                <p>Rietdijk</p>
+                                <img src="https://media-exp1.licdn.com/dms/image/C5603AQF54EcNtyGnyA/profile-displayphoto-shrink_200_200/0?e=1586995200&v=beta&t=TMMRXfh0RcT04rV6f8N-iJmTuxLo6Li5NU479VPgIVs" alt="">
+                                <a href="{% url 'follow' username %}" class="btn btn-light">Unfollow</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm">
+                          <div class="card">
+                            <div class="cardbackground">
+                              <div class="card-body">
+                                <h5 class="card-title">Eline</h5>
+                                <p>Rietdijk</p>
+                                <img src="https://media-exp1.licdn.com/dms/image/C5603AQF54EcNtyGnyA/profile-displayphoto-shrink_200_200/0?e=1586995200&v=beta&t=TMMRXfh0RcT04rV6f8N-iJmTuxLo6Li5NU479VPgIVs" alt="">
+                                <a href="#" class="btn btn-light">Unfollow</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="space"></div>
                 </div>
             </div>
         </div>

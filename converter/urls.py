@@ -1,5 +1,7 @@
 from django.urls import path
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
 
 from . import views
 
@@ -14,5 +16,5 @@ urlpatterns = [
     path('schedule/', views.schedule_view, name='schedule'),
     path('mainpage/', views.index, name='mainpage'),
     path('searchprofile/<str:user>', views.searchprofile, name='searchprofile'),
-    path('follow/<str:username>', views.follow, name="follow")
-]
+    path('follow/<str:username>', views.follow, name="follow"), 
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

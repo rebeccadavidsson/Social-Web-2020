@@ -15,3 +15,4 @@ class Profile(models.Model):
     following = models.ManyToManyField(User, related_name='followers')
     feedmessages = models.ManyToManyField(History, related_name="feedmessages")
     interests = models.CharField(max_length=64)  # Willen we hier ook een rating aan toevoegen?
+    photo = models.ImageField(upload_to = 'static/images', default = 'images/logo.png')
