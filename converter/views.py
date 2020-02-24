@@ -80,19 +80,29 @@ def register_view(request):
 
 def personal_view(request):
     """Render personal profile"""
+
+    # get following user profiles
     following = Profile.objects.get(user=request.user).following.all()
-    print(following)
+
+    # list with usernames to exclude from 'to_follow', starts with own account
+    to_exclude = [request.user.username]
+
+    # get usernames of following users and append to list
+    usernames = [person['username'] for person in following.values('username')]
+    to_exclude += usernames
+
+    # get all users
     all_users = User.objects.all()
 
-    # AAAHHH ik vind niet hoe je hier set van maakt
-    print("JA",all_users.difference(following, all_users))
+    # show only users that you can follow
+    to_follow = User.objects.exclude(username__in=to_exclude)
 
     # TODO: ingelogde user ophalen
     context = {
         "username": request.user,
         "firstname": request.user.first_name,
         "lastname": request.user.last_name,
-        "users": all_users,
+        "users": to_follow,
         "following": following
     }
     # TODO
