@@ -42,7 +42,6 @@ def login_view(request):
 
 def register_view(request):
     """Register new user"""
-    Profile.objects.all().delete()
 
     if request.POST:
         username = request.POST.get('username')
@@ -81,13 +80,20 @@ def register_view(request):
 
 def personal_view(request):
     """Render personal profile"""
+    following = Profile.objects.get(user=request.user).following.all()
+    print(following)
+    all_users = User.objects.all()
+
+    # AAAHHH ik vind niet hoe je hier set van maakt
+    print("JA",all_users.difference(following, all_users))
 
     # TODO: ingelogde user ophalen
     context = {
         "username": request.user,
         "firstname": request.user.first_name,
         "lastname": request.user.last_name,
-        "users": User.objects.all()
+        "users": all_users,
+        "following": following
     }
     # TODO
     return render(request, 'personal.html', context)
@@ -109,17 +115,29 @@ def searchprofile(request, user):  # TODO, dit moet user_id worden
 def follow(request, username):
     """Add follower to the profile of logged in user"""
 
-    # Get user profile
-    # TODO: DOET HET NOG NIET
-    return render(request, "error.html")
-    profile = get_profile(request)
+    # get user profiles
+    profile = Profile.objects.get(user=request.user)
     to_follow = Profile.objects.get(user__username=username)
-    print(to_follow, "TOFOLLOW")
-    profile.following.add(to_follow)
+
+    # TODO: if already following user, render message (in context? js?)
+
+    # get user and add to following
+    user_to_follow = User.objects.get(username=username)
+    profile.following.add(user_to_follow)
     profile.save()
 
     return redirect("profile")
 
+def unfollow(request, username):
+    """Unfollow certain user"""
+
+    # oke dit kan ook in follow functie maar lui en weet niet of dit perse handiger is!!
+    profile = Profile.objects.get(user=request.user)
+    to_unfollow = Profile.objects.get(user__username=username)
+    profile.following.remove(to_unfollow.user)
+    profile.save()
+
+    return redirect("profile")
 
 def settings_view(request):
     # TODO

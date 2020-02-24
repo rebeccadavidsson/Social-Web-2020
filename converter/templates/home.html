@@ -1,0 +1,301 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#">
+                        KIJK EENS!!
+                    </a>
+                </li>
+                <li>
+                    <a href="#">Dashboard</a>
+                </li>
+                <li>
+                    <a href="#">Profile</a>
+                </li>
+                <li>
+                    <a href="#">Find groups</a>
+                </li>
+                <li>
+                    <a href="#">Friends</a>
+                </li>
+                <li>
+                    <a href="#">Map</a>
+                </li>
+                <li>
+                    <a href="#">Help</a>
+                </li>
+                <li>
+                    <a href="#">Contact</a>
+                </li>
+								<br><br>
+								<!-- hihi ik was even lui sorry -->
+								<li>
+                    <a href="{% url 'logout' %}" style="font-weight:bold;">LOGOUT</a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+<!-- Main Content Groups -->
+<div class="container-login100" style="padding-top: 0px; padding-left: 24vw;">
+	<div class="row">
+
+
+		<div class="col col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+			<div class="ui-block" data-mh="friend-groups-item">
+
+				<!-- Friend Item -->
+
+				<div class="friend-item friend-groups">
+
+					<div class="friend-item-content">
+
+						<div class="more">
+							<svg class="olymp-three-dots-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg>
+							<ul class="more-dropdown">
+								<li>
+									<a href="#">Report Profile</a>
+								</li>
+								<li>
+									<a href="#">Block Profile</a>
+								</li>
+								<li>
+									<a href="#">Turn Off Notifications</a>
+								</li>
+							</ul>
+						</div>
+						<div class="friend-avatar">
+							<div class="author-thumb">
+								<img src="img/logo.png" alt="photo">
+							</div>
+							<div class="author-content">
+								<a href="#" class="h5 author-name">Science Park</a>
+								<div class="country">6 Friends in the Group</div>
+							</div>
+						</div>
+
+
+						<div class="control-block-button">
+							<a href="#" class="  btn btn-control bg-blue" data-toggle="modal" data-target="#create-friend-group-add-friends">
+								<svg class="olymp-happy-faces-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-happy-faces-icon"></use></svg>
+							</a>
+
+							<a href="#" class="btn btn-control btn-grey-lighter">
+								<svg class="olymp-settings-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-settings-icon"></use></svg>
+							</a>
+
+						</div>
+					</div>
+				</div>
+
+				<!-- ... end Friend Item -->			</div>
+		</div>
+		<div class="col col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+			<div class="ui-block" data-mh="friend-groups-item">
+
+				<!-- Friend Item -->
+
+				<div class="friend-item friend-groups">
+
+					<div class="friend-item-content">
+
+						<div class="more">
+							<svg class="olymp-three-dots-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg>
+							<ul class="more-dropdown">
+								<li>
+									<a href="#">Report Profile</a>
+								</li>
+								<li>
+									<a href="#">Block Profile</a>
+								</li>
+								<li>
+									<a href="#">Turn Off Notifications</a>
+								</li>
+							</ul>
+						</div>
+						<div class="friend-avatar">
+							<div class="author-thumb">
+								<img src="img/friend-group1.png" alt="photo">
+							</div>
+							<div class="author-content">
+								<a href="#" class="h5 author-name">Home</a>
+								<div class="country">24 Friends in the Group</div>
+							</div>
+						</div>
+
+						<div class="control-block-button">
+							<a href="#" class="  btn btn-control bg-blue" data-toggle="modal" data-target="#create-friend-group-add-friends">
+								<svg class="olymp-happy-faces-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-happy-faces-icon"></use></svg>
+							</a>
+
+							<a href="#" class="btn btn-control btn-grey-lighter">
+								<svg class="olymp-settings-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-settings-icon"></use></svg>
+							</a>
+						</div>
+
+					</div>
+				</div>
+
+				<!-- ... end Friend Item -->			</div>
+		</div>
+		<div class="col col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+			<div class="ui-block" data-mh="friend-groups-item">
+
+				<!-- Friend Item -->
+
+				<div class="friend-item friend-groups">
+
+					<div class="friend-item-content">
+
+						<div class="more">
+							<svg class="olymp-three-dots-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg>
+							<ul class="more-dropdown">
+								<li>
+									<a href="#">Report Profile</a>
+								</li>
+								<li>
+									<a href="#">Block Profile</a>
+								</li>
+								<li>
+									<a href="#">Turn Off Notifications</a>
+								</li>
+							</ul>
+						</div>
+						<div class="friend-avatar">
+							<div class="author-thumb">
+								<img src="img/friend-group2.jpg" alt="photo">
+							</div>
+							<div class="author-content">
+								<a href="#" class="h5 author-name">Close Friends</a>
+								<div class="country">4 Friends in the Group</div>
+							</div>
+						</div>
+
+						<div class="control-block-button">
+							<a href="#" class="  btn btn-control bg-blue" data-toggle="modal" data-target="#create-friend-group-add-friends">
+								<svg class="olymp-happy-faces-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-happy-faces-icon"></use></svg>
+							</a>
+
+							<a href="#" class="btn btn-control btn-grey-lighter">
+								<svg class="olymp-settings-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-settings-icon"></use></svg>
+							</a>
+
+						</div>
+
+
+					</div>
+				</div>
+
+				<!-- ... end Friend Item -->			</div>
+		</div>
+
+		<div class="col col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+			<div class="ui-block" data-mh="friend-groups-item">
+
+				<!-- Friend Item -->
+
+				<div class="friend-item friend-groups">
+
+					<div class="friend-item-content">
+
+						<div class="more">
+							<svg class="olymp-three-dots-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg>
+							<ul class="more-dropdown">
+								<li>
+									<a href="#">Report Profile</a>
+								</li>
+								<li>
+									<a href="#">Block Profile</a>
+								</li>
+								<li>
+									<a href="#">Turn Off Notifications</a>
+								</li>
+							</ul>
+						</div>
+						<div class="friend-avatar">
+							<div class="author-thumb">
+								<img src="img/friend-group3.jpg" alt="photo">
+							</div>
+							<div class="author-content">
+								<a href="#" class="h5 author-name">Computational Science</a>
+								<div class="country">15 Friends in the Group</div>
+							</div>
+						</div>
+
+
+						<div class="control-block-button">
+							<a href="#" class="  btn btn-control bg-blue" data-toggle="modal" data-target="#create-friend-group-add-friends">
+								<svg class="olymp-happy-faces-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-happy-faces-icon"></use></svg>
+							</a>
+
+							<a href="#" class="btn btn-control btn-grey-lighter">
+								<svg class="olymp-settings-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-settings-icon"></use></svg>
+							</a>
+
+						</div>
+					</div>
+				</div>
+
+				<!-- ... end Friend Item -->			</div>
+		</div>
+		<div class="col col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+			<div class="ui-block" data-mh="friend-groups-item">
+
+				<!-- Friend Item -->
+
+				<div class="friend-item friend-groups">
+
+					<div class="friend-item-content">
+
+						<div class="more">
+							<svg class="olymp-three-dots-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg>
+							<ul class="more-dropdown">
+								<li>
+									<a href="#">Report Profile</a>
+								</li>
+								<li>
+									<a href="#">Block Profile</a>
+								</li>
+								<li>
+									<a href="#">Turn Off Notifications</a>
+								</li>
+							</ul>
+						</div>
+						<div class="friend-avatar">
+							<div class="author-thumb">
+								<img src="img/friend-group4.jpg" alt="photo">
+							</div>
+							<div class="author-content">
+								<a href="#" class="h5 author-name">VU</a>
+								<div class="country">7 Friends in the Group</div>
+							</div>
+						</div>
+
+
+						<div class="control-block-button">
+							<a href="#" class="  btn btn-control bg-blue" data-toggle="modal" data-target="#create-friend-group-add-friends">
+								<svg class="olymp-happy-faces-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-happy-faces-icon"></use></svg>
+							</a>
+
+							<a href="#" class="btn btn-control btn-grey-lighter">
+								<svg class="olymp-settings-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-settings-icon"></use></svg>
+							</a>
+
+						</div>
+					</div>
+				</div>
+
+				<!-- ... end Friend Item -->			</div>
+		</div>
+
+	</div>
+</div>
+
+
+{% endblock %}
