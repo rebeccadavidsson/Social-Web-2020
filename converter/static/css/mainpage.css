@@ -1,0 +1,130 @@
+
+.mainschedule {
+  height: 90vh;
+  margin-top: 4%;
+  margin-left: 5%;
+  width: 57%;
+  float:left;
+  color: white;
+}
+
+.mainschedule img {
+  width: 100%;
+}
+
+#mainfeed {
+  background: rgba(31, 31, 31, 0.5);
+  height: 100vh;
+  width:24%;
+  padding: 10px;
+  position: absolute;
+  color: white;
+  right: 0;
+  overflow-y: scroll;
+}
+
+.feed-message {
+    background: #d2d6de none repeat scroll 0 0;
+    border: 1px solid #d2d6de;
+    border-radius: 5px;
+    color: #444;
+    margin: 35px 0 0 10px;
+    padding: 5px 10px;
+    position: relative;
+}
+
+.total-feed img {
+  width: 70%;
+}
+
+
+hr {
+    display: block;
+    margin-before: 0.5em;
+    margin-after: 0.5em;
+    margin-start: auto;
+    margin-end: auto;
+    overflow: hidden;
+    border-style: inset;
+    border-width: 1px;
+}
+
+
+#content {
+  position: absolute;
+  height: 50px;
+  width: 300px;
+  margin-left: 170px;
+  top: 57%;
+  left: 70%;
+  transform: translate(-50%, -50%);
+}
+
+#content.on {
+  -webkit-animation-name: in-out;
+  animation-name: in-out;
+  -webkit-animation-duration: 0.7s;
+  animation-duration: 0.7s;
+  -webkit-animation-timing-function: linear;
+  animation-timing-function: linear;
+  -webkit-animation-iteration-count: 1;
+  animation-iteration-count: 1;
+}
+
+.containerfeed {
+  border: 2px solid #dedede;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+  color: black;
+}
+
+/* Darker chat container */
+.darker {
+  border-color: #ccc;
+  background-color: #ddd;
+}
+
+/* Clear floats */
+.containerfeed::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/* Style images */
+.containerfeed img {
+  float: left;
+  max-width: 40px;
+  width: 100%;
+  margin-right: 20px;
+  border-radius: 50%;
+}
+
+/* Style the right image */
+.containerfeed img.right {
+  float: right;
+  margin-left: 20px;
+  margin-right:0;
+}
+
+/* Style time text */
+.time-right {
+  float: right;
+  color: #aaa;
+}
+
+/* Style time text */
+.time-left {
+  float: left;
+  color: #999;
+}
+
+.checked {
+  color: orange;
+}
+
+.comments {
+  color: #3b3b3b;
+}

@@ -1,3 +1,4 @@
+#!/usr/bin/python
 from django.shortcuts import redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
@@ -6,14 +7,13 @@ from django.shortcuts import render
 from .helpers import get_profile
 from .models import History, Profile
 
-from Naked.toolshed.shell import execute_js, muterun_js
+from subprocess import call
+import os.path
+from os import path
 
 
 def index(request):
     """ Render main page when website is opened for the first time. """
-
-    # Execute scraper
-    # execute_js('scraper/scraper.js')
 
     # Check if user is logged in
     if not request.user.is_authenticated:
@@ -143,6 +143,7 @@ def follow(request, username):
 
     return redirect("profile")
 
+
 def unfollow(request, username):
     """Unfollow certain user"""
 
@@ -154,12 +155,19 @@ def unfollow(request, username):
 
     return redirect("profile")
 
+
 def settings_view(request):
     # TODO
     return redirect("profile")
 
 
 def schedule_view(request):
+
+    location = 5
+
+    # Execute scraper
+    # call(["node", "scraper/scraper.js"])
+
     context = {}
     # TODO
     return render(request, 'schedule.html', context)

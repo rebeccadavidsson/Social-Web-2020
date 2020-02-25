@@ -7,11 +7,13 @@
 
 {% block body %}
 
-<div class="mainschedule">
-  <h1>Ja hier is dus oooook nog niks aan gedaan jeetje</h1><br>
-  <h2>Maar hier zou dus ook een rooster moeten komen</h2>
-</div>
+<div class="rooster">
 
+{% if "output.html" %}
+  {% include "output.html" %}
+{% endif %}
+
+</div>
 
 
 {% endblock %}
