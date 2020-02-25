@@ -8,8 +8,7 @@ from .helpers import get_profile
 from .models import History, Profile
 
 from subprocess import call
-import os.path
-from os import path
+
 
 
 def index(request):

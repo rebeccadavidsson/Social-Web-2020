@@ -1,0 +1,45 @@
+.othersDiv {
+	width: 450px;
+	height: 800px;
+	background-color: grey;
+	float:left;
+}
+
+.fc-day-header {
+	color: white;
+}
+
+.calendarDiv {
+	width: 60%;
+	/*height: 700px;*/
+	float: left;
+	/*background-color: white;*/
+	opacity: 1;
+	position: relative;
+}
+
+#calendar h2 {
+	color: white;
+}
+
+.parentDiv {
+	width: 1320px;
+	height: 800px;
+}
+
+.fc-day-number {
+	color: white;
+}
+
+.fc-unthemed td.fc-today {
+  background: black;
+  /*border-color: yellow;*/
+  background-color: #2C3E50;
+  /*border-width: 4px;*/
+  border-style: solid; 
+  border-bottom-style: solid;
+}
+
+/*.fc-day-top {
+	border-color: yellow;
+}*/
