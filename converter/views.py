@@ -6,7 +6,7 @@ from django.shortcuts import render
 from .helpers import get_profile
 from .models import History, Profile
 
-from Naked.toolshed.shell import execute_js, muterun_js
+# from Naked.toolshed.shell import execute_js, muterun_js
 
 
 def index(request):

@@ -2,10 +2,11 @@
 .mainschedule {
   height: 90vh;
   margin-top: 4%;
-  margin-left: 5%;
-  width: 57%;
+  margin-left: 4%;
+  width: 50%;
   float:left;
   color: white;
+  opacity: 1;
 }
 
 .mainschedule img {
