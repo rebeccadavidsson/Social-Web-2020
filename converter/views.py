@@ -13,7 +13,7 @@ def index(request):
     """ Render main page when website is opened for the first time. """
 
     # Execute scraper
-    execute_js('scraper/scraper.js')
+    # execute_js('scraper/scraper.js')
 
     # Check if user is logged in
     if not request.user.is_authenticated:
