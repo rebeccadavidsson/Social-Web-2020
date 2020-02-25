@@ -6,9 +6,14 @@ from django.shortcuts import render
 from .helpers import get_profile
 from .models import History, Profile
 
+from Naked.toolshed.shell import execute_js, muterun_js
+
 
 def index(request):
     """ Render main page when website is opened for the first time. """
+
+    # Execute scraper
+    execute_js('scraper/scraper.js')
 
     # Check if user is logged in
     if not request.user.is_authenticated:
