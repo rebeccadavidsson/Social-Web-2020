@@ -4,10 +4,14 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	{% load static %}
-
 	<script src="https://kit.fontawesome.com/4f514cb7ab.js" crossorigin="anonymous"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+ 
 	<link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'vendor/animate/animate.css' %}">
@@ -33,6 +37,9 @@
 
 	<title>{% block title %} {% endblock %}</title>
 </head>
+<div class = "debugging">
+  <p id = "csrf">{% csrf_token %}</p>
+</div>
 
 <body>
 
@@ -43,26 +50,6 @@
   {% endblock %}
 
 	<script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}" type="8a119432dc1e0d9217ba50d0-text/javascript"></script>
-	<script type="8a119432dc1e0d9217ba50d0-text/javascript">
-			$('.js-tilt').tilt({
-				scale: 1.1
-			})
-		</script>
-		<script>
-
-		function toggleMenu() {
-			$("#wrapper").toggleClass("toggled");
-		}
-
- </script>
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13" type="8a119432dc1e0d9217ba50d0-text/javascript"></script>
-	<script type="8a119432dc1e0d9217ba50d0-text/javascript">
-	  window.dataLayer = window.dataLayer || [];
-	  function gtag(){dataLayer.push(arguments);}
-	  gtag('js', new Date());
-
-	  gtag('config', 'UA-23581568-13');
-	</script>
 
 </body>
 </html>
