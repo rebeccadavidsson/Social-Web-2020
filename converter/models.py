@@ -4,28 +4,6 @@ from django.contrib.auth.models import User
 from datetime import datetime
 
 
-
-# NIKS WERKT AAAAAHHHH MAAR STRUCTUUR IS OKE??
-
-
-# class Teacher(models.Model):
-#     name = models.CharField(max_length=64)
-#
-#
-# class ScheduleItem(models.Model):
-#     date = models.DateTimeField(auto_now_add=True, blank=True)
-#     capacity = models.IntegerField(default=0)
-#     full = models.BooleanField(default=False)
-#     # participants = models.ManyToManyField(Profile, on_delete=models.PROTECT)
-#
-#
-# class Course(models.Model):
-#     name = models.CharField(max_length=64)
-#     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
-#     scheduled_courses = models.ManyToManyField(ScheduleItem, on_delete=models.CASCADE)
-#     price = models.DecimalField(decimal_places=2, max_digits=4)
-
-
 class History(models.Model):
     # sportname = models.CharField(max_length=64)
     # teacher = models.CharField(max_length=64)  # Willen we dat dit ook een profiel wordt?
@@ -40,3 +18,35 @@ class Profile(models.Model):
     feedmessages = models.ManyToManyField(History, related_name="feedmessages")
     interests = models.CharField(max_length=64)  # Willen we hier ook een rating aan toevoegen?
     photo = models.ImageField(upload_to = "static/images", default = "images/logo.png")
+
+
+class Teacher(models.Model):
+    name = models.CharField(max_length=64)
+
+
+class ScheduleItem(models.Model):
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    name = models.CharField(max_length=64)
+    date = models.DateTimeField(auto_now_add=True, blank=True)
+    participants = models.ManyToManyField(Profile, related_name="participants")
+
+    locations = [
+        ("universum", "Universum"),
+        ("asc", "ASC"),
+        ("amstel", "Amstelcampus"),
+        ("crea", "CREA"),
+        ("clubwest", "ClubWest"),
+    ]
+    location = models.CharField(
+        max_length=64,
+        choices=locations,
+        default="universum",
+    )
+
+#
+#
+# class Course(models.Model):
+#     name = models.CharField(max_length=64)
+#     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+#     scheduled_courses = models.ManyToManyField(ScheduleItem, on_delete=models.CASCADE)
+#     price = models.DecimalField(decimal_places=2, max_digits=4)
