@@ -3,6 +3,9 @@ from django.shortcuts import redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
 from django.shortcuts import render
+from django.http import HttpResponse
+
+
 # from django.contrib.auth.decorators import permission_required
 from .helpers import get_profile
 from .models import History, Profile
@@ -169,6 +172,11 @@ def schedule_view(request):
     context = {}
     # TODO
     return render(request, 'schedule.html', context)
+
+
+def addschedule(request):
+    print("HIEROP GEKLIKT!!!", request.POST.get('data'))
+    return HttpResponse("test")
 
 
 def home_view(request):

@@ -18,4 +18,5 @@ urlpatterns = [
     path('searchprofile/<str:user>', views.searchprofile, name='searchprofile'),
     path('follow/<str:username>', views.follow, name="follow"),
     path('unfollow/<str:username>', views.unfollow, name="unfollow"),
+    path("addschedule", views.addschedule, name="addschedule")
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
