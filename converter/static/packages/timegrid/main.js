@@ -62,6 +62,7 @@ Docs & License: https://fullcalendar.io/
             _this.fullTimeFormat = core.createFormatter({
                 hour: 'numeric',
                 minute: '2-digit',
+                hour12: false,
                 separator: _this.context.options.defaultRangeSeparator
             });
             return _this;
@@ -109,7 +110,8 @@ Docs & License: https://fullcalendar.io/
             return {
                 hour: 'numeric',
                 minute: '2-digit',
-                meridiem: false
+                meridiem: false, 
+                hour12: false
             };
         };
         // Computes a default `displayEventEnd` value if one is not expliclty defined
@@ -509,8 +511,9 @@ Docs & License: https://fullcalendar.io/
             this.labelFormat = core.createFormatter(input || {
                 hour: 'numeric',
                 minute: '2-digit',
-                omitZeroMinute: true,
-                meridiem: 'short'
+                omitZeroMinute: false,
+                meridiem: false, 
+                hour12: false
             });
             input = this.opt('slotLabelInterval');
             this.labelInterval = input ?

@@ -267,7 +267,8 @@ Docs & License: https://fullcalendar.io/
                 hour: 'numeric',
                 minute: '2-digit',
                 omitZeroMinute: true,
-                meridiem: 'narrow'
+                meridiem: false,
+                hour12: false
             };
         };
         SimpleDayGridEventRenderer.prototype.computeDisplayEventEnd = function () {

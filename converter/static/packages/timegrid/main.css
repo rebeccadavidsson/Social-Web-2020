@@ -26,8 +26,12 @@
   white-space: nowrap;
 }
 
+/*.fc-axis.fc-time.fc-widget-content span {
+  margin-left : 0px !important;
+}*/
+
 .fc-ltr .fc-axis {
-  text-align: right;
+  text-align: center;
 }
 
 .fc-rtl .fc-axis {
@@ -117,7 +121,7 @@
 }
 
 .fc-time-grid .fc-slats .fc-minor td {
-  border-top-style: dotted;
+  border-top-style: hidden;
 }
 
 /* TimeGrid Highlighting Slots
@@ -219,6 +223,10 @@ be a descendant of the grid when it is being dragged.
   /* put the time and title on the same line */
   display: inline-block;
   vertical-align: top;
+}
+
+.fc-axis.fc-time.fc-widget-content span {
+  /*margin-right: 10%;*/
 }
 
 .fc-time-grid-event.fc-short .fc-time span {

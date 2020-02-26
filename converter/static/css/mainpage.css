@@ -1,16 +1,21 @@
 
 .mainschedule {
-  height: 90vh;
-  margin-top: 4%;
+  /*height: 90vh;*/
+  margin-top: 2%;
   margin-left: 5%;
-  width: 57%;
+  width: 55%;
   float:left;
   color: white;
+  margin-bottom: 5%;
 }
 
-.mainschedule img {
-  width: 100%;
+#calendar span {
+  margin-left : 0px ! important;
 }
+
+/*.mainschedule img {
+  width: 100%;
+}*/
 
 #mainfeed {
   background: rgba(31, 31, 31, 0.5);
