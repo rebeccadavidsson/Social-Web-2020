@@ -566,7 +566,7 @@ TODO: more distinction between this file and common.css
 .fc-unthemed .fc-popover,
 .fc-unthemed .fc-list-view,
 .fc-unthemed .fc-list-heading td {
-  border-color: #ddd;
+  border-color: rgb(255,255,255,0.2);
 }
 
 .fc-unthemed .fc-popover {
@@ -583,7 +583,7 @@ TODO: more distinction between this file and common.css
   /*background: black;
   border-color: yellowgreen;
   border-width: 4px;
-  border-style: solid; 
+  border-style: solid;
   border-bottom-style: solid;*/
   /*TODO TODAY BACKGROUND*/
 /*}*/

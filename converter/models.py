@@ -24,6 +24,7 @@ class Rating(models.Model):
             MinValueValidator(0)
         ])
 
+
 class Profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     following = models.ManyToManyField(User, related_name='followers')
@@ -58,8 +59,6 @@ class Post(models.Model):
     text = models.CharField(max_length=255)
 
 
-#
-#
 # class Course(models.Model):
 #     name = models.CharField(max_length=64)
 #     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)

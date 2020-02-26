@@ -10,30 +10,32 @@ $('#exampleModal').on('hidden.bs.modal', function (e) {
   input.innerHTML = ""
 })
 
-var btn = document.createElement("button");
-btn.className = "addschedule"
-btn.innerHTML = "Add to schedule";
+
 
 var selector = document.querySelectorAll("body > div.rooster > div")
 
 for (const button of selector) {
 
-  button.setAttribute("data-toggle", "modal");
-  button.setAttribute("data-target", "#exampleModal");
-  // button.setAttribute("class", "btn btn-info btn-lg");
+  // button.setAttribute("data-toggle", "modal");
+  // button.setAttribute("data-target", "#exampleModal");
 
-  // console.log(button);
-  button.addEventListener('click', function(e) {
+  var btn = document.createElement("button");
+  btn.className = "addschedule"
+  btn.innerHTML = "Add";
+
+  btn.setAttribute("data-toggle", "modal");
+  btn.setAttribute("data-target", "#exampleModal");
+
+
+  btn.addEventListener('click', function(e) {
     var result = e.target;
     ineer_html = result.parentElement.innerHTML;
     var data = new FormData();
     data.append('data', ineer_html)
 
     var input = document.querySelector("#exampleModal > div > div > div.modal-body");
-    console.log(input);
-    input.innerHTML += ineer_html;
 
-    // alert(ineer_html)
+    input.innerHTML += ineer_html;
 
     var csrfToken = document.querySelector("#csrf input").value;
 
@@ -43,4 +45,7 @@ for (const button of selector) {
     xhttp.send(data);
 
   });
+  button.childNodes.item(1).appendChild(btn);
+
+  // button.appendChild(btn)
 }

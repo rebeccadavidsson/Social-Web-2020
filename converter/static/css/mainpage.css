@@ -1,3 +1,10 @@
+.fc-unthemed tbody {
+  border-color: rgb(255,255,255,0.2);
+}
+
+tbody.fc-body {
+    border-color: rgb(255,255,255,0.2);
+}
 
 .mainschedule {
   /*height: 90vh;*/

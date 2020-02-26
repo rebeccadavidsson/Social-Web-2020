@@ -18,7 +18,6 @@
 .rooster p.title {
   font: 24px/24px 'Open Sans', sans-serif;
   color: white;
-  box-sizing: border-box;
   font-size: 18px;
   font-weight: 700;
   margin: 15px 0 5px;
@@ -27,12 +26,9 @@
 .day {
   font: 12px/22px 'Open Sans', sans-serif;
   color: #2f2e7e;
-  /* box-sizing: border-box; */
   display: table;
   border-spacing: 1px;
   width: 100%;
-  cursor: pointer;
-
 }
 
 .day .row {
@@ -42,38 +38,82 @@
   border-spacing: 1px;
   box-sizing: border-box;
   overflow: hidden;
-  background-color: white;
+  background-color: rgb(255,255,255,0);
   line-height: 16px;
 }
 
-.day p.time {
+.addschedule {
+  cursor: pointer;
+}
+
+.row .addschedule {
+  font: 14px/24px 'Open Sans', sans-serif;
+  color: white;
+  line-height: 5px;
+  border-spacing: 1px;
+  box-sizing: border-box;
+  min-width: 120px;
+  float: left;
+  min-height: 26px;
+  font-weight: 200;
+  font-size: 14px;
+  width: 10%;
+  display: inline;
+  background: rgb(50,205,50, 0.3);
+  border-radius: 10px;
+}
+
+.day, #exampleModal p.time {
   font: 12px/22px 'Open Sans', sans-serif;
-  color: #2f2e7e;
   border-spacing: 1px;
   font-size: 13px;
-  line-height: 16px;
+  line-height: 5px;
   box-sizing: border-box;
-  background: #fff;
-  /* display: table-cell; */
+  background: rgb(255,255,255,0.1);
   padding: 5px 8px;
   min-width: 120px;
-  /* vertical-align: middle; */
   float: left;
   margin: 0;
-  margin-left: 20px;
   min-height: 26px;
   font-weight: 600;
-  width: 100%;
-
+  width: 99%;
+  border-style: inset;
+  border-left: none;
+  border-right: none;
+  margin-left: 15px;
 }
 
-.day p.type {
+#exampleModal p.time {
+  font: 12px/22px 'Open Sans', sans-serif;
+  border-spacing: 1px;
+  font-size: 13px;
+  line-height: 5px;
+  box-sizing: border-box;
+  background: rgb(255,255,255,0.1);
+  padding: 5px 8px;
+  min-width: 120px;
+  float: left;
+  margin: 0;
+  min-height: 26px;
+  font-weight: 600;
+  width: 99%;
+  border-style: none;
+  border-left: none;
+  border-right: none;
+  margin-left: 15px;
+}
+
+.day p.time, .day p.type {
+  color: white;
+}
+
+
+#exampleModal p.type, .day p.type {
   font: 14px/24px 'Open Sans', sans-serif;
-  color: #2f2e7e;
-  line-height: 1px;
+  line-height: 5px;
   border-spacing: 1px;
   box-sizing: border-box;
-  background: #fff;
+  background: rgb(255,255,255,0);
   padding: 5px 8px;
   min-width: 120px;
   float: left;
@@ -84,54 +124,47 @@
   font-size: 15px;
   width: 25%;
   display: inline;
+  text-align: center;
 }
 
-.day p.gym {
+#exampleModal p.gym, .day p.gym {
   font: 14px/24px 'Open Sans', sans-serif;
   border-spacing: 1px;
   font-size: 13px;
-  line-height: 1px;
+  line-height: 5px;
   box-sizing: border-box;
-  background: #fff;
+  background: rgb(255,255,255,0);
   padding: 5px 8px;
   min-width: 100px;
   vertical-align: middle;
   float: left;
-  /* min-height: 26px; */
-
-  /*
-  color: #918f8f;
-  margin: 0;
-  margin-left: 20px; */
-  /* width: 33.33%; */
-    display: inline-block;
+  color: silver;
+  display: inline-block;
 }
 
-.day p.trainer {
+#exampleModal p.trainer, .day p.trainer {
   font: 14px/24px 'Open Sans', sans-serif;
   border-spacing: 1px;
   font-size: 13px;
-  line-height: 0px;
+  line-height: 5px;
   box-sizing: border-box;
-  background: #fff;
-  /* display: table-cell; */
+  background: rgb(255,255,255,0);
   padding: 5px 8px;
   min-width: 120px;
-  /* vertical-align: middle; */
   float: left;
   min-height: 26px;
   color: #918f8f;
   margin: 0;
-  /* margin-left: 20px; */
-  width: 33.33%;
+  width: 13.33%;
 }
 
-.day p.btn-container {
+
+#exampleModal p.btn-container, .day p.btn-container {
   font: 14px/24px 'Open Sans', sans-serif;
   color: #2f2e7e;
   border-spacing: 1px;
   font-size: 13px;
-  line-height: 0px;
+  line-height: 5px;
   box-sizing: border-box;
   display: table-cell;
   min-width: 120px;
@@ -147,12 +180,39 @@
 }
 
 .rooster .row .btn {
-  line-height: 0px;
+  line-height: 5px;
   font-size: 12px;
-  color: green;
+  display: inline;
+  float: left;
 }
 
-.addschedule {
-  width: 100%
-  color:pink;
+#exampleModal {
+  padding-top: 100px;
+}
+
+#exampleModalLabel {
+  font-size:16px;
+  text-align:left;
+  padding: 0;
+  margin:0;
+  float: left;
+  position: absolute;
+}
+
+#exampleModal span {
+  width: 90%;
+  position: absolute;
+  line-height: 1px;
+}
+
+.modal-header {
+  padding: 25px;
+}
+
+#exampleModal > div > div > div.modal-body > button {
+  display: none;
+}
+
+#exampleModal > div > div > div.modal-body > p.btn-cont > a {
+  line-height: 5px;
 }
