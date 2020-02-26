@@ -15,5 +15,8 @@
 
 </div>
 
+{% csrf_token %}
+{% load static %}
+<script type="text/javascript" src="{% static 'js/convertClass.js' %}"></script>
 
 {% endblock %}
