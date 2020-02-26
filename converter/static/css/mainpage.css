@@ -13,6 +13,10 @@
   margin-left : 0px ! important;
 }
 
+#calendar {
+  font-size: 16px;
+}
+
 /*.mainschedule img {
   width: 100%;
 }*/
