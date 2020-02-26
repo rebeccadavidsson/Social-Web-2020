@@ -10,7 +10,6 @@ from .models import History, Profile
 from subprocess import call
 
 
-
 def index(request):
     """ Render main page when website is opened for the first time. """
 

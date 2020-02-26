@@ -1,15 +1,16 @@
 .rooster {
   color: white;
   height: 100vh;
-  margin-top: 4%;
+  /* margin-top: 4%; */
   margin-left: 5%;
   width: 80%;
-  float:left;
+  /* float:left; */
   overflow-y: scroll;
   font: 14px/24px 'Open Sans', sans-serif;
   font-size: 100px;
-  color: #2f2e7e;
-  box-sizing: border-box;
+  /* color: silver; */
+  /* box-sizing: border-box; */
+
   text-transform: capitalize;
 }
 
@@ -18,107 +19,109 @@
   font: 24px/24px 'Open Sans', sans-serif;
   color: white;
   box-sizing: border-box;
+  font-size: 18px;
   font-weight: 700;
-  margin: 25px 0 5px;
+  margin: 15px 0 5px;
 }
 
 .day {
-  font: 14px/24px 'Open Sans', sans-serif;
+  font: 12px/22px 'Open Sans', sans-serif;
   color: #2f2e7e;
   /* box-sizing: border-box; */
   display: table;
   border-spacing: 1px;
-  width: 50%;
+  width: 100%;
 
 }
 
 .day .row {
-  font: 14px/24px 'Open Sans', sans-serif;
+  font: 12px/22px 'Open Sans', sans-serif;
   color: #2f2e7e;
   margin: 0;
   border-spacing: 1px;
   box-sizing: border-box;
   overflow: hidden;
   background-color: white;
-  font-size: 13px;
   line-height: 16px;
 }
 
 .day p.time {
-  font: 14px/24px 'Open Sans', sans-serif;
+  font: 12px/22px 'Open Sans', sans-serif;
   color: #2f2e7e;
   border-spacing: 1px;
   font-size: 13px;
   line-height: 16px;
   box-sizing: border-box;
   background: #fff;
-  display: table-cell;
+  /* display: table-cell; */
   padding: 5px 8px;
   min-width: 120px;
-  vertical-align: middle;
+  /* vertical-align: middle; */
   float: left;
   margin: 0;
   margin-left: 20px;
   min-height: 26px;
   font-weight: 600;
   width: 100%;
+
 }
 
 .day p.type {
   font: 14px/24px 'Open Sans', sans-serif;
   color: #2f2e7e;
+  line-height: 1px;
   border-spacing: 1px;
-  line-height: 16px;
   box-sizing: border-box;
   background: #fff;
-  display: table-cell;
   padding: 5px 8px;
   min-width: 120px;
-  vertical-align: middle;
   float: left;
   margin: 0;
   margin-left: 20px;
   min-height: 26px;
   font-weight: 600;
-  width: 100%;
-  font-size: 17px;
+  font-size: 15px;
+  width: 25%;
+  display: inline;
 }
 
 .day p.gym {
   font: 14px/24px 'Open Sans', sans-serif;
   border-spacing: 1px;
   font-size: 13px;
-  line-height: 16px;
+  line-height: 1px;
   box-sizing: border-box;
   background: #fff;
-  display: table-cell;
   padding: 5px 8px;
-  min-width: 120px;
+  min-width: 100px;
   vertical-align: middle;
   float: left;
-  min-height: 26px;
+  /* min-height: 26px; */
+
+  /*
   color: #918f8f;
   margin: 0;
-  margin-left: 20px;
-  width: 33.33%;
+  margin-left: 20px; */
+  /* width: 33.33%; */
+    display: inline-block;
 }
 
 .day p.trainer {
   font: 14px/24px 'Open Sans', sans-serif;
   border-spacing: 1px;
   font-size: 13px;
-  line-height: 16px;
+  line-height: 0px;
   box-sizing: border-box;
   background: #fff;
-  display: table-cell;
+  /* display: table-cell; */
   padding: 5px 8px;
   min-width: 120px;
-  vertical-align: middle;
+  /* vertical-align: middle; */
   float: left;
   min-height: 26px;
   color: #918f8f;
   margin: 0;
-  margin-left: 20px;
+  /* margin-left: 20px; */
   width: 33.33%;
 }
 
@@ -127,7 +130,7 @@
   color: #2f2e7e;
   border-spacing: 1px;
   font-size: 13px;
-  line-height: 16px;
+  line-height: 0px;
   box-sizing: border-box;
   display: table-cell;
   min-width: 120px;
@@ -140,4 +143,12 @@
   margin: 0;
   margin-left: 20px;
   width: 33.33%;
+}
+
+.row .btn {
+  line-height: 0px;
+  font-size: 12px;
+  color: green;
+
+
 }
