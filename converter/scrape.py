@@ -77,12 +77,13 @@ def scrape_item(input):
     end2 = int(end[1].strip(""))
 
     # convert day
-    datum  = all_p[5].get_text()
+    datum = all_p[5].get_text()
     print(datum)
-    day = 2 # TODO GEHARDCODE
-    month = 28 #TODO GEHARDCODE
+    day = 29             # TODO GEHARDCODE
+    month = 2           # TODO GEHARDCODE
     year = 2020
 
+    print(start1, start2, end1, end2, "HA")
     # TODO: DAY!
     start_time = datetime(year, day, month, start1, start2, 0)
     end_time = datetime(year, day, month, end1, end2, 0)

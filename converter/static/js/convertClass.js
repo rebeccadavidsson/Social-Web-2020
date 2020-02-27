@@ -19,12 +19,10 @@ dateselector.forEach((item, i) => {
     ptag = "<p class='dag' syle='display:none; visibility:hidden;'>" + temp + "</p>"
   }
   else {
-    // console.log(item, "test");
 
     item.innerHTML += ptag
 
     item.childNodes.forEach(function(elm) {
-      // console.log(elm.childNodes.item(1))
       try {
         elm.classList.contains("row")
         elm.appendChild(ptag)
@@ -32,7 +30,6 @@ dateselector.forEach((item, i) => {
         // Do nothing
       };
     });
-    // console.log(item, "test");
   };
 
   item.setAttribute("name", temp)
@@ -53,8 +50,6 @@ for (const button of selector) {
   btn.addEventListener('click', function(e) {
     var result = e.target;
     ineer_html = result.parentElement.parentElement.innerHTML;
-    // console.log(ineer_html, "hoi");
-    // console.log(result.parentElement.parentElement.innerHTML, "test2");
 
     var data = new FormData();
     data.append('data', ineer_html)

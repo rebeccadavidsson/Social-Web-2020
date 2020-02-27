@@ -4,14 +4,11 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.http import HttpResponse
-
+from subprocess import call
 
 # from django.contrib.auth.decorators import permission_required
-from .helpers import get_profile
-from .models import History, Profile, ScheduleItem
+from .models import Profile, ScheduleItem
 from .scrape import scrape_item
-
-from subprocess import call
 
 
 def index(request):
@@ -21,8 +18,13 @@ def index(request):
     if not request.user.is_authenticated:
         return render(request, "login.html")
 
+    # profile = Profile.objects.get(user=request.user)
+
+    # Filter events for user
     context = {
-        "events": ScheduleItem.objects.all()
+        "events": ScheduleItem.objects.all(),
+        # "events_user": ScheduleItem.objects.get(participants=profile),
+        "events_friends": "TODO"
     }
 
     return render(request, 'mainpage.html', context)
@@ -185,16 +187,24 @@ def addschedule(request):
 
     data = scrape_item(request.POST.get("data"))
 
-    # TODO: check if this item already exists before creating a new one
+    # Get user to add to participants
+    profile = Profile.objects.get(user=request.user)
 
-    # Create new item
-    item = ScheduleItem(teacher=data["teacher"],
-                        name=data["sort"],
-                        start=data["start"],
-                        end=data["end"])
-    item.save()
+    # Check if this item already exists before creating a new one
+    check = ScheduleItem.objects.get(participants=profile)
+    if check:
+        check.add(profile)
+    else:
 
-    print(ScheduleItem.objects.all())
+        # Create new item
+        item = ScheduleItem(teacher=data["teacher"],
+                            name=data["sort"],
+                            start=data["start"],
+                            end=data["end"])
+        item.save()
+        item.participants.add(profile)
+
+        print(ScheduleItem.objects.all())
 
     return HttpResponse("test")
 
