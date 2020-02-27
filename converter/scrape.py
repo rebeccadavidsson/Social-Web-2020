@@ -76,14 +76,18 @@ def scrape_item(input):
     end1 = int(end[0].strip(""))
     end2 = int(end[1].strip(""))
 
-    # convert day
-    datum  = all_p[5].get_text()
-    print(datum)
-    day = 2 # TODO GEHARDCODE
-    month = 28 #TODO GEHARDCODE
-    year = 2020
+    month_dict = {"januari": 1, "februari": 2, "maart": 3, "april": 4} #TODO: OOIT MOET DIT NAAR ENGELS
 
-    # TODO: DAY!
+    # convert day
+    date  = all_p[5].get_text()
+    for key in month_dict:
+        if key in date:
+            month = month_dict[key]
+            break
+    day = int(re.search(r'\d+', date).group())
+
+    year = 2020 # TODO: DIT IS NU NOG GEHARDCODED
+
     start_time = datetime(year, day, month, start1, start2, 0)
     end_time = datetime(year, day, month, end1, end2, 0)
 
