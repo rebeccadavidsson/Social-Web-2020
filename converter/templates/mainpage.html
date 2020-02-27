@@ -112,11 +112,16 @@
     const input = document.getElementById("search-input");
     const searchBtn = document.getElementById("search-btn");
     const calendarEl = document.getElementById('calendar');
+    
     function updateTimes(all_events, calendar1) {
+      // this function adjusts the time range of the calendar based on the first and last event
+
       all_start_times = []
       all_start_times_int = []
       all_end_times = []
       all_end_times_int = []
+
+      // for each event
       for(i = 0; i < all_events.length; i++) {
 
         // save start times
@@ -138,7 +143,6 @@
 
       // adjust start time based on earliest event
       min = Math.min.apply(Math, all_start_times_int)
-      console.log(min % 1)
 
       // ensure the time always starts at full hour
       if (min % 1 > 0) {
@@ -155,8 +159,37 @@
 
       // adjust end time based on latest event
       max = Math.max.apply(Math, all_end_times_int)
-      maxTime = all_end_times[all_end_times_int.indexOf(max)]
+
+      if (max - min < 8) {
+        minTimeSmall = minTime.split(":")[0]
+        new_max = Number(minTimeSmall) + 9
+        maxTime  = new_max.toString() + ":00:00"
+      }
+      else {
+        maxTime = all_end_times[all_end_times_int.indexOf(max)]
+      }
+
       calendar1.setOption('maxTime', maxTime)
+    }
+
+    function addEvents(calendar, new_event, self) {
+      // adds new events to the calendar. Set self = true if it is a course of the user, if it is a course of a friend set self = false
+      
+      // update the time range that is shown
+      events_now = calendar.getOption('events')
+      events_now.push(new_event)
+      updateTimes(events_now, calendar)
+
+      if (self == true) {
+        new_event.color = 'green'
+      }
+      
+      // add the new event
+      calendar.addEvent(new_event)        
+      events_now = calendar.getOption('events')
+      
+      // show updated calendar
+      calendar.render()
     }
 
     const expand = () => {
@@ -254,20 +287,8 @@
                   },
                   {
                     title  : 'Synergy',
-                    start  : '2020-02-28T08:30:00',
-                    end    : '2020-02-28T09:15:00',
-                    allDay : false, // will make the time show
-                    displayEventTime : true,
-                    displayEventEnd : true, 
-                    extendedProps: {
-                      teacher: 'Leah Carlin', 
-                      location: 'Universum'
-                    },
-                  },
-                  {
-                    title  : 'BBB',
-                    start  : '2020-02-24T17:00:00',
-                    end    : '2020-02-24T18:00:00',
+                    start  : '2020-02-28T09:30:00',
+                    end    : '2020-02-28T10:15:00',
                     allDay : false, // will make the time show
                     displayEventTime : true,
                     displayEventEnd : true, 
@@ -284,27 +305,10 @@
                   // event.el.append("\n"+ event.event.extendedProps.location)
                 }
         });
-        calendar1.render();
-        }
         events = calendar1.getOption('events')
         updateTimes(events, calendar1)
-        
-        events_now = calendar1.getOption('events')
-        
-        events_now.push({
-                title  : 'BBB',
-                start  : '2020-02-24T17:00:00',
-                end    : '2020-02-24T18:00:00',
-                allDay : false, // will make the time show
-                displayEventTime : true,
-                displayEventEnd : true, 
-                extendedProps: {
-                  teacher: 'Leah Carlin', 
-                  location: 'Universum'
-                },
-              })
-        updateTimes(events_now, calendar1)
-        calendar1.setOption('events', events_now)
+        calendar1.render();
+      }
             
 
             
