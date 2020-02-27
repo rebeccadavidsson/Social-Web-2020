@@ -15,23 +15,28 @@ def index(request):
     """ Render main page when website is opened for the first time. """
 
     # Check if user is logged in
-    if not request.user.is_authenticated:
+    if not request.user.is_authenticated or request.user.username == "admin":
         return render(request, "login.html")
 
     profile = Profile.objects.get(user=request.user)
+    followers = profile.following.all()
 
+    # Get events from other followers
+    empt = []
+    for follower in followers:
+        to_follow = Profile.objects.get(user__username=follower.username)
+        participant = ScheduleItem.objects.filter(participants=to_follow).all()
+        empt.append(participant)
+
+    # Get events from yourself
     events_user = ScheduleItem.objects.filter(participants=profile).all()
-
-    # TODO: get events from other followers
-    events_followers = ScheduleItem.objects.all()
 
     # Filter events for user
     context = {
         "events": ScheduleItem.objects.all(),
         "events_user": events_user,
-        "event_followers": events_followers
+        "event_followers": empt[0]
     }
-
     return render(request, 'mainpage.html', context)
 
 
