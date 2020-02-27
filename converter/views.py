@@ -191,7 +191,11 @@ def addschedule(request):
     profile = Profile.objects.get(user=request.user)
 
     # Check if this item already exists before creating a new one
-    check = ScheduleItem.objects.get(participants=profile)
+    try:
+        check = ScheduleItem.objects.get(participants=profile)
+    except:
+        check = None
+
     if check:
         check.add(profile)
     else:

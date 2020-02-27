@@ -79,7 +79,7 @@ def scrape_item(input):
     month_dict = {"januari": 1, "februari": 2, "maart": 3, "april": 4} #TODO: OOIT MOET DIT NAAR ENGELS
 
     # convert day
-    date  = all_p[5].get_text()
+    date = all_p[5].get_text()
     for key in month_dict:
         if key in date:
             month = month_dict[key]
@@ -90,6 +90,7 @@ def scrape_item(input):
 
     start_time = datetime(year, day, month, start1, start2, 0)
     end_time = datetime(year, day, month, end1, end2, 0)
+
 
     dict["day"] = day
     dict["start"] = start_time
