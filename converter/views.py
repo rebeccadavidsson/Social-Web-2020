@@ -175,7 +175,7 @@ def schedule_view(request):
 
 
 def addschedule(request):
-    print("HIEROP GEKLIKT!!!", request.POST.get('data'))
+    # print("HIEROP GEKLIKT!!!", request.POST.get('data'))
     return HttpResponse("test")
 
 
