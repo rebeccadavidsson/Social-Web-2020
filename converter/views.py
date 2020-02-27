@@ -8,7 +8,8 @@ from django.http import HttpResponse
 
 # from django.contrib.auth.decorators import permission_required
 from .helpers import get_profile
-from .models import History, Profile
+from .models import History, Profile, ScheduleItem
+from .scrape import scrape_item
 
 from subprocess import call
 
@@ -20,8 +21,10 @@ def index(request):
     if not request.user.is_authenticated:
         return render(request, "login.html")
 
-    context = {}
-    # TODO, waarschijnlijk users opvragen
+    context = {
+        "events": ScheduleItem.objects.all()
+    }
+
     return render(request, 'mainpage.html', context)
 
 
@@ -175,7 +178,24 @@ def schedule_view(request):
 
 
 def addschedule(request):
-    # print("HIEROP GEKLIKT!!!", request.POST.get('data'))
+    """
+    Create schedule item.
+    default location = universum (TODO!)
+    """
+
+    data = scrape_item(request.POST.get("data"))
+
+    # TODO: check if this item already exists before creating a new one
+
+    # Create new item
+    item = ScheduleItem(teacher=data["teacher"],
+                        name=data["sort"],
+                        start=data["start"],
+                        end=data["end"])
+    item.save()
+
+    print(ScheduleItem.objects.all())
+
     return HttpResponse("test")
 
 
