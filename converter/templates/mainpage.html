@@ -112,6 +112,52 @@
     const input = document.getElementById("search-input");
     const searchBtn = document.getElementById("search-btn");
     const calendarEl = document.getElementById('calendar');
+    function updateTimes(all_events, calendar1) {
+      all_start_times = []
+      all_start_times_int = []
+      all_end_times = []
+      all_end_times_int = []
+      for(i = 0; i < all_events.length; i++) {
+
+        // save start times
+        time_string = all_events[i].start
+        res = time_string.split("T")
+        all_start_times.push(res[1])
+        res2 = res[1].split(":")
+        time = Number(res2[0]) + Number(res2[1]) * 0.01
+        all_start_times_int.push(time)
+
+        // save end times
+        time_string = all_events[i].end
+        res = time_string.split("T")
+        all_end_times.push(res[1])
+        res2 = res[1].split(":")
+        time = Number(res2[0]) + Number(res2[1]) * 0.01
+        all_end_times_int.push(time)
+      }
+
+      // adjust start time based on earliest event
+      min = Math.min.apply(Math, all_start_times_int)
+      console.log(min % 1)
+
+      // ensure the time always starts at full hour
+      if (min % 1 > 0) {
+        minTimeSplit = all_start_times[all_start_times_int.indexOf(min)].split(":")
+        minTimeNew = minTimeSplit[0] + ":00:00"
+        minTime = minTimeNew
+      }
+      else {
+        minTime = all_start_times[all_start_times_int.indexOf(min)]
+      }
+
+      // set the start time
+      calendar1.setOption('minTime', minTime)
+
+      // adjust end time based on latest event
+      max = Math.max.apply(Math, all_end_times_int)
+      maxTime = all_end_times[all_end_times_int.indexOf(max)]
+      calendar1.setOption('maxTime', maxTime)
+    }
 
     const expand = () => {
       searchBtn.classList.toggle("close");
@@ -123,14 +169,15 @@
     }
     
     if(calendarEl) {
-      var calendar = new FullCalendar.Calendar(calendarEl, {
+      var calendar1 = new FullCalendar.Calendar(calendarEl, {
         plugins: ['dayGrid', 'list', 'bootstrap', 'timeGrid'], 
                 timeZone: 'UTC', 
                 themeSystem: 'bootstrap',
+                defaultView : 'timeGridWeek',
                 header: {
                   left: 'prev, next today',
                   center: 'title', 
-                  right: 'timeGridWeek, dayGridMonth' // put this if we also want the day: 'dayGridDay'
+                  right: 'dayGridMonth, timeGridWeek, timeGridDay' // put this if we also want the day: 'dayGridDay'
                 }, 
                 weekNumbers: true,
                 eventLimit: true,
@@ -140,18 +187,10 @@
                 //   // hour12 : false
                 // },
                 eventColor : 'purple',
+                slotDuration : '00:20:00',
+                // minTime: "07:00:00",
+                // maxTime: "21:00:00",
                 events: [
-                  // {
-                  //   title  : 'event1',
-                  //   start  : '2020-02-27'
-                  // },
-                  // {
-                  //   title  : 'event2',
-                  //   start  : '2020-02-28',
-                  //   end    : '2020-03-01',
-                  //   displayEventTime : true,
-                  //   displayEventEnd : true
-                  // },
                   {
                     title  : 'Spinning',
                     start  : '2020-02-29T12:30:00',
@@ -179,8 +218,8 @@
                   },
                   {
                     title  : 'BBB',
-                    start  : '2020-03-01T9:00:00',
-                    end    : '2020-02-29T10:00:00',
+                    start  : '2020-02-25T09:00:00',
+                    end    : '2020-02-25T10:00:00',
                     allDay : false, // will make the time show
                     displayEventTime : true,
                     displayEventEnd : true, 
@@ -203,8 +242,8 @@
                   },
                   {
                     title  : 'HIIT',
-                    start  : '2020-02-29T09:00:00',
-                    end    : '2020-02-29T10:00:00',
+                    start  : '2020-02-27T09:00:00',
+                    end    : '2020-02-27T10:00:00',
                     allDay : false, // will make the time show
                     displayEventTime : true,
                     displayEventEnd : true, 
@@ -226,131 +265,9 @@
                     },
                   },
                   {
-                    title  : 'Spinning',
-                    start  : '2020-02-28T11:00:00',
-                    end    : '2020-02-28T12:00:00',
-                    allDay : false, // will make the time show
-                    displayEventTime : true,
-                    displayEventEnd : true, 
-                    extendedProps: {
-                      teacher: 'Leah Carlin', 
-                      location: 'Universum'
-                    },
-                  }, 
-                  {
-                    title  : 'Pilates',
-                    start  : '2020-02-27T07:00:00',
-                    end    : '2020-02-27T08:00:00',
-                    allDay : false, // will make the time show
-                    displayEventTime : true,
-                    displayEventEnd : true, 
-                    extendedProps: {
-                      teacher: 'Leah Carlin', 
-                      location: 'Universum'
-                    },
-                  }, 
-                  {
-                    title  : 'Spinning',
-                    start  : '2020-02-27T09:30:00',
-                    end    : '2020-02-27T10:30:00',
-                    allDay : false, // will make the time show
-                    displayEventTime : true,
-                    displayEventEnd : true, 
-                    extendedProps: {
-                      teacher: 'Leah Carlin', 
-                      location: 'Universum'
-                    },
-                  }, 
-                  {
-                    title  : 'Zumba',
-                    start  : '2020-02-27T12:30:00',
-                    end    : '2020-02-27T13:30:00',
-                    allDay : false, // will make the time show
-                    displayEventTime : true,
-                    displayEventEnd : true, 
-                    extendedProps: {
-                      teacher: 'Leah Carlin', 
-                      location: 'Universum'
-                    },
-                  }, 
-                  {
-                    title  : 'Body Power',
-                    start  : '2020-02-27T17:30:00',
-                    end    : '2020-02-27T18:30:00',
-                    allDay : false, // will make the time show
-                    displayEventTime : true,
-                    displayEventEnd : true, 
-                    extendedProps: {
-                      teacher: 'Leah Carlin', 
-                      location: 'Universum'
-                    },
-                  }, 
-                  {
-                    title  : 'Body Power',
-                    start  : '2020-02-26T17:30:00',
-                    end    : '2020-02-26T18:30:00',
-                    allDay : false, // will make the time show
-                    displayEventTime : true,
-                    displayEventEnd : true, 
-                    extendedProps: {
-                      teacher: 'Leah Carlin', 
-                      location: 'Universum'
-                    },
-                    color: 'green'
-                  },
-                  {
-                    title  : 'HIIT',
-                    start  : '2020-02-26T11:30:00',
-                    end    : '2020-02-26T12:30:00',
-                    allDay : false, // will make the time show
-                    displayEventTime : true,
-                    displayEventEnd : true, 
-                    extendedProps: {
-                      teacher: 'Leah Carlin', 
-                      location: 'Universum'
-                    },
-                  },
-                  {
-                    title  : 'Synergy',
-                    start  : '2020-02-25T16:30:00',
-                    end    : '2020-02-25T17:30:00',
-                    allDay : false, // will make the time show
-                    displayEventTime : true,
-                    displayEventEnd : true, 
-                    extendedProps: {
-                      teacher: 'Leah Carlin', 
-                      location: 'Universum'
-                    },
-                  },
-                  {
-                    title  : 'Barre Workout',
-                    start  : '2020-02-24T08:30:00',
-                    end    : '2020-02-24T09:30:00',
-                    allDay : false, // will make the time show
-                    displayEventTime : true,
-                    displayEventEnd : true, 
-                    extendedProps: {
-                      teacher: 'Leah Carlin', 
-                      location: 'Universum'
-                    },
-                  },
-                  {
-                    title  : 'Pilates',
-                    start  : '2020-02-24T09:30:00',
-                    end    : '2020-02-24T10:30:00',
-                    allDay : false, // will make the time show
-                    displayEventTime : true,
-                    displayEventEnd : true, 
-                    extendedProps: {
-                      teacher: 'Leah Carlin', 
-                      location: 'Universum'
-                    },
-                    color: 'green'
-                  },
-                  {
-                    title  : 'Total Body Workout',
-                    start  : '2020-02-24T15:30:00',
-                    end    : '2020-02-24T17:00:00',
+                    title  : 'BBB',
+                    start  : '2020-02-24T17:00:00',
+                    end    : '2020-02-24T18:00:00',
                     allDay : false, // will make the time show
                     displayEventTime : true,
                     displayEventEnd : true, 
@@ -359,31 +276,39 @@
                       location: 'Universum'
                     },
                   }
-                ]
+                ],
+                eventRender: function(event, calendar) { 
+                  // add teacher
+                  event.el.append(event.event.extendedProps.teacher)
+                  // eventually add location:
+                  // event.el.append("\n"+ event.event.extendedProps.location)
+                }
+        });
+        calendar1.render();
+        }
+        events = calendar1.getOption('events')
+        updateTimes(events, calendar1)
+        
+        events_now = calendar1.getOption('events')
+        
+        events_now.push({
+                title  : 'BBB',
+                start  : '2020-02-24T17:00:00',
+                end    : '2020-02-24T18:00:00',
+                allDay : false, // will make the time show
+                displayEventTime : true,
+                displayEventEnd : true, 
+                extendedProps: {
+                  teacher: 'Leah Carlin', 
+                  location: 'Universum'
+                },
+              })
+        updateTimes(events_now, calendar1)
+        calendar1.setOption('events', events_now)
+            
 
-              });
-              calendar.render();
-    }
+            
 
-    // document.addEventListener('DOMContentLoaded', function() {
-    //   var calendarEl = document.getElementById('calendar');
-
-    //   var calendar = new FullCalendar.Calendar(calendarEl, {
-    //     plugins: [ 'dayGrid', 'timeGrid', 'list', 'bootstrap' ],
-    //     timeZone: 'UTC',
-    //     themeSystem: 'bootstrap',
-    //     header: {
-    //       left: 'prev,next today',
-    //       center: 'title',
-    //       right: 'dayGridMonth,dayGridWeek,dayGridDay,listMonth'
-    //     },
-    //     weekNumbers: true,
-    //     eventLimit: true, // allow "more" link when too many events
-    //     // events: 'https://fullcalendar.io/demo-events.json'
-    //   });
-
-    //   calendar.render();
-    // });
 
  </script>
 
