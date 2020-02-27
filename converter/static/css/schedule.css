@@ -38,8 +38,8 @@
   border-spacing: 1px;
   box-sizing: border-box;
   overflow: hidden;
-  background-color: rgb(255,255,255,0);
-  line-height: 16px;
+  background-color: rgb(255,255,255,0.9);
+  /* line-height: 16px; */
 }
 
 .addschedule {
@@ -48,36 +48,34 @@
 
 .row .addschedule {
   font: 14px/24px 'Open Sans', sans-serif;
-  color: white;
-  line-height: 5px;
-  border-spacing: 1px;
-  box-sizing: border-box;
-  min-width: 120px;
-  float: left;
-  min-height: 26px;
-  font-weight: 200;
-  font-size: 14px;
-  width: 10%;
-  display: inline;
-  background: rgb(50,205,50, 0.3);
-  border-radius: 10px;
+    color: black;
+    min-height: 26px;
+    font-weight: 400;
+    font-size: 14px;
+    width: 10%;
+    display: inline;
+    background: rgb(50,205,50, 0.2);
+    border-radius: 10px;
+    padding: 5px;
+    height: 10%;
+    margin-top: 8px;
 }
 
 .day, #exampleModal p.time {
   font: 12px/22px 'Open Sans', sans-serif;
-  border-spacing: 1px;
+  /* border-spacing: 1px; */
   font-size: 13px;
-  line-height: 5px;
+  /* line-height: 5px; */
   box-sizing: border-box;
-  background: rgb(255,255,255,0.1);
-  padding: 5px 8px;
+  background: rgb(255,255,255,0.9);
+  /* padding: 5px 8px; */
   min-width: 120px;
   float: left;
-  margin: 0;
+  margin: 1px;
   min-height: 26px;
   font-weight: 600;
   width: 99%;
-  border-style: inset;
+  /* border-style: inset; */
   border-left: none;
   border-right: none;
   margin-left: 15px;
@@ -85,15 +83,15 @@
 
 #exampleModal p.time {
   font: 12px/22px 'Open Sans', sans-serif;
-  border-spacing: 1px;
+  /* border-spacing: 1px; */
   font-size: 13px;
-  line-height: 5px;
+  /* line-height: 5px; */
   box-sizing: border-box;
-  background: rgb(255,255,255,0.1);
+  background: rgb(255,255,255,1);
   padding: 5px 8px;
   min-width: 120px;
   float: left;
-  margin: 0;
+  /* margin: 0; */
   min-height: 26px;
   font-weight: 600;
   width: 99%;
@@ -104,20 +102,22 @@
 }
 
 .day p.time, .day p.type {
-  color: white;
+  color: black;
+  margin:10px;
+  margin-top: 15px;
 }
 
 
 #exampleModal p.type, .day p.type {
   font: 14px/24px 'Open Sans', sans-serif;
-  line-height: 5px;
+  /* line-height: 10px; */
   border-spacing: 1px;
   box-sizing: border-box;
   background: rgb(255,255,255,0);
-  padding: 5px 8px;
+  /* padding: 5px 8px; */
   min-width: 120px;
   float: left;
-  margin: 0;
+  margin-top: 13px;
   margin-left: 20px;
   min-height: 26px;
   font-weight: 600;
@@ -138,8 +138,10 @@
   min-width: 100px;
   vertical-align: middle;
   float: left;
-  color: silver;
+  color: grey;
+  font-weight: 100;
   display: inline-block;
+  margin-top: 17px;
 }
 
 #exampleModal p.trainer, .day p.trainer {
@@ -156,6 +158,7 @@
   color: #918f8f;
   margin: 0;
   width: 13.33%;
+  margin-top: 16px;
 }
 
 
@@ -164,7 +167,7 @@
   color: #2f2e7e;
   border-spacing: 1px;
   font-size: 13px;
-  line-height: 5px;
+  line-height: 15px;
   box-sizing: border-box;
   display: table-cell;
   min-width: 120px;
@@ -180,7 +183,7 @@
 }
 
 .rooster .row .btn {
-  line-height: 5px;
+  margin-top: 10px;
   font-size: 12px;
   display: inline;
   float: left;
@@ -214,5 +217,5 @@
 }
 
 #exampleModal > div > div > div.modal-body > p.btn-cont > a {
-  line-height: 5px;
+  line-height: 36px;
 }

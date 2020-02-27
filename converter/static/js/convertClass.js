@@ -17,8 +17,6 @@ var selector = document.querySelectorAll("body > div.rooster > div")
 for (const button of selector) {
 
   // button.setAttribute("data-toggle", "modal");
-  // button.setAttribute("data-target", "#exampleModal");
-
   var btn = document.createElement("button");
   btn.className = "addschedule"
   btn.innerHTML = "Add";
