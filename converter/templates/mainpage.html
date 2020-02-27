@@ -112,6 +112,52 @@
     const input = document.getElementById("search-input");
     const searchBtn = document.getElementById("search-btn");
     const calendarEl = document.getElementById('calendar');
+    function updateTimes(all_events, calendar1) {
+      all_start_times = []
+      all_start_times_int = []
+      all_end_times = []
+      all_end_times_int = []
+      for(i = 0; i < all_events.length; i++) {
+
+        // save start times
+        time_string = all_events[i].start
+        res = time_string.split("T")
+        all_start_times.push(res[1])
+        res2 = res[1].split(":")
+        time = Number(res2[0]) + Number(res2[1]) * 0.01
+        all_start_times_int.push(time)
+
+        // save end times
+        time_string = all_events[i].end
+        res = time_string.split("T")
+        all_end_times.push(res[1])
+        res2 = res[1].split(":")
+        time = Number(res2[0]) + Number(res2[1]) * 0.01
+        all_end_times_int.push(time)
+      }
+
+      // adjust start time based on earliest event
+      min = Math.min.apply(Math, all_start_times_int)
+      console.log(min % 1)
+
+      // ensure the time always starts at full hour
+      if (min % 1 > 0) {
+        minTimeSplit = all_start_times[all_start_times_int.indexOf(min)].split(":")
+        minTimeNew = minTimeSplit[0] + ":00:00"
+        minTime = minTimeNew
+      }
+      else {
+        minTime = all_start_times[all_start_times_int.indexOf(min)]
+      }
+
+      // set the start time
+      calendar1.setOption('minTime', minTime)
+
+      // adjust end time based on latest event
+      max = Math.max.apply(Math, all_end_times_int)
+      maxTime = all_end_times[all_end_times_int.indexOf(max)]
+      calendar1.setOption('maxTime', maxTime)
+    }
 
     const expand = () => {
       searchBtn.classList.toggle("close");
@@ -127,10 +173,11 @@
         plugins: ['dayGrid', 'list', 'bootstrap', 'timeGrid'],
                 timeZone: 'UTC',
                 themeSystem: 'bootstrap',
+                defaultView : 'timeGridWeek',
                 header: {
                   left: 'prev, next today',
                   center: 'title',
-                  right: 'timeGridWeek, dayGridMonth' // put this if we also want the day: 'dayGridDay'
+                  right: 'dayGridMonth, timeGridWeek, timeGridDay' // put this if we also want the day: 'dayGridDay'
                 },
                 weekNumbers: true,
                 eventLimit: true,
@@ -376,25 +423,6 @@
               calendar.render();
     }
 
-    // document.addEventListener('DOMContentLoaded', function() {
-    //   var calendarEl = document.getElementById('calendar');
-
-    //   var calendar = new FullCalendar.Calendar(calendarEl, {
-    //     plugins: [ 'dayGrid', 'timeGrid', 'list', 'bootstrap' ],
-    //     timeZone: 'UTC',
-    //     themeSystem: 'bootstrap',
-    //     header: {
-    //       left: 'prev,next today',
-    //       center: 'title',
-    //       right: 'dayGridMonth,dayGridWeek,dayGridDay,listMonth'
-    //     },
-    //     weekNumbers: true,
-    //     eventLimit: true, // allow "more" link when too many events
-    //     // events: 'https://fullcalendar.io/demo-events.json'
-    //   });
-
-    //   calendar.render();
-    // });
 
  </script>
 

@@ -188,16 +188,13 @@ def addschedule(request):
     # TODO: check if this item already exists before creating a new one
 
     # Create new item
-    # item = ScheduleItem(teacher=data["teacher"],
-    #                     name=data["sort"],
-    #                     start=data["start"],
-    #                     end=data["end"])
-    # item.save()
+    item = ScheduleItem(teacher=data["teacher"],
+                        name=data["sort"],
+                        start=data["start"],
+                        end=data["end"])
+    item.save()
 
     print(ScheduleItem.objects.all())
-
-    # Add item to calendar
-
 
     return HttpResponse("test")
 
