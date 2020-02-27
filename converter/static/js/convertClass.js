@@ -3,20 +3,45 @@ var myInput = document.getElementById('exampleModalLabel')
 
 myModal.addEventListener('shown.bs.modal', function (e) {
   myInput.focus()
-})
+});
 
 $('#exampleModal').on('hidden.bs.modal', function (e) {
   var input = document.querySelector("#exampleModal > div > div > div.modal-body");
   input.innerHTML = ""
-})
+});
 
+// Create date
+var ptag = ""
+var dateselector = document.querySelectorAll("body > div.rooster > p, body > div.rooster > div" )
+dateselector.forEach((item, i) => {
+  if (item.classList.contains("title")) {
+    temp = item.innerHTML
+    ptag = "<p class='dag' syle='display:none; visibility:hidden;'>" + temp + "</p>"
+  }
+  else {
+    // console.log(item, "test");
 
+    item.innerHTML += ptag
+
+    item.childNodes.forEach(function(elm) {
+      // console.log(elm.childNodes.item(1))
+      try {
+        elm.classList.contains("row")
+        elm.appendChild(ptag)
+      } catch (e) {
+        // Do nothing
+      };
+    });
+    // console.log(item, "test");
+  };
+
+  item.setAttribute("name", temp)
+});
 
 var selector = document.querySelectorAll("body > div.rooster > div")
 
 for (const button of selector) {
 
-  // button.setAttribute("data-toggle", "modal");
   var btn = document.createElement("button");
   btn.className = "addschedule"
   btn.innerHTML = "Add";
@@ -27,7 +52,10 @@ for (const button of selector) {
 
   btn.addEventListener('click', function(e) {
     var result = e.target;
-    ineer_html = result.parentElement.innerHTML;
+    ineer_html = result.parentElement.parentElement.innerHTML;
+    // console.log(ineer_html, "hoi");
+    // console.log(result.parentElement.parentElement.innerHTML, "test2");
+
     var data = new FormData();
     data.append('data', ineer_html)
 
@@ -45,5 +73,4 @@ for (const button of selector) {
   });
   button.childNodes.item(1).appendChild(btn);
 
-  // button.appendChild(btn)
 }

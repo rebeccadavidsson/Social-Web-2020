@@ -34,9 +34,12 @@ class Profile(models.Model):
 
 
 class ScheduleItem(models.Model):
-    # teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    teacher = models.CharField(max_length=64)
     name = models.CharField(max_length=64)
-    date = models.DateTimeField(auto_now_add=True, blank=True)
+    # date = models.DateTimeField(auto_now_add=True, blank=True) # TODO! Goede datum!!
+    date = models.CharField(max_length=64)
+    start = models.CharField(max_length=64)
+    end = models.CharField(max_length=64)
     participants = models.ManyToManyField(Profile, related_name="participants")
     rating = models.ManyToManyField(Rating, related_name="ratings")
 
@@ -52,6 +55,9 @@ class ScheduleItem(models.Model):
         choices=locations,
         default="universum",
     )
+
+    def __str__(self):
+        return self.name
 
 
 class Post(models.Model):
