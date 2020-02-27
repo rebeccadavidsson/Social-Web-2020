@@ -6,6 +6,8 @@
 
 {% block body %}
 
+<h1 style="color:blue;">Blauw = alle andere mensen</h1>
+<h1 style="color:green;">Groen = jij</h1>
 
 <div class="mainschedule">
     <div id='calendar'></div>
@@ -177,7 +179,7 @@
                 header: {
                   left: 'prev, next today',
                   center: 'title',
-                  right: 'dayGridMonth, timeGridWeek, timeGridDay' // put this if we also want the day: 'dayGridDay'
+                  right: 'dayGridMonth, timeGridWeek, timeGridDay'
                 },
                 weekNumbers: true,
                 eventLimit: true,
@@ -186,12 +188,35 @@
                 eventColor : 'purple',
                 events:
                 [
-                {% for i in events %}
+                {% for i in events_user %}
                 {
-                    title: "{{ i.name }}",
-                    start: '{{ i.start }}',
-                    end: '{{ i.end }}',
+                    title :   "{{ i.name }}",
+                    start :   '{{ i.start }}',
+                    end   :   '{{ i.end }}',
+                    allDay:   false,
+                    displayEventTime: true,
+                    displayEventEnd: true,
+                    extendedProps: {
+                      teacher: "{{ i.teacher }}",
+                      location: "Universum"
+                    },
+                    color: 'green'
+                },
+                {% endfor %}
 
+                {% for i in event_followers %}
+                {
+                    title :   "{{ i.name }}",
+                    start :   '{{ i.start }}',
+                    end   :   '{{ i.end }}',
+                    allDay:   false,
+                    displayEventTime: true,
+                    displayEventEnd: true,
+                    extendedProps: {
+                      teacher: "{{ i.teacher }}",
+                      location: "Universum"
+                    },
+                    color: 'blue'
                 },
                 {% endfor %}
                 ]

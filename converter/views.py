@@ -18,13 +18,18 @@ def index(request):
     if not request.user.is_authenticated:
         return render(request, "login.html")
 
-    # profile = Profile.objects.get(user=request.user)
+    profile = Profile.objects.get(user=request.user)
+
+    events_user = ScheduleItem.objects.filter(participants=profile).all()
+
+    # TODO: get events from other followers
+    events_followers = ScheduleItem.objects.all()
 
     # Filter events for user
     context = {
         "events": ScheduleItem.objects.all(),
-        # "events_user": ScheduleItem.objects.get(participants=profile),
-        "events_friends": "TODO"
+        "events_user": events_user,
+        "event_followers": events_followers
     }
 
     return render(request, 'mainpage.html', context)
@@ -169,6 +174,7 @@ def settings_view(request):
 
 def schedule_view(request):
 
+    # TODO
     location = 5
 
     # Execute scraper
@@ -191,13 +197,18 @@ def addschedule(request):
     profile = Profile.objects.get(user=request.user)
 
     # Check if this item already exists before creating a new one
+    # TODO: Sam kan dit mooier? ;)
     try:
-        check = ScheduleItem.objects.get(participants=profile)
+        check = ScheduleItem.objects.filter(teacher=data["teacher"],
+                                            name=data["sort"],
+                                            start=data["start"],
+                                            end=data["end"]).first()
     except:
         check = None
 
+    # Add profile to already existing item, else create new item
     if check:
-        check.add(profile)
+        check.participants.add(profile)
     else:
 
         # Create new item
@@ -208,8 +219,7 @@ def addschedule(request):
         item.save()
         item.participants.add(profile)
 
-        print(ScheduleItem.objects.all())
-
+    # TODO wat moet hier?
     return HttpResponse("test")
 
 
