@@ -7,12 +7,11 @@ from django.db.models import IntegerField, Model
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 
-class History(models.Model):
+# class History(models.Model):
     # sportname = models.CharField(max_length=64)
     # teacher = models.CharField(max_length=64)  # Willen we dat dit ook een profiel wordt?
     # course = models.ForeignKey(Course, on_delete=models.CASCADE)
-
-    date = models.DateField(default=timezone.now)
+    # date = models.DateField(default=timezone.now)
 
 
 class Rating(models.Model):
@@ -28,16 +27,16 @@ class Rating(models.Model):
 class Profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     following = models.ManyToManyField(User, related_name='followers')
-    # feedmessages = models.ManyToManyField(History, related_name="feedmessages")
     interests = models.CharField(max_length=64)  # Willen we hier ook een rating aan toevoegen?
     photo = models.ImageField(upload_to = "static/images", default = "images/logo.png")
+
+    def __str__(self):
+        return self.user
 
 
 class ScheduleItem(models.Model):
     teacher = models.CharField(max_length=64)
     name = models.CharField(max_length=64)
-    # date = models.DateTimeField(auto_now_add=True, blank=True) # TODO! Goede datum!!
-    date = models.CharField(max_length=64)
     start = models.CharField(max_length=64)
     end = models.CharField(max_length=64)
     participants = models.ManyToManyField(Profile, related_name="participants")
