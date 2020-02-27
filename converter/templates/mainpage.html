@@ -126,7 +126,8 @@
 
         // save start times
         time_string = all_events[i].start
-        res = time_string.split("T")
+        console.log(time_string)
+        res = time_string.split(" ")
         all_start_times.push(res[1])
         res2 = res[1].split(":")
         time = Number(res2[0]) + Number(res2[1]) * 0.01
@@ -134,7 +135,7 @@
 
         // save end times
         time_string = all_events[i].end
-        res = time_string.split("T")
+        res = time_string.split(" ")
         all_end_times.push(res[1])
         res2 = res[1].split(":")
         time = Number(res2[0]) + Number(res2[1]) * 0.01
@@ -200,103 +201,33 @@
     if(searchBtn) {
       searchBtn.addEventListener("click", expand);
     }
-    
+
     if(calendarEl) {
-      var calendar1 = new FullCalendar.Calendar(calendarEl, {
-        plugins: ['dayGrid', 'list', 'bootstrap', 'timeGrid'], 
-                timeZone: 'UTC', 
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        plugins: ['dayGrid', 'list', 'bootstrap', 'timeGrid'],
+                timeZone: 'UTC',
                 themeSystem: 'bootstrap',
                 defaultView : 'timeGridWeek',
                 header: {
                   left: 'prev, next today',
-                  center: 'title', 
+                  center: 'title',
                   right: 'dayGridMonth, timeGridWeek, timeGridDay' // put this if we also want the day: 'dayGridDay'
-                }, 
+                },
                 weekNumbers: true,
                 eventLimit: true,
                 firstDay: 1,
                 allDaySlot: false,
-                // columnHeaderFormat: {
-                //   // hour12 : false
-                // },
                 eventColor : 'purple',
-                slotDuration : '00:20:00',
-                // minTime: "07:00:00",
-                // maxTime: "21:00:00",
-                events: [
-                  {
-                    title  : 'Spinning',
-                    start  : '2020-02-29T12:30:00',
-                    end    : '2020-02-29T13:30:00',
-                    allDay : false, // will make the time show
-                    displayEventTime : true,
-                    displayEventEnd : true, 
-                    extendedProps: {
-                      teacher: 'Leah Carlin', 
-                      location: 'Universum'
-                    },
-                  },
-                  {
-                    title  : 'Yoga',
-                    start  : '2020-02-29T10:30:00',
-                    end    : '2020-02-29T11:30:00',
-                    allDay : false, // will make the time show
-                    displayEventTime : true,
-                    displayEventEnd : true, 
-                    extendedProps: {
-                      teacher: 'Leah Carlin', 
-                      location: 'Universum'
-                    },
-                    color : 'green'
-                  },
-                  {
-                    title  : 'BBB',
-                    start  : '2020-02-25T09:00:00',
-                    end    : '2020-02-25T10:00:00',
-                    allDay : false, // will make the time show
-                    displayEventTime : true,
-                    displayEventEnd : true, 
-                    extendedProps: {
-                      teacher: 'Leah Carlin', 
-                      location: 'Universum'
-                    },
-                  },
-                  {
-                    title  : 'Total Body Workout',
-                    start  : '2020-03-01T11:30:00',
-                    end    : '2020-03-01T13:00:00',
-                    allDay : false, // will make the time show
-                    displayEventTime : true,
-                    displayEventEnd : true, 
-                    extendedProps: {
-                      teacher: 'Leah Carlin', 
-                      location: 'Universum'
-                    },
-                  },
-                  {
-                    title  : 'HIIT',
-                    start  : '2020-02-27T09:00:00',
-                    end    : '2020-02-27T10:00:00',
-                    allDay : false, // will make the time show
-                    displayEventTime : true,
-                    displayEventEnd : true, 
-                    extendedProps: {
-                      teacher: 'Leah Carlin', 
-                      location: 'Universum'
-                    },
-                  },
-                  {
-                    title  : 'Synergy',
-                    start  : '2020-02-28T09:30:00',
-                    end    : '2020-02-28T10:15:00',
-                    allDay : false, // will make the time show
-                    displayEventTime : true,
-                    displayEventEnd : true, 
-                    extendedProps: {
-                      teacher: 'Leah Carlin', 
-                      location: 'Universum'
-                    },
-                  }
+                events: 
+                [
+                {% for i in events %}
+                {
+                    title: "{{ i.name }}",
+                    start: '{{ i.start }}',
+                    end: '{{ i.end }}',
+
+                },
+                {% endfor %}
                 ],
                 eventRender: function(event, calendar) { 
                   // add teacher
@@ -304,15 +235,13 @@
                   // eventually add location:
                   // event.el.append("\n"+ event.event.extendedProps.location)
                 }
-        });
-        events = calendar1.getOption('events')
-        updateTimes(events, calendar1)
-        calendar1.render();
-      }
-            
+              });
 
-            
+              all_events = calendar.getOption('events')
+              updateTimes(all_events, calendar)
+              calendar.render();
 
+    }
 
  </script>
 
