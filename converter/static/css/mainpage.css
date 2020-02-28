@@ -18,6 +18,7 @@ tbody.fc-body {
 
 #calendar span {
   margin-left : 0px ! important;
+  color: silver;
 }
 
 #calendar {
@@ -143,4 +144,14 @@ hr {
 
 .comments {
   color: #3b3b3b;
+}
+
+#mainfeed > div > span.time-left {
+  font-size:14px;
+  text-transform: capitalize;
+  margin-left: -1px;
+}
+
+.tooltip{
+    opacity: 1 !important;
 }

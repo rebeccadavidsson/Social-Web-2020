@@ -43,6 +43,7 @@ def index(request):
         "events_user": events_user,
         "event_followers": empt
     }
+
     return render(request, 'mainpage.html', context)
 
 
@@ -185,14 +186,10 @@ def settings_view(request):
 
 def schedule_view(request):
 
-    # TODO
-    location = 5
-
     # Execute scraper
     # call(["node", "scraper/scraper.js"])
 
     context = {}
-    # TODO
     return render(request, 'schedule.html', context)
 
 
@@ -221,7 +218,6 @@ def addschedule(request):
     if check:
         check.participants.add(profile)
     else:
-
         # Create new item
         item = ScheduleItem(teacher=data["teacher"],
                             name=data["sort"],

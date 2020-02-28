@@ -32,6 +32,7 @@
 
 .fc-ltr .fc-axis {
   text-align: center;
+  /* padding-top: 5px; */
 }
 
 .fc-rtl .fc-axis {

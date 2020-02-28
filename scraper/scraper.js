@@ -11,9 +11,6 @@ function scraper(loc) {
 
   const puppeteer = require('puppeteer');
 
-  // var args = process.argv;
-  // var loc = console.log(args[2]);
-
   // Viewport && Window size
   const width = 600
   const height = 800
@@ -40,19 +37,23 @@ function scraper(loc) {
 
     // DUURT SUPER LANG HOLY SHIT
     await page.waitFor(5000);
-    const inner_html = await page.evaluate(() => document.querySelector('#schedule-cont > div').innerHTML);
+    var inner_html = await page.evaluate(() => document.querySelector('#schedule-cont > div').innerHTML);
 
-    console.log(inner_html);
+    // Click on next week
+  	await page.evaluate(()=>document.querySelector('#schedule-cont > ul > li.next').click())
 
-    await browser.close();
+    await page.waitFor(5000);
+    inner_html += await page.evaluate(() => document.querySelector('#schedule-cont > div').innerHTML);
 
     // Write data in 'Output.txt' .
-    fs.writeFile('converter/templates/output.html', inner_html, (err) => { 
+    fs.writeFile('converter/templates/output.html', inner_html, (err) => {
 
         // In case of a error throw err.
         if (err) throw err;
     })
 
+
+    await browser.close();
     return inner_html
   }
   scrape().catch(console.error);
