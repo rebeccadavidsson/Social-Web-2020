@@ -7,13 +7,6 @@ from django.db.models import IntegerField, Model
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 
-# class History(models.Model):
-    # sportname = models.CharField(max_length=64)
-    # teacher = models.CharField(max_length=64)  # Willen we dat dit ook een profiel wordt?
-    # course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    # date = models.DateField(default=timezone.now)
-
-
 class Rating(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     rating = IntegerField(
@@ -22,6 +15,8 @@ class Rating(models.Model):
             MaxValueValidator(5),
             MinValueValidator(0)
         ])
+    comment = models.CharField(max_length=300)
+    event_id = models.IntegerField(default=0)
 
 
 class Profile(models.Model):

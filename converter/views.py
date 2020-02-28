@@ -7,7 +7,7 @@ from django.http import HttpResponse
 from subprocess import call
 
 # from django.contrib.auth.decorators import permission_required
-from .models import Profile, ScheduleItem
+from .models import Profile, ScheduleItem, Rating
 from .scrape import scrape_item
 
 
@@ -110,7 +110,8 @@ def personal_view(request):
     """Render personal profile"""
 
     # get following user profiles
-    following = Profile.objects.get(user=request.user).following.all()
+    profile = Profile.objects.get(user=request.user)
+    following = profile.following.all()
 
     # list with usernames to exclude from 'to_follow', starts with own account
     to_exclude = [request.user.username]
@@ -125,13 +126,17 @@ def personal_view(request):
     # show only users that you can follow
     to_follow = User.objects.exclude(username__in=to_exclude)
 
+    # get all events from this user
+    events_user = ScheduleItem.objects.filter(participants=profile).all()
+
     # TODO: ingelogde user ophalen
     context = {
         "username": request.user,
         "firstname": request.user.first_name,
         "lastname": request.user.last_name,
         "users": to_follow,
-        "following": following
+        "following": following,
+        "events_user": events_user
     }
     # TODO
     return render(request, 'personal.html', context)
@@ -228,6 +233,25 @@ def addschedule(request):
 
     # TODO wat moet hier?
     return HttpResponse("test")
+
+
+def review(request, event_id):
+    """Save user's review of a training session."""
+
+    # TODO check if comment and rating is entered --> javascript :)
+    review = request.POST["comment"]
+    rating = request.POST["rating"]
+
+    event = ScheduleItem.objects.get(id=event_id)
+
+    new_rating = Rating(user=request.user,
+                        rating=int(rating),
+                        event_id=event_id)
+    new_rating.save()
+
+    event.rating.add(new_rating)
+
+    return redirect("/")
 
 
 def home_view(request):

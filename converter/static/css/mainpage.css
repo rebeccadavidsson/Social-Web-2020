@@ -7,7 +7,7 @@ tbody.fc-body {
 }
 
 .mainschedule {
-  /*height: 90vh;*/
+  height: 90vh;
   margin-top: 2%;
   margin-left: 5%;
   width: 55%;
@@ -93,7 +93,7 @@ hr {
   background-color: #f1f1f1;
   border-radius: 5px;
   padding: 10px;
-  margin: 10px 0;
+  margin: 5px 0;
   color: black;
 }
 
@@ -154,4 +154,37 @@ hr {
 
 .tooltip{
     opacity: 1 !important;
+}
+
+.animated {
+   -webkit-transition: height 0.2s;
+   -moz-transition: height 0.2s;
+   transition: height 0.2s;
+}
+
+.stars
+{
+   margin: 20px 0;
+   font-size: 24px;
+   color: orange;
+}
+
+#mainfeed > div > div > div > div > div {
+  padding: 0px;
+  width: 230%;
+  background-color: inherit;
+  border: none;
+  border-top: none;
+}
+
+#mainfeed > div > button {
+  float: right;
+      margin-top: -12px;
+      font-size: 9px;
+      background-color: silver;
+      border: none;
+      border-bottom-left-radius: 6px;
+      border-bottom-right-radius: 6px;
+      border-bottom-top-radius: 0px;
+      border-bottom-bottom-radius: 0px;
 }
