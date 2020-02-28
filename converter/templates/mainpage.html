@@ -6,23 +6,57 @@
 
 {% block body %}
 
-
 <div class="mainschedule">
     <div id='calendar'></div>
  </div>
 
  <div id="mainfeed">
-
-    <h4>This week</h4>
-<hr>
-    <!-- Message. Default to the left -->
-
+    <!-- <h4>This week</h4> -->
+    <!-- <hr> -->
+    {% for event in events %}
       <div class="containerfeed darker">
         <img src="https://media-exp1.licdn.com/dms/image/C5603AQF54EcNtyGnyA/profile-displayphoto-shrink_200_200/0?e=1586995200&v=beta&t=TMMRXfh0RcT04rV6f8N-iJmTuxLo6Li5NU479VPgIVs" alt="Avatar" class="right">
-        <!-- <h4>Eline followed:</h4> -->
-        <h4>Spinning class</h4>
-        <p>Evert van der Zee</p>
-        <span class="time-left">Eline - Fr 21 Feb</span>
+        <h4>{{ event.name }}</h4>
+        <p>{{ event.teacher }}</p>
+        {% for participant in event.participants.all %}
+          {% if participant.user == request.user %}
+            <span class="time-left" style="color:black;">You - {{ event.start }}</span>
+            <br>
+            <br>
+
+            <div class="container">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="well well-sm">
+                        <div class="text-right">
+                            <a class="btn btn-success btn-green" href="#reviews-anchor" id="open-review-box">Leave a Review</a>
+                        </div>
+
+                        <div class="row" id="post-review-box" style="display:none;">
+                            <div class="col-md-12">
+                                <form accept-charset="UTF-8" action="review" method="post">
+                                    <input id="ratings-hidden" name="rating" type="hidden">
+                                    <textarea class="form-control animated" cols="50" id="new-review" name="comment" placeholder="Enter your review here..." rows="5"></textarea>
+
+                                    <div class="text-right">
+                                        <div class="stars starrr" data-rating="0"></div>
+                                        <a class="btn btn-danger btn-lg" href="#" id="close-review-box" style="display:none; margin-right: 10px;">
+                                        <span class="glyphicon glyphicon-remove"></span>&nbsp Cancel</a>
+                                        <button class="btn btn-success btn-lg" type="submit">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+              </div>
+            </div>
+
+          {% else %}
+            <span class="time-left" style="color:grey;">{{ participant }} - {{ event.start }}</span>
+          {% endif %}
+        {% endfor %}
         <span class="time-right">
           <span class="fa fa-star checked"></span>
           <span class="fa fa-star checked"></span>
@@ -32,79 +66,8 @@
         </span>
       </div>
     <br>
-    <div class="containerfeed darker">
-      <img src="https://i.vimeocdn.com/portrait/24338979_640x640" alt="Avatar" class="right">
-      <!-- <h4>Eline followed:</h4> -->
-      <h4>Boxing class</h4>
-      <p>Ruud de Ligte</p>
-      <span class="time-left">Annemijn - Sat 22 Feb</span>
-      <span class="time-right">
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star"></span>
-        <span class="fa fa-star"></span>
-      </span>
-    </div>
-    <br>
+    {% endfor %}
 
-    <h4>WAY Back</h4>
-    <hr>
-
-    <div class="containerfeed darker">
-      <img src="https://media-exp1.licdn.com/dms/image/C5603AQF54EcNtyGnyA/profile-displayphoto-shrink_200_200/0?e=1586995200&v=beta&t=TMMRXfh0RcT04rV6f8N-iJmTuxLo6Li5NU479VPgIVs" alt="Avatar" class="right">
-      <!-- <h4>Eline followed:</h4> -->
-      <h4>Spinning class</h4>
-      <p>Monique Hoek</p>
-      <span class="time-left">Eline - Wed 12 Feb</span>
-      <span class="time-right">
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star"></span>
-        <span class="fa fa-star"></span>
-        <span class="fa fa-star"></span>
-        <span class="fa fa-star"></span>
-      </span>
-      <br>
-        <hr>
-        <p class="comments">  Stupid teacher!!! WAAH! </p>
-
-    </div>
-
-
-    <div class="total-feed">
-      <div class="feed-message">
-        Eline is wezen spinnen!!!! SUper goed!!
-      </div>
-      <span class="pull-right">Do 20 feb</span>
-
-      <div class="feed-message">
-        Eline je moet ook echt ClubVirtual lessen proberen,
-        is ook mega leuk.
-        Met een man genaamd Evert van de Zee en die is
-        mega fan van zichzelf lol
-      </div>
-      <span class="pull-right">Wo 19 feb</span>
-
-      <div class="feed-message">
-        Dit is een foto van Evert naast zijn koelkast :) <br>
-        <img src="https://www.run-waygirls.nl/wp-content/uploads/2015/06/Evert_van_der_Zee_39b.jpg" alt="">
-      </div>
-      <span class="pull-right">Wo 19 feb</span>
-
-      <div class="feed-message">
-        En kijk hier gaat hij er helemaal voor <br>
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTpeL0edSLU2-UEiL2F1_lj4EZf78gSw-jtREo-zcgO0lJKRTht" alt="">
-      </div>
-      <span class="pull-right">Wo 19 feb</span>
-
-      <div class="feed-message">
-        En kijk hier gaat hij er helemaal voor <br>
-        <img src="https://i.ytimg.com/vi/tpRE196Z8YQ/maxresdefault.jpg" alt="">
-      </div>
-      <span class="pull-right">Wo 19 feb</span>
-
-
-    </div>
  </div>
 
  <script type="text/javascript">
@@ -112,22 +75,16 @@
     const input = document.getElementById("search-input");
     const searchBtn = document.getElementById("search-btn");
     const calendarEl = document.getElementById('calendar');
-    
     function updateTimes(all_events, calendar1) {
-      // this function adjusts the time range of the calendar based on the first and last event
-
       all_start_times = []
       all_start_times_int = []
       all_end_times = []
       all_end_times_int = []
-
-      // for each event
       for(i = 0; i < all_events.length; i++) {
 
         // save start times
         time_string = all_events[i].start
-        console.log(time_string)
-        res = time_string.split(" ")
+        res = time_string.split("T")
         all_start_times.push(res[1])
         res2 = res[1].split(":")
         time = Number(res2[0]) + Number(res2[1]) * 0.01
@@ -135,7 +92,7 @@
 
         // save end times
         time_string = all_events[i].end
-        res = time_string.split(" ")
+        res = time_string.split("T")
         all_end_times.push(res[1])
         res2 = res[1].split(":")
         time = Number(res2[0]) + Number(res2[1]) * 0.01
@@ -144,6 +101,7 @@
 
       // adjust start time based on earliest event
       min = Math.min.apply(Math, all_start_times_int)
+      console.log(min % 1)
 
       // ensure the time always starts at full hour
       if (min % 1 > 0) {
@@ -169,28 +127,7 @@
       else {
         maxTime = all_end_times[all_end_times_int.indexOf(max)]
       }
-
       calendar1.setOption('maxTime', maxTime)
-    }
-
-    function addEvents(calendar, new_event, self) {
-      // adds new events to the calendar. Set self = true if it is a course of the user, if it is a course of a friend set self = false
-      
-      // update the time range that is shown
-      events_now = calendar.getOption('events')
-      events_now.push(new_event)
-      updateTimes(events_now, calendar)
-
-      if (self == true) {
-        new_event.color = 'green'
-      }
-      
-      // add the new event
-      calendar.addEvent(new_event)        
-      events_now = calendar.getOption('events')
-      
-      // show updated calendar
-      calendar.render()
     }
 
     const expand = () => {
@@ -206,55 +143,84 @@
       var calendar = new FullCalendar.Calendar(calendarEl, {
         plugins: ['dayGrid', 'list', 'bootstrap', 'timeGrid'],
                 timeZone: 'UTC',
+                minTime: "08:30:00",
+                maxTime: "22:30:00",
+                editable: true,
                 themeSystem: 'bootstrap',
                 defaultView : 'timeGridWeek',
                 header: {
                   left: 'prev, next today',
                   center: 'title',
-                  right: 'dayGridMonth, timeGridWeek, timeGridDay' // put this if we also want the day: 'dayGridDay'
+                  right: 'dayGridMonth, timeGridWeek, timeGridDay'
                 },
                 weekNumbers: true,
                 eventLimit: true,
                 firstDay: 1,
                 allDaySlot: false,
-                slotDuration: "00:20:00",
                 eventColor : 'purple',
-                events: 
-                [ {
-                    title  : 'Total Body Workout',
-                    start  : '2020-03-01 11:30:00',
-                    end    : '2020-03-01 13:00:00',
-                    allDay : false, // will make the time show
-                    displayEventTime : true,
-                    displayEventEnd : true,
+                // slotDuration : "00:30:00",
+                events:
+                [
+                {% for i in events_user %}
+                {
+                    title :   "{{ i.name }}",
+                    start :   '{{ i.start }}',
+                    end   :   '{{ i.end }}',
+                    allDay:   false,
+                    displayEventTime: true,
+                    displayEventEnd: true,
                     extendedProps: {
-                      teacher: 'Leah Carlin',
-                      location: 'Universum'
+                      teacher: "{{ i.teacher }}",
+                      location: "Universum",
+                      people: "{% for person in i.participants.all %}{{ person }}, {% endfor %}"
                     },
-                  },
-                // {% for i in events %}
-                // {
-                //     title: "{{ i.name }}",
-                //     start: '{{ i.start }}',
-                //     end: '{{ i.end }}',
+                    color: 'green'
+                },
+                {% endfor %}
 
-                // },
-                // {% endfor %}
-                ],
-                eventRender: function(event, calendar) { 
-                  // add teacher
-                  event.el.append(event.event.extendedProps.teacher)
-                  // eventually add location:
-                  // event.el.append("\n"+ event.event.extendedProps.location)
+                {% for i in event_followers %}
+                {
+                    title :   "{{ i.name }}",
+                    start :   '{{ i.start }}',
+                    end   :   '{{ i.end }}',
+                    allDay:   false,
+                    displayEventTime: true,
+                    displayEventEnd: true,
+                    description: "test",
+                    extendedProps: {
+                      teacher: "{{ i.teacher }}",
+                      location: "Universum",
+                      people: "{% for person in i.participants.all %}{{ person }}, {% endfor %}"
+                    },
+                    color: 'blue'
+                },
+                {% endfor %}
+              ],
+              eventRender: function(info) {
+                  let tooltip = new Tooltip(info.el, {
+                  title: '<h4>' + info.event.extendedProps.people + '</h4>',
+                  placement: 'top',
+                  trigger: 'hover',
+                  container: 'body',
+                  html: true
+                });
                 }
+
               });
-
               all_events = calendar.getOption('events')
-              updateTimes(all_events, calendar)
-              calendar.render();
-
+              console.log(all_events)
+              // if(all_events.length > 0) {
+              //   updateTimes(all_events, calendar)
+              // }
+              calendar.render()
     }
+
 
  </script>
 
 {% endblock %}
+
+
+
+
+              

@@ -66,7 +66,7 @@ def scrape_item(input):
     soup = BeautifulSoup(input, 'html.parser')
 
     all_p = soup.find_all('p')
-    print(all_p, "hoi")
+
     timedate = all_p[0].get_text().split("-")
     start = timedate[0].split(":")
     end = timedate[1].split(":")
@@ -79,7 +79,7 @@ def scrape_item(input):
     month_dict = {"januari": 1, "februari": 2, "maart": 3, "april": 4} #TODO: OOIT MOET DIT NAAR ENGELS
 
     # convert day
-    date  = all_p[5].get_text()
+    date = all_p[5].get_text()
     for key in month_dict:
         if key in date:
             month = month_dict[key]
@@ -88,8 +88,12 @@ def scrape_item(input):
 
     year = 2020 # TODO: DIT IS NU NOG GEHARDCODED
 
-    start_time = datetime(year, day, month, start1, start2, 0)
-    end_time = datetime(year, day, month, end1, end2, 0)
+    start_time = datetime(year, month, day, start1, start2, 0)
+    end_time = datetime(year, month, day, end1, end2, 0)
+    temp_start_time = str(start_time).split(" ")
+    start_time = temp_start_time[0] + "T" + temp_start_time[1]
+    temp_end_time = str(end_time).split(" ")
+    end_time = temp_end_time[0] + "T" + temp_end_time[1]
 
     dict["day"] = day
     dict["start"] = start_time

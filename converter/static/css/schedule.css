@@ -124,7 +124,7 @@
   font-size: 15px;
   width: 25%;
   display: inline;
-  text-align: center;
+  /* text-align: center; */
 }
 
 #exampleModal p.gym, .day p.gym {
@@ -221,10 +221,22 @@ body > div.rooster > div > p.dag {
   display: none;
 }
 
-#exampleModal > div > div > div.modal-body > p.btn-cont > a {
-  line-height: 36px;
+#exampleModal > div > div > div.modal-body > div > button {
+  display: none;
+  visibility: hidden;
+}
+
+#exampleModal > div > div > div.modal-body > div > p.btn-cont > a {
+  display: none;
+  visibility: hidden;
 }
 
 #exampleModal > div > div > div.modal-footer > button.btn.btn-primary > a {
   color: white;
+}
+
+#exampleModal > div > div > div.modal-body > p {
+  font-size: 14px;
+  text-transform: capitalize;
+  margin-left: 5px;
 }

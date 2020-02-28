@@ -15,16 +15,33 @@ def index(request):
     """ Render main page when website is opened for the first time. """
 
     # Check if user is logged in
-    if not request.user.is_authenticated:
+    if not request.user.is_authenticated or request.user.username == "admin":
         return render(request, "login.html")
 
-    # profile = Profile.objects.get(user=request.user)
+    # Get user profile and the people this user is following
+    profile = Profile.objects.get(user=request.user)
+    followers = profile.following.all()
+
+    # Get events from other followers
+    empt = []
+    for follower in followers:
+        to_follow = Profile.objects.get(user__username=follower.username)
+        item = ScheduleItem.objects.filter(participants=to_follow).all()
+        if item:
+            empt.append(item)
+
+    # Index into query if the people you follow also have events
+    if empt:
+        empt = empt[0]
+
+    # Get events from yourself
+    events_user = ScheduleItem.objects.filter(participants=profile).all()
 
     # Filter events for user
     context = {
         "events": ScheduleItem.objects.all(),
-        # "events_user": ScheduleItem.objects.get(participants=profile),
-        "events_friends": "TODO"
+        "events_user": events_user,
+        "event_followers": empt
     }
 
     return render(request, 'mainpage.html', context)
@@ -169,13 +186,10 @@ def settings_view(request):
 
 def schedule_view(request):
 
-    location = 5
-
     # Execute scraper
     # call(["node", "scraper/scraper.js"])
 
     context = {}
-    # TODO
     return render(request, 'schedule.html', context)
 
 
@@ -191,11 +205,19 @@ def addschedule(request):
     profile = Profile.objects.get(user=request.user)
 
     # Check if this item already exists before creating a new one
-    check = ScheduleItem.objects.get(participants=profile)
-    if check:
-        check.add(profile)
-    else:
+    # TODO: Sam kan dit mooier? ;)
+    try:
+        check = ScheduleItem.objects.filter(teacher=data["teacher"],
+                                            name=data["sort"],
+                                            start=data["start"],
+                                            end=data["end"]).first()
+    except:
+        check = None
 
+    # Add profile to already existing item, else create new item
+    if check:
+        check.participants.add(profile)
+    else:
         # Create new item
         item = ScheduleItem(teacher=data["teacher"],
                             name=data["sort"],
@@ -204,8 +226,7 @@ def addschedule(request):
         item.save()
         item.participants.add(profile)
 
-        print(ScheduleItem.objects.all())
-
+    # TODO wat moet hier?
     return HttpResponse("test")
 
 

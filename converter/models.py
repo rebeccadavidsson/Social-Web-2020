@@ -31,7 +31,7 @@ class Profile(models.Model):
     photo = models.ImageField(upload_to = "static/images", default = "images/logo.png")
 
     def __str__(self):
-        return self.user
+        return f'{self.user}'
 
 
 class ScheduleItem(models.Model):
