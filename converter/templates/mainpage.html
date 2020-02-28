@@ -119,7 +119,15 @@
 
       // adjust end time based on latest event
       max = Math.max.apply(Math, all_end_times_int)
-      maxTime = all_end_times[all_end_times_int.indexOf(max)]
+
+      if (max - min < 8) {
+        minTimeSmall = minTime.split(":")[0]
+        new_max = Number(minTimeSmall) + 9
+        maxTime  = new_max.toString() + ":00:00"
+      }
+      else {
+        maxTime = all_end_times[all_end_times_int.indexOf(max)]
+      }
       calendar1.setOption('maxTime', maxTime)
     }
 
@@ -151,6 +159,7 @@
                 firstDay: 1,
                 allDaySlot: false,
                 eventColor : 'purple',
+                // slotDuration : "00:30:00",
                 events:
                 [
                 {% for i in events_user %}
@@ -199,7 +208,12 @@
                 }
 
               });
-              calendar.render();
+              all_events = calendar.getOption('events')
+              console.log(all_events)
+              // if(all_events.length > 0) {
+              //   updateTimes(all_events, calendar)
+              // }
+              calendar.render()
     }
 
 
