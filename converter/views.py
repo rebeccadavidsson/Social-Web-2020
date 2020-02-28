@@ -18,6 +18,7 @@ def index(request):
     if not request.user.is_authenticated or request.user.username == "admin":
         return render(request, "login.html")
 
+    # Get user profile and the people this user is following
     profile = Profile.objects.get(user=request.user)
     followers = profile.following.all()
 
@@ -25,8 +26,13 @@ def index(request):
     empt = []
     for follower in followers:
         to_follow = Profile.objects.get(user__username=follower.username)
-        participant = ScheduleItem.objects.filter(participants=to_follow).all()
-        empt.append(participant)
+        item = ScheduleItem.objects.filter(participants=to_follow).all()
+        if item:
+            empt.append(item)
+
+    # Index into query if the people you follow also have events
+    if empt:
+        empt = empt[0]
 
     # Get events from yourself
     events_user = ScheduleItem.objects.filter(participants=profile).all()
@@ -35,7 +41,7 @@ def index(request):
     context = {
         "events": ScheduleItem.objects.all(),
         "events_user": events_user,
-        "event_followers": empt[0]
+        "event_followers": empt
     }
     return render(request, 'mainpage.html', context)
 

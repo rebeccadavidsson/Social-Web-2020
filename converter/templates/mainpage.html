@@ -212,14 +212,17 @@
                     allDay:   false,
                     displayEventTime: true,
                     displayEventEnd: true,
+                    description: "test",
                     extendedProps: {
                       teacher: "{{ i.teacher }}",
-                      location: "Universum"
+                      location: "Universum",
+                      people: "{% for person in i.participants.all %}{{ person }}, {% endfor %}"
                     },
                     color: 'blue'
                 },
                 {% endfor %}
-                ]
+              ],
+                
 
 
 
