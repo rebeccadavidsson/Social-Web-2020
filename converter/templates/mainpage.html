@@ -23,18 +23,25 @@
             <span class="time-left" style="color:black;">You - {{ event.start }}</span>
             <br>
             <br>
-
+            {% if event.rating.first %}
+              <hr>
+                <!-- <button type="button" name="button" class="btn btn-light editcomment">Edit</button> -->
+              <h4>{{ event.rating.first.comment }}</h4>
+              <div class="stars starrr" data-rating="{{ event.rating.first.rating }}" style="float:right; margin: 0px;"></div>
+              <span style="float:left; margin-top:10px;">{{ event.rating.first.rating }} / 5</span>
+            {% else %}
             <div class="container">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="well well-sm">
+            	<div class="row">
+            		<div class="col-md-6">
+                	<div class="well well-sm">
                         <div class="text-right">
                             <a class="btn btn-success btn-green" href="#reviews-anchor" id="open-review-box">Leave a Review</a>
                         </div>
 
                         <div class="row" id="post-review-box" style="display:none;">
                             <div class="col-md-12">
-                                <form accept-charset="UTF-8" action="review" method="post">
+                                <form accept-charset="UTF-8" action="{% url 'review' event.id %}" method="post">
+                                  {% csrf_token %}
                                     <input id="ratings-hidden" name="rating" type="hidden">
                                     <textarea class="form-control animated" cols="50" id="new-review" name="comment" placeholder="Enter your review here..." rows="5"></textarea>
 
@@ -48,22 +55,16 @@
                             </div>
                         </div>
                     </div>
-
-                </div>
-              </div>
+            		</div>
+            	</div>
             </div>
+
+            {% endif %}
 
           {% else %}
             <span class="time-left" style="color:grey;">{{ participant }} - {{ event.start }}</span>
           {% endif %}
         {% endfor %}
-        <span class="time-right">
-          <span class="fa fa-star checked"></span>
-          <span class="fa fa-star checked"></span>
-          <span class="fa fa-star checked"></span>
-          <span class="fa fa-star checked"></span>
-          <span class="fa fa-star"></span>
-        </span>
       </div>
     <br>
     {% endfor %}
@@ -218,8 +219,3 @@
  </script>
 
 {% endblock %}
-
-
-
-
-              

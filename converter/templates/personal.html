@@ -116,6 +116,16 @@
 
             </div>
             <div class="col-md-8">
+
+              {% for events in events_user %}
+                {% if events.rating.all %}
+                <h2>{{ events }} - {{ events.rating.first.rating }} / 5</h2>
+                {% else %}
+                <h2>{{ events }}</h2>
+                {% endif %}
+              {% endfor %}
+
+
               <img src="https://www.pngkey.com/png/full/238-2383266_line-graph-png-transparent-line-graph-png.png" id="firstgraph" alt="">
               <img src="https://images.vexels.com/media/users/3/129159/isolated/preview/b6536fdfc4c89f86e1ecf2fa85f2ca95-2d-colorful-bar-chart-infographic-by-vexels.png" alt="">
             </div>
