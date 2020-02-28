@@ -6,6 +6,8 @@ $(function(){
 
   $('#new-review').autosize({append: "\n"});
 
+  // '[name^="post-review-box"]'
+
   var reviewBox = $('#post-review-box');
   var newReview = $('#new-review');
   var openReviewBtn = $('#open-review-box');
