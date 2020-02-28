@@ -7,18 +7,6 @@ from django.db.models import IntegerField, Model
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 
-class Rating(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    rating = IntegerField(
-        default=3,
-        validators=[
-            MaxValueValidator(5),
-            MinValueValidator(0)
-        ])
-    comment = models.CharField(max_length=300)
-    event_id = models.IntegerField(default=0)
-
-
 class Profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     following = models.ManyToManyField(User, related_name='followers')
@@ -35,7 +23,7 @@ class ScheduleItem(models.Model):
     start = models.CharField(max_length=64)
     end = models.CharField(max_length=64)
     participants = models.ManyToManyField(Profile, related_name="participants")
-    rating = models.ManyToManyField(Rating, related_name="ratings")
+    # rating = models.ManyToManyField(Rating, related_name="ratings")
 
     locations = [
         ("universum", "Universum"),
@@ -52,6 +40,19 @@ class ScheduleItem(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Rating(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    rating = IntegerField(
+        default=3,
+        validators=[
+            MaxValueValidator(5),
+            MinValueValidator(0)
+        ])
+    comment = models.CharField(max_length=300)
+    # event_id = models.IntegerField(default=0)
+    event = models.ForeignKey(ScheduleItem, on_delete=models.CASCADE, null=True)
 
 
 class Post(models.Model):

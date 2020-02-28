@@ -129,6 +129,9 @@ def personal_view(request):
     # get all events from this user
     events_user = ScheduleItem.objects.filter(participants=profile).all()
 
+    # get all rating from this user
+    ratings = Rating.objects.filter(user=request.user).all()
+
     # TODO: ingelogde user ophalen
     context = {
         "username": request.user,
@@ -136,7 +139,9 @@ def personal_view(request):
         "lastname": request.user.last_name,
         "users": to_follow,
         "following": following,
-        "events_user": events_user
+        "events_user": events_user,
+        "ratings": ratings,
+        "n": [1,2,3,4,5]
     }
     # TODO
     return render(request, 'personal.html', context)
@@ -243,13 +248,17 @@ def review(request, event_id):
     rating = request.POST["rating"]
 
     event = ScheduleItem.objects.get(id=event_id)
+    Rating.objects.all().delete()
 
+    # check if user already left rating, ask if they want to rerate the class
+    # if Rating.objects.filter(user=request.user, event=event).exists():
+    #     return render(request, "/", {"message": "You already left a rating for this course."})
+
+    # create new rating
     new_rating = Rating(user=request.user,
                         rating=int(rating),
-                        event_id=event_id)
+                        event=event)
     new_rating.save()
-
-    event.rating.add(new_rating)
 
     return redirect("/")
 
