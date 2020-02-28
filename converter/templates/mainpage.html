@@ -217,17 +217,29 @@
                 eventLimit: true,
                 firstDay: 1,
                 allDaySlot: false,
+                slotDuration: "00:20:00",
                 eventColor : 'purple',
                 events: 
-                [
-                {% for i in events %}
-                {
-                    title: "{{ i.name }}",
-                    start: '{{ i.start }}',
-                    end: '{{ i.end }}',
+                [ {
+                    title  : 'Total Body Workout',
+                    start  : '2020-03-01 11:30:00',
+                    end    : '2020-03-01 13:00:00',
+                    allDay : false, // will make the time show
+                    displayEventTime : true,
+                    displayEventEnd : true,
+                    extendedProps: {
+                      teacher: 'Leah Carlin',
+                      location: 'Universum'
+                    },
+                  },
+                // {% for i in events %}
+                // {
+                //     title: "{{ i.name }}",
+                //     start: '{{ i.start }}',
+                //     end: '{{ i.end }}',
 
-                },
-                {% endfor %}
+                // },
+                // {% endfor %}
                 ],
                 eventRender: function(event, calendar) { 
                   // add teacher
