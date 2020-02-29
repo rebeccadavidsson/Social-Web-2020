@@ -20,7 +20,7 @@
         <p>{{ event.teacher }}</p>
         {% for participant in event.participants.all %}
           {% if participant.user == request.user %}
-            <span class="time-left" style="color:black;">You - {{ event.start }}</span>
+            <span class="time-left" style="color:black;">You - {{ event.date }}</span>
             <br>
             <br>
             {% if event.rating.first %}
@@ -62,7 +62,7 @@
             {% endif %}
 
           {% else %}
-            <span class="time-left" style="color:grey;">{{ participant }} - {{ event.start }}</span>
+            <span class="time-left" style="color:grey;">{{ participant }} - {{ event.date }}</span>
           {% endif %}
         {% endfor %}
       </div>

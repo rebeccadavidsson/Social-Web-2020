@@ -9,7 +9,7 @@ from subprocess import call
 # from django.contrib.auth.decorators import permission_required
 from .models import Profile, ScheduleItem, Rating
 from .scrape import scrape_item
-
+from .helpers import convertdate
 
 def index(request):
     """ Render main page when website is opened for the first time. """
@@ -34,8 +34,18 @@ def index(request):
     if empt:
         empt = empt[0]
 
-    # Get events from yourself
     events_user = ScheduleItem.objects.filter(participants=profile).all()
+
+
+    # TODO: SAM DIT DOET HET NU NIET MEEEER!! :(
+
+    # user_ratings = []
+    # for ratings in events_user:
+    #     user_ratings.append(Rating.objects.filter(event=ratings))
+    #
+    # if user_ratings:
+    #     user_ratings = user_ratings[0]
+
 
     # Filter events for user
     context = {
@@ -132,7 +142,6 @@ def personal_view(request):
     # get all rating from this user
     ratings = Rating.objects.filter(user=request.user).all()
 
-    # TODO: ingelogde user ophalen
     context = {
         "username": request.user,
         "firstname": request.user.first_name,
@@ -232,7 +241,8 @@ def addschedule(request):
         item = ScheduleItem(teacher=data["teacher"],
                             name=data["sort"],
                             start=data["start"],
-                            end=data["end"])
+                            end=data["end"],
+                            date=convertdate(data["start"]))
         item.save()
         item.participants.add(profile)
 
@@ -256,6 +266,7 @@ def review(request, event_id):
 
     # create new rating
     new_rating = Rating(user=request.user,
+                        comment=review,
                         rating=int(rating),
                         event=event)
     new_rating.save()

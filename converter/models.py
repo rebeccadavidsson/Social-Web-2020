@@ -22,6 +22,7 @@ class ScheduleItem(models.Model):
     name = models.CharField(max_length=64)
     start = models.CharField(max_length=64)
     end = models.CharField(max_length=64)
+    date = models.CharField(max_length=64)
     participants = models.ManyToManyField(Profile, related_name="participants")
     # rating = models.ManyToManyField(Rating, related_name="ratings")
 

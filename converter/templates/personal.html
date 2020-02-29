@@ -96,26 +96,13 @@
                 </div>
                 <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
                 <br>
+                <div class="space"></div>
                 <div class="toprated">
-                  <h5>Top rated lessons</h5>
+                  <h4>Top rated lessons</h4>
                   <br>
-                  <p>Spinning class</p>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star"></span>
-                  <div class="space"></div><br>
-                  <p>Boxing class</p>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star"></span>
-                  <span class="fa fa-star"></span>
                   {% if ratings %}
                     {% for rating in ratings %}
                         <p>{{ rating.event.name }}</p>
-
                         {% for i in n %}
                           {% if rating.rating >= i %}
                             <span class="fa fa-star checked"></span>
@@ -123,22 +110,26 @@
                             <span class="fa fa-star"></span>
                           {% endif %}
                         {% endfor %}
-
                     {% endfor %}
                   {% endif %}
                 </div>
 
             </div>
             <div class="col-md-8">
-
-              {% for events in events_user %}
-                {% if events.rating.all %}
-                <h2>{{ events }} - {{ events.rating.first.rating }} / 5</h2>
-                {% else %}
-                <h2>{{ events }}</h2>
-                {% endif %}
-              {% endfor %}
-
+              <div class="card" id="history_personal">
+                <div class="card-body">
+                  <h4 style="color:grey; font-weight:500;">Your recent classes</h4>
+                  {% for event in events_user %}
+                    <h2>
+                      <span style="margin-left: 0px;">{{ event.name }}</span> -
+                      <span style="font-size:12px; color:##3d3d3d;">{{ event.teacher }}</span>
+                      <span style="float: right; font-size:12px;">{{ event.date }}</span>
+                    </h2>
+                    <br>
+                    <hr>
+                  {% endfor %}
+                </div>
+              </div>
 
               <img src="https://www.pngkey.com/png/full/238-2383266_line-graph-png-transparent-line-graph-png.png" id="firstgraph" alt="">
               <img src="https://images.vexels.com/media/users/3/129159/isolated/preview/b6536fdfc4c89f86e1ecf2fa85f2ca95-2d-colorful-bar-chart-infographic-by-vexels.png" alt="">

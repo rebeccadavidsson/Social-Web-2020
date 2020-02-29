@@ -226,7 +226,7 @@ ul#wrapper {
 #friendsrow .col-sm {
   display: inline-block;
   /* float: none; */
-  width: 30%;
+  width: 200px;
 }
 
 #friendsrow .btn {
@@ -302,4 +302,23 @@ ul#wrapper {
 	 transform: translate(-40%, -60%) rotate(45deg);
 	 width: 200%;
 	 height: 200%;
+}
+
+#friendsrow > div.col-sm > div {
+  position: relative;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: .25rem;
+}
+
+body > div.container.emp-profile > form > div > div.col-md-4 > div.toprated > p {
+  font-size: 14px;
+}
+
+#history_personal {
+  background-color: silver;
+  width: 95%;
+  color: black;
 }
