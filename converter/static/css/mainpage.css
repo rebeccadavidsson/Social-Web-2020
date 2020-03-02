@@ -179,12 +179,16 @@ hr {
 
 #mainfeed > div > button {
   float: right;
-      margin-top: -12px;
-      font-size: 9px;
-      background-color: silver;
-      border: none;
-      border-bottom-left-radius: 6px;
-      border-bottom-right-radius: 6px;
-      border-bottom-top-radius: 0px;
-      border-bottom-bottom-radius: 0px;
+  margin-top: -12px;
+  font-size: 9px;
+  background-color: silver;
+  border: none;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  border-bottom-top-radius: 0px;
+  border-bottom-bottom-radius: 0px;
+}
+
+#welwel > div.text-right > a {
+  color:white;
 }

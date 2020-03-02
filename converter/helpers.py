@@ -1,3 +1,6 @@
+import os
+from subprocess import call
+
 
 def convertdate(date):
 
@@ -7,3 +10,13 @@ def convertdate(date):
     total_string = str(int(day)) + " " + month_dict.get(int(month))
 
     return total_string
+
+
+def refreshschedule():
+
+    if os.path.exists('./converter/templates/output.html'):
+        os.remove('./converter/templates/output.html')
+    else:
+        call(["node", "scraper/scraper.js"])
+
+    return True

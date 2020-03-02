@@ -17,7 +17,7 @@ function scraper(loc) {
 
   async function scrape() {
     const browser = await puppeteer.launch({
-        headless: false,
+        headless: true,
         args: [`--window-size=${width},${height}`]
       }); // default is true
     const page = await browser.newPage();

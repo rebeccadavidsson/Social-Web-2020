@@ -4,21 +4,26 @@ var __slice=[].slice;(function(e,t){var n;n=function(){function t(t,n){var r,i,s
 
 $(function(){
 
-  $('#new-review').autosize({append: "\n"});
+  var post_revew = "#mainfeed > div:nth-child(5) > div > div > div > div > div.row"
+  var new_review = "#mainfeed > div:nth-child(5) > div > div > div > div > div.row > div > form > textarea"
+  var open_review_box = "#mainfeed > div:nth-child(5) > div > div > div > div > div.text-right > a"
+  var closeReviewBtn = "#mainfeed > div:nth-child(5) > div > div > div > div > div.row > div > form > div > a"
+  var ratingsField =
 
-  // '[name^="post-review-box"]'
+  $(new_review).autosize({append: "\n"});
 
-  var reviewBox = $('#post-review-box');
-  var newReview = $('#new-review');
-  var openReviewBtn = $('#open-review-box');
-  var closeReviewBtn = $('#close-review-box');
+  var reviewBox = $(post_revew);
+  var newReview = $(new_review);
+  var openReviewBtn = $(open_review_box);
+  var closeReviewBtn = $(closeReviewBtn);
   var ratingsField = $('#ratings-hidden');
+
 
   openReviewBtn.click(function(e)
   {
     reviewBox.slideDown(400, function()
       {
-        $('#new-review').trigger('autosize.resize');
+        $(new_review).trigger('autosize.resize');
         newReview.focus();
       });
     openReviewBtn.fadeOut(100);
@@ -41,3 +46,53 @@ $(function(){
     ratingsField.val(value);
   });
 });
+
+
+function openreview(element) {
+
+    var parent =  $(element).parent().parent();
+
+    var post_review = parent.children("div.row");
+    var new_review = parent.children("div.row").children("div").children("form").children("textarea");
+    var open_review_box = parent.children("div.text-right").children("a")
+    var closeReviewBtn = parent.children("div.row").children("div").children("form").children("div").children("a");
+    var ratingsField = parent.children("div.row").children("div").children("form").children("input[type=hidden]:nth-child(2)");
+
+    var reviewBox = post_review;
+    var newReview = new_review;
+    var openReviewBtn = open_review_box;
+    var closeReviewBtn = closeReviewBtn;
+    var ratingsField = ratingsField;
+
+    $(new_review).autosize({append: "\n"});
+
+    openReviewBtn.click(function(e)
+    {
+      reviewBox.slideDown(400, function()
+        {
+          $(new_review).trigger('autosize.resize');
+          newReview.focus();
+        });
+      openReviewBtn.fadeOut(100);
+      closeReviewBtn.show();
+    });
+
+    closeReviewBtn.click(function(e)
+    {
+      e.preventDefault();
+      reviewBox.slideUp(300, function()
+        {
+          newReview.focus();
+          openReviewBtn.fadeIn(200);
+        });
+      closeReviewBtn.hide();
+
+    });
+
+    $('.starrr').on('starrr:change', function(e, value){
+      ratingsField.val(value);
+    });
+
+}
+
+// openreview("#welwel")

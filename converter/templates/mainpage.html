@@ -11,6 +11,7 @@
  </div>
 
  <div id="mainfeed">
+
     <!-- <h4>This week</h4> -->
     <!-- <hr> -->
     {% for event in events %}
@@ -21,46 +22,46 @@
         {% for participant in event.participants.all %}
           {% if participant.user == request.user %}
             <span class="time-left" style="color:black;">You - {{ event.date }}</span>
-            <br>
-            <br>
-            {% if event.rating.first %}
+            <br><br>
+            {% for rating in ratings_user %}
+              {% if event == rating.event %}
               <hr>
-                <!-- <button type="button" name="button" class="btn btn-light editcomment">Edit</button> -->
-              <h4>{{ event.rating.first.comment }}</h4>
-              <div class="stars starrr" data-rating="{{ event.rating.first.rating }}" style="float:right; margin: 0px;"></div>
-              <span style="float:left; margin-top:10px;">{{ event.rating.first.rating }} / 5</span>
-            {% else %}
-            <div class="container">
-            	<div class="row">
-            		<div class="col-md-6">
-                	<div class="well well-sm">
-                        <div class="text-right">
-                            <a class="btn btn-success btn-green" href="#reviews-anchor" id="open-review-box">Leave a Review</a>
-                        </div>
+              <h5 style="color:grey;" id="yourreview">Your review:</h5>
+              <span style="float:left; font-size:16px; margin:0;">{{rating.comment }}</span>
+              <span style="float:right; font-size:12px;"> / 5</span>
+              <span style="float:right; font-size:17px; font-weight:600;">{{rating.rating }} </span>
 
-                        <div class="row" id="post-review-box" style="display:none;">
-                            <div class="col-md-12">
-                                <form accept-charset="UTF-8" action="{% url 'review' event.id %}" method="post">
-                                  {% csrf_token %}
-                                    <input id="ratings-hidden" name="rating" type="hidden">
-                                    <textarea class="form-control animated" cols="50" id="new-review" name="comment" placeholder="Enter your review here..." rows="5"></textarea>
+              {% endif %}
+            {% endfor %}
 
-                                    <div class="text-right">
-                                        <div class="stars starrr" data-rating="0"></div>
-                                        <a class="btn btn-danger btn-lg" href="#" id="close-review-box" style="display:none; margin-right: 10px;">
-                                        <span class="glyphicon glyphicon-remove"></span>&nbsp Cancel</a>
-                                        <button class="btn btn-success btn-lg" type="submit">Save</button>
-                                    </div>
-                                </form>
-                            </div>
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="well well-sm" id="welwel">
+                      <div class="text-right">
+                        <!-- <button class="btn btn-success btn-green" href="" name="open-review-box" >Leave a review</button> -->
+                          <a class="btn btn-success btn-green" onclick="openreview(this)" name="open-review-box">Leave a Review</a>
+                      </div>
+                      <div class="row" name="post-review-box" style="display:none;">
+                        <div class="col-md-12">
+                          <form accept-charset="UTF-8" action="{% url 'review' event.id %}" method="post">
+                            {% csrf_token %}
+                              <input value="ratings-hidden" name="rating" type="hidden">
+                              <textarea class="form-control animated" cols="50" value="new-review" name="comment" placeholder="Enter your review here..." rows="5"></textarea>
+
+                              <div class="text-right">
+                                <div class="stars starrr" data-rating="0"></div>
+                                <a class="btn btn-danger btn-lg" href="#" name="close-review-box" style="display:none; margin-right: 10px;">
+                                <span class="glyphicon glyphicon-remove"></span>&nbsp Cancel</a>
+                                <button class="btn btn-success btn-lg" type="submit">Save</button>
+                              </div>
+                          </form>
                         </div>
+                      </div>
                     </div>
-            		</div>
-            	</div>
-            </div>
-
-            {% endif %}
-
+                  </div>
+                </div>
+              </div>
           {% else %}
             <span class="time-left" style="color:grey;">{{ participant }} - {{ event.date }}</span>
           {% endif %}
@@ -215,6 +216,25 @@
               calendar.render()
     }
 
+
+
+    // Disable review buttons for existing reviews
+
+    function disable() {
+
+      elements = document.querySelectorAll("#welwel > div.text-right > a")
+      var checker = true;
+
+      for (i = 0; i < elements.length; ++i) {
+        temp = elements[i].parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
+
+        if (temp.querySelectorAll("#yourreview")[0]) {
+            elements[i].style.display = "none";
+        };
+
+      }
+
+    }disable()
 
  </script>
 
