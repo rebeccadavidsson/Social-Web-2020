@@ -65,6 +65,7 @@
                         {% endfor %}
 
                         {% for person in users %}
+                        {% if person.username != "admin" %}
                         <div class="col-sm">
                           <div class="card">
                             <div class="cardbackground">
@@ -77,6 +78,7 @@
                             </div>
                           </div>
                         </div>
+                        {% endif %}
                         {% endfor %}
 
                       </div>
@@ -86,12 +88,11 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4" id="underimg_col">
               <br>
                 <div class="profile-work">
                     <a href=""> {{ firstname }} {{ lastname }}</a><br/>
                     <p>{{ username }}</p>
-                    <a href="">TODO</a><br/>
 
                 </div>
                 <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
@@ -118,10 +119,11 @@
             <div class="col-md-8">
               <div class="card" id="history_personal">
                 <div class="card-body">
-                  <h4 style="color:grey; font-weight:500;">Your recent classes</h4>
+                  <h4 style="color:grey; font-weight:500;">Recent classes</h4>
+                  <br>
                   {% for event in events_user %}
                     <h2>
-                      <span style="margin-left: 0px;">{{ event.name }}</span> -
+                      <span style="margin-left: 0px; font-size:18px;">{{ event.name }} -</span>
                       <span style="font-size:12px; color:##3d3d3d;">{{ event.teacher }}</span>
                       <span style="float: right; font-size:12px;">{{ event.date }}</span>
                     </h2>

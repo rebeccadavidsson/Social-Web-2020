@@ -113,6 +113,8 @@
     border-radius: 2px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
     /* overflow: hidden; */
+    caret-color: auto;
+    color: black;
 }
 
 .search-bar input {
@@ -321,4 +323,14 @@ body > div.container.emp-profile > form > div > div.col-md-4 > div.toprated > p 
   background-color: silver;
   width: 95%;
   color: black;
+}
+
+#underimg_col {
+  margin-top: -100px;
+}
+
+
+.vl {
+  border-left: 6px solid green;
+  height: 500px;
 }

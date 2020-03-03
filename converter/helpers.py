@@ -14,9 +14,9 @@ def convertdate(date):
 
 def refreshschedule():
 
-    if os.path.exists('./converter/templates/output.html'):
-        os.remove('./converter/templates/output.html')
-    else:
-        call(["node", "scraper/scraper.js"])
+    # if os.path.exists('./converter/templates/output.html'):
+    #     os.remove('./converter/templates/output.html')
+    # else:
+    call(["node", "scraper/scraper.js"])
 
     return True

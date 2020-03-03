@@ -94,5 +94,3 @@ function openreview(element) {
     });
 
 }
-
-// openreview("#welwel")
