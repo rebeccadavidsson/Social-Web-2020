@@ -9,6 +9,7 @@ from subprocess import call
 
 # from django.contrib.auth.decorators import permission_required
 from .models import Profile, ScheduleItem, Rating
+from .forms import ProfileForm
 from .scrape import scrape_item
 from .helpers import convertdate, refreshschedule
 
@@ -53,6 +54,7 @@ def index(request):
 
     # Filter events for user
     context = {
+        "profile": profile,
         "events": ScheduleItem.objects.all(),
         "events_user": events_user,
         "event_followers": empt,
@@ -150,6 +152,7 @@ def personal_view(request):
     ratings = Rating.objects.filter(user=request.user).all()
 
     context = {
+        "profile": profile,
         "username": request.user,
         "firstname": request.user.first_name,
         "lastname": request.user.last_name,
@@ -205,9 +208,36 @@ def unfollow(request, username):
     return redirect("profile")
 
 
-def settings_view(request):
-    # TODO
-    return redirect("profile")
+def settings_view(request,pk):
+    """
+    Let user edit their profile.
+    """
+
+    # get user's profile model
+    profile = Profile.objects.get(user=request.user)
+
+    # if user wants to edit profile
+    if request.method == "POST":
+
+        # get form and validate form
+        form = ProfileForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            # do something
+            print("valid form")
+            return redirect("profile")
+
+    else:
+        form = ProfileForm(instance=profile)
+
+    context = {
+        "user": request.user,
+        "form": form,
+        "profile": profile
+    }
+    return render(request, "settings.html", context)
+
+
 
 
 def schedule_view(request):
@@ -215,7 +245,13 @@ def schedule_view(request):
     # Check if schedule was already refreshed this day TODO
     # refreshschedule()
 
-    context = {}
+    # get user's profile model
+    profile = Profile.objects.get(user=request.user)
+
+    context = {
+        "profile": profile
+    }
+
     return render(request, 'schedule.html', context)
 
 

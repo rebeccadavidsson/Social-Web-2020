@@ -6,8 +6,105 @@
 
 {% block body %}
 
-<h1 style="color:white">Ja hier is dus nog niks aan gedaan.</h1>
+{% load crispy_forms_tags %}
 
- {% include "personal.html" %}
+<div class="space"></div>
+<div class="container emp-profile">
+    <form method="post" action="{% url 'settings' profile.pk %}">
+      {% csrf_token %}
+        <div class="row">
+            <div class="col-md-4">
+                <div class="profile-img">
+                    <img src="https://usc.uva.nl/wp-content/themes/usc/img/logo-usc.png" alt="FOTOFOTO"/>
+                </div>
+                <!-- <div class="profile-img">
+                  <p>{{ MEDIA_URL }}</p>
+                    <img src="{{ MEDIA_URL }}logo.png" alt="FOTOFOTO"/>
+                </div> -->
+            </div>
+            <div class="col-md-8">
+                <h1>Edit profile settings</h1><br>
+
+                <form action="{% url 'settings' profile.pk %}"
+                      method="post">
+                      {% csrf_token %}
+                      {{ form.as_p }}
+                      <button class="button btn-success" type="submit">Update</button>
+                </form>
+
+                <div class="profile-head">
+                  <h4>{{ user.first_name }} {{ user.last_name }} - {{ user.username }}</h4>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist" style="width:97%;">
+                      <br>
+                    </ul>
+                    <div class="friendsview">
+
+                      <div class="row" id="friendsrow">
+                        <div class="arrows">
+                          <a class="arrow right" id="scrollfriends"></a>
+                        </div>
+
+                        {% for person in following %}
+                        <div class="col-sm">
+                          <div class="card">
+                            <div class="cardbackground">
+                              <div class="card-body">
+                                <h5 class="card-title">{{ person.first_name }}</h5>
+                                <p>{{ person.last_name }}</p>
+                                <img src="https://media-exp1.licdn.com/dms/image/C5603AQF54EcNtyGnyA/profile-displayphoto-shrink_200_200/0?e=1586995200&v=beta&t=TMMRXfh0RcT04rV6f8N-iJmTuxLo6Li5NU479VPgIVs" alt="">
+                                <a href="{% url 'unfollow' person.username %}" class="btn btn-light">Unfollow +</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        {% endfor %}
+
+                        {% for person in users %}
+                        {% if person.username != "admin" %}
+                        <div class="col-sm">
+                          <div class="card">
+                            <div class="cardbackground">
+                              <div class="card-body">
+                                <h5 class="card-title">{{ person.first_name }}</h5>
+                                <p>{{ person.last_name }}</p>
+                                <img src="https://media-exp1.licdn.com/dms/image/C5603AQF54EcNtyGnyA/profile-displayphoto-shrink_200_200/0?e=1586995200&v=beta&t=TMMRXfh0RcT04rV6f8N-iJmTuxLo6Li5NU479VPgIVs" alt="">
+                                <a href="{% url 'follow' person.username %}" class="btn btn-success">Follow +</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+
+                      </div>
+                    </div>
+                    <div class="space"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4" id="underimg_col">
+              <br>
+                <div class="profile-work">
+                    <a href=""> {{ firstname }} {{ lastname }}</a><br/>
+                    <p>{{ username }}</p>
+
+                </div>
+                <!-- <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
+                <br> -->
+                <div class="space"></div>
+
+
+            </div>
+            <div class="col-md-8">
+
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+
 
 {% endblock %}
