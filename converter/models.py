@@ -11,7 +11,7 @@ class Profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     following = models.ManyToManyField(User, related_name='followers')
     interests = models.CharField(max_length=64)  # Willen we hier ook een rating aan toevoegen?
-    photo = models.ImageField(upload_to = "static/images", default = "images/logo.png")
+    photo = models.ImageField(upload_to = "static/images", default = "media/logo.png")
 
     def __str__(self):
         return f'{self.user}'

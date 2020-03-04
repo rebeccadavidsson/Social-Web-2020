@@ -220,11 +220,12 @@ def settings_view(request,pk):
     if request.method == "POST":
 
         # get form and validate form
-        form = ProfileForm(request.POST, instance=profile)
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
+            form.save(commit=False)
+            form.photo = request.POST.get("photo", False)
+            # file_type = form.photo.url.split('.')[-1].lower()
             form.save()
-            # do something
-            print("valid form")
             return redirect("profile")
 
     else:
