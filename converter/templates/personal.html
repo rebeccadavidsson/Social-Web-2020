@@ -6,6 +6,8 @@
 
 {% block body %}
 
+{% load media %}
+
 <div class="space"></div>
 <div class="container emp-profile">
     <form method="post" action="{% url 'settings' profile.pk %}">
@@ -15,10 +17,7 @@
                 <div class="profile-img">
                     <img src="{{ profile.photo.url }}" alt="FOTOFOTO"/>
                 </div>
-                <!-- <div class="profile-img">
-                  <p>{{ MEDIA_URL }}</p>
-                    <img src="{{ MEDIA_URL }}logo.png" alt="FOTOFOTO"/>
-                </div> -->
+
             </div>
             <div class="col-md-8">
               <div class="search-bar">
