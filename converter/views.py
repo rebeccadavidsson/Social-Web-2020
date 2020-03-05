@@ -145,7 +145,7 @@ def personal_view(request):
     events = ScheduleItem.objects.all()
     # Seperate previous and future events
     previousevents, futurevents = geteventday(events)
-    
+
     context = {
         "profile": profile,
         "username": request.user,
