@@ -9,6 +9,7 @@ from django.http import HttpResponse
 
 # from django.contrib.auth.decorators import permission_required
 from .models import Profile, ScheduleItem, Rating
+from .forms import ProfileForm
 from .scrape import scrape_item
 from .helpers import convertdate, refreshschedule, geteventday
 
@@ -42,6 +43,7 @@ def index(request):
     print(previousevents, events)
     # Filter events for user
     context = {
+        "profile": profile,
         "events": ScheduleItem.objects.all(),
         "events_aftertoday": futurevents,
         "events_beforetoday": previousevents,
@@ -145,6 +147,7 @@ def personal_view(request):
     previousevents, futurevents = geteventday(events)
     
     context = {
+        "profile": profile,
         "username": request.user,
         "firstname": request.user.first_name,
         "lastname": request.user.last_name,
@@ -201,9 +204,37 @@ def unfollow(request, username):
     return redirect("profile")
 
 
-def settings_view(request):
-    # TODO
-    return redirect("profile")
+def settings_view(request,pk):
+    """
+    Let user edit their profile.
+    """
+
+    # get user's profile model
+    profile = Profile.objects.get(user=request.user)
+
+    # if user wants to edit profile
+    if request.method == "POST":
+
+        # get form and validate form
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save(commit=False)
+            form.photo = request.POST.get("photo", False)
+            # file_type = form.photo.url.split('.')[-1].lower()
+            form.save()
+            return redirect("profile")
+
+    else:
+        form = ProfileForm(instance=profile)
+
+    context = {
+        "user": request.user,
+        "form": form,
+        "profile": profile
+    }
+    return render(request, "settings.html", context)
+
+
 
 
 def schedule_view(request):
@@ -211,7 +242,13 @@ def schedule_view(request):
     # Check if schedule was already refreshed this day TODO
     # refreshschedule()
 
-    context = {}
+    # get user's profile model
+    profile = Profile.objects.get(user=request.user)
+
+    context = {
+        "profile": profile
+    }
+
     return render(request, 'schedule.html', context)
 
 
