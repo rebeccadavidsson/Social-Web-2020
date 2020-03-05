@@ -6,6 +6,10 @@
 
 {% block body %}
 
+{% for event in previousevents %}
+{{ event }}
+{% endfor %}
+
 <div class="mainschedule">
     <div id='calendar'></div>
  </div>
@@ -39,7 +43,6 @@
                   <div class="col-md-6">
                     <div class="well well-sm" id="welwel">
                       <div class="text-right">
-                        <!-- <button class="btn btn-success btn-green" href="" name="open-review-box" >Leave a review</button> -->
                           <a class="btn btn-success btn-green" onclick="openreview(this)" name="open-review-box">Leave a Review</a>
                       </div>
                       <div class="row" name="post-review-box" style="display:none;">
@@ -63,6 +66,7 @@
                 </div>
               </div>
           {% else %}
+          {{ event.date }}
             <span class="time-left" style="color:grey;">{{ participant }} - {{ event.date }}</span>
           {% endif %}
         {% endfor %}
@@ -144,79 +148,77 @@
     if(calendarEl) {
       var calendar = new FullCalendar.Calendar(calendarEl, {
         plugins: ['dayGrid', 'list', 'bootstrap', 'timeGrid'],
-                timeZone: 'UTC',
-                minTime: "08:30:00",
-                maxTime: "22:30:00",
-                editable: true,
-                themeSystem: 'bootstrap',
-                defaultView : 'timeGridWeek',
-                header: {
-                  left: 'prev, next today',
-                  center: 'title',
-                  right: 'dayGridMonth, timeGridWeek, timeGridDay'
-                },
-                weekNumbers: true,
-                eventLimit: true,
-                firstDay: 1,
-                allDaySlot: false,
-                eventColor : 'purple',
-                // slotDuration : "00:30:00",
-                events:
-                [
-                {% for i in events_user %}
-                {
-                    title :   "{{ i.name }}",
-                    start :   '{{ i.start }}',
-                    end   :   '{{ i.end }}',
-                    allDay:   false,
-                    displayEventTime: true,
-                    displayEventEnd: true,
-                    extendedProps: {
-                      teacher: "{{ i.teacher }}",
-                      location: "Universum",
-                      people: "{% for person in i.participants.all %}{{ person }}, {% endfor %}"
-                    },
-                    color: 'green'
-                },
-                {% endfor %}
+              timeZone: 'UTC',
+              minTime: "08:30:00",
+              maxTime: "22:30:00",
+              editable: true,
+              themeSystem: 'bootstrap',
+              defaultView : 'timeGridWeek',
+              header: {
+                left: 'prev, next today',
+                center: 'title',
+                right: 'dayGridMonth, timeGridWeek, timeGridDay'
+              },
+              weekNumbers: true,
+              eventLimit: true,
+              firstDay: 1,
+              allDaySlot: false,
+              eventColor : 'purple',
+              // slotDuration : "00:30:00",
+              events:
+              [
+              {% for i in events_user %}
+              {
+                  title :   "{{ i.name }}",
+                  start :   '{{ i.start }}',
+                  end   :   '{{ i.end }}',
+                  allDay:   false,
+                  displayEventTime: true,
+                  displayEventEnd: true,
+                  extendedProps: {
+                    teacher: "{{ i.teacher }}",
+                    location: "Universum",
+                    people: "{% for person in i.participants.all %}{{ person }}, {% endfor %}"
+                  },
+                  color: 'green'
+              },
+              {% endfor %}
 
-                {% for i in event_followers %}
-                {
-                    title :   "{{ i.name }}",
-                    start :   '{{ i.start }}',
-                    end   :   '{{ i.end }}',
-                    allDay:   false,
-                    displayEventTime: true,
-                    displayEventEnd: true,
-                    description: "test",
-                    extendedProps: {
-                      teacher: "{{ i.teacher }}",
-                      location: "Universum",
-                      people: "{% for person in i.participants.all %}{{ person }}, {% endfor %}"
-                    },
-                    color: 'blue'
-                },
-                {% endfor %}
-              ],
-              eventRender: function(info) {
-                  let tooltip = new Tooltip(info.el, {
-                  title: '<h4>' + info.event.extendedProps.people + '</h4>',
-                  placement: 'top',
-                  trigger: 'hover',
-                  container: 'body',
-                  html: true
-                });
-                }
-
+              {% for i in event_followers %}
+              {
+                  title :   "{{ i.name }}",
+                  start :   '{{ i.start }}',
+                  end   :   '{{ i.end }}',
+                  allDay:   false,
+                  displayEventTime: true,
+                  displayEventEnd: true,
+                  description: "test",
+                  extendedProps: {
+                    teacher: "{{ i.teacher }}",
+                    location: "Universum",
+                    people: "{% for person in i.participants.all %}{{ person }}, {% endfor %}"
+                  },
+                  color: 'blue'
+              },
+              {% endfor %}
+            ],
+            eventRender: function(info) {
+                let tooltip = new Tooltip(info.el, {
+                title: '<h4>' + info.event.extendedProps.people + '</h4>',
+                placement: 'top',
+                trigger: 'hover',
+                container: 'body',
+                html: true
               });
-              all_events = calendar.getOption('events')
-              // if(all_events.length > 0) {
-              //   updateTimes(all_events, calendar)
-              // }
-              calendar.render()
+              }
+
+            });
+            all_events = calendar.getOption('events')
+            // if(all_events.length > 0) {
+            //   updateTimes(all_events, calendar)
+            // }
+            calendar.render()
     }
-
-
 
     // Disable review buttons for existing reviews
     function disable() {

@@ -40,7 +40,7 @@ class ScheduleItem(models.Model):
     )
 
     def __str__(self):
-        return self.name
+        return f'{self.name} - {self.teacher} - {self.start}'
 
 
 class Rating(models.Model):
