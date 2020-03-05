@@ -4,13 +4,13 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-from subprocess import call
+# from subprocess import call
 
 # from django.contrib.auth.decorators import permission_required
 from .models import Profile, ScheduleItem, Rating
 from .forms import ProfileForm, ProfileDeleteForm
 from .scrape import scrape_item
-from .helpers import convertdate, refreshschedule
+from .helpers import convertdate, refreshschedule, geteventday
 
 
 def index(request):
@@ -36,29 +36,20 @@ def index(request):
     if empt:
         empt = empt[0]
 
-    events_user = ScheduleItem.objects.filter(participants=profile).all()
+    events = ScheduleItem.objects.all()
 
-    ratings_user = Rating.objects.all()
-
-    rated_events = Rating.objects.filter(user=request.user)
-
-
-    # user_ratings = []
-    # for ratings in events_user:
-    #     user_ratings.append(Rating.objects.filter(event=ratings))
-    #
-    # if user_ratings:
-    #     user_ratings = user_ratings[0]
-
-
+    previousevents, futurevents = geteventday(events)
+    print(previousevents, events)
     # Filter events for user
     context = {
         "profile": profile,
         "events": ScheduleItem.objects.all(),
-        "events_user": events_user,
+        "events_aftertoday": futurevents,
+        "events_beforetoday": previousevents,
+        "events_user":  ScheduleItem.objects.filter(participants=profile).all(),
         "event_followers": empt,
-        "ratings_user": ratings_user,
-        "rated_events": rated_events,
+        "ratings_user": Rating.objects.all(),
+        "rated_events": Rating.objects.filter(user=request.user),
         "checker": False
     }
 
@@ -150,6 +141,10 @@ def personal_view(request):
     # get all rating from this user
     ratings = Rating.objects.filter(user=request.user).all()
 
+    events = ScheduleItem.objects.all()
+    # Seperate previous and future events
+    previousevents, futurevents = geteventday(events)
+
     context = {
         "profile": profile,
         "username": request.user,
@@ -158,10 +153,11 @@ def personal_view(request):
         "users": to_follow,
         "following": following,
         "events_user": events_user,
+        "previousevents": previousevents,
         "ratings": ratings,
-        "n": [1,2,3,4,5]
+        "n": [1, 2, 3, 4, 5]
     }
-    # TODO
+
     return render(request, 'personal.html', context)
 
 
