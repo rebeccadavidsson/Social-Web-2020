@@ -39,7 +39,7 @@ def index(request):
     events = ScheduleItem.objects.all()
 
     previousevents, futurevents = geteventday(events)
-    print(previousevents, events)
+
     # Filter events for user
     context = {
         "profile": profile,
