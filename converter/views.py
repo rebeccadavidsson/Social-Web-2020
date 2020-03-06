@@ -1,15 +1,14 @@
 #!/usr/bin/python
 import os
-from django.shortcuts import redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 # from subprocess import call
 
 # from django.contrib.auth.decorators import permission_required
 from .models import Profile, ScheduleItem, Rating
-from .forms import ProfileForm
+from .forms import ProfileForm, ProfileDeleteForm
 from .scrape import scrape_item
 from .helpers import convertdate, refreshschedule, geteventday
 
@@ -217,9 +216,11 @@ def settings_view(request,pk):
 
         # get form and validate form
         form = ProfileForm(request.POST, request.FILES, instance=profile)
+        print("----------------------------",form)
+        print("))--", request.FILES)
         if form.is_valid():
             form.save(commit=False)
-            form.photo = request.POST.get("photo", False)
+            form.photo = request.POST.get("photo")
             # file_type = form.photo.url.split('.')[-1].lower()
             form.save()
             return redirect("profile")
@@ -335,6 +336,20 @@ def home_view(request):
     context = {}
     # TODO
     return render(request, 'home.html', context)
+
+
+def delete_profile(request, username):
+
+    user = get_object_or_404(User, username=username)
+    if request.method == "POST":
+        form = ProfileDeleteForm(request.POST, instance=user)
+        if form.is_valid():
+            user.delete()
+            return redirect("login")
+    else:
+        form = PostDeleteForm(instance=form)
+
+    return redirect("index")
 
 
 def logout_view(request):

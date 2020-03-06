@@ -27,10 +27,7 @@
                 <div class="profile-img">
                     <img src="https://usc.uva.nl/wp-content/themes/usc/img/logo-usc.png" alt="FOTOFOTO"/>
                 </div>
-                <!-- <div class="profile-img">
-                  <p>{{ MEDIA_URL }}</p>
-                    <img src="{{ MEDIA_URL }}logo.png" alt="FOTOFOTO"/>
-                </div> -->
+
             </div>
             <div class="col-md-6">
 
@@ -72,6 +69,12 @@
                     <button class="btn btn-success" type="submit">Update</button>
                 </form>
 
+                <br><br><br><br><h2>Do you want to delete your profile?</h2><br>
+                <form action="{% url 'delete' profile.user.username %}" enctype="multipart/form-data" method="post" onsubmit="show_alert()">
+                    {% csrf_token %}
+                    <button class="btn btn-danger" type="submit">Delete</button>
+                </form>
+
                 <br><br>
 
             </div>
@@ -98,5 +101,15 @@
         </div>
     </form>
 </div>
+
+
+<script>
+  function show_alert() {
+    if(!confirm("Are you sure you want to delete your profile? You cannot undo this action.")) {
+      return false;
+    }
+    this.form.submit();
+  }
+</script>
 
 {% endblock %}

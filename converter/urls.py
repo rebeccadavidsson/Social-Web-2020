@@ -19,7 +19,13 @@ urlpatterns = [
     path('follow/<str:username>', views.follow, name="follow"),
     path('unfollow/<str:username>', views.unfollow, name="unfollow"),
     path("addschedule", views.addschedule, name="addschedule"),
+<<<<<<< HEAD
     path("add/<int:event_id>", views.add, name="add"),
     path("review.<int:event_id>", views.review, name="review"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + \
     static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
+=======
+    path("review.<int:event_id>", views.review, name="review"),
+    path("delete_profile/<str:username>", views.delete_profile, name="delete")
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+>>>>>>> ccbeb404e147d08421ce5f1a1a9b6ca543cd5e02
