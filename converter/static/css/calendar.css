@@ -1,7 +1,6 @@
 .othersDiv {
 	width: 450px;
 	height: 800px;
-	background-color: grey;
 	float:left;
 }
 
@@ -11,15 +10,13 @@
 
 .calendarDiv {
 	width: 60%;
-	/*height: 700px;*/
 	float: left;
-	/*background-color: white;*/
 	opacity: 1;
 	position: relative;
 }
 
 #calendar h2 {
-	color: silver;
+	color: black;
 }
 
 .parentDiv {
@@ -28,14 +25,15 @@
 }
 
 .fc-day-number {
-	color: silver;
+	color: black;
 }
 
 .fc-unthemed td.fc-today {
-  background: black;
-  border-color: grey;
-  background-color: #2C3E50;
+  background: rgb(1,1,1, 0.1);
+  border-color: black;
+  /* background-color: rgb(255,255,255,0.8); */
   /*border-width: 4px;*/
+	border: white;
   border-style: solid;
   border-bottom-style: solid;
 }

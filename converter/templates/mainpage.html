@@ -19,6 +19,7 @@
     <!-- <h4>This week</h4> -->
     <!-- <hr> -->
     {% for event in events %}
+
       <div class="containerfeed darker">
         <img src="https://media-exp1.licdn.com/dms/image/C5603AQF54EcNtyGnyA/profile-displayphoto-shrink_200_200/0?e=1586995200&v=beta&t=TMMRXfh0RcT04rV6f8N-iJmTuxLo6Li5NU479VPgIVs" alt="Avatar" class="right">
         <h4>{{ event.name }}</h4>
@@ -34,7 +35,9 @@
               <span style="float:left; font-size:16px; margin:0;">{{rating.comment }}</span>
               <span style="float:right; font-size:12px;"> / 5</span>
               <span style="float:right; font-size:17px; font-weight:600;">{{rating.rating }} </span>
+              <div class="space">
 
+              </div>
               {% endif %}
             {% endfor %}
 
@@ -42,7 +45,7 @@
                 <div class="row">
                   <div class="col-md-6">
                     <div class="well well-sm" id="welwel">
-                      <div class="text-right">
+                      <div class="text-left">
                           <a class="btn btn-success btn-green" onclick="openreview(this)" name="open-review-box">Leave a Review</a>
                       </div>
                       <div class="row" name="post-review-box" style="display:none;">
@@ -52,7 +55,7 @@
                               <input value="ratings-hidden" name="rating" type="hidden">
                               <textarea class="form-control animated" cols="50" value="new-review" name="comment" placeholder="Enter your review here..." rows="5"></textarea>
 
-                              <div class="text-right">
+                              <div class="text-left">
                                 <div class="stars starrr" data-rating="0"></div>
                                 <a class="btn btn-danger btn-lg" href="#" name="close-review-box" style="display:none; margin-right: 10px;">
                                 <span class="glyphicon glyphicon-remove"></span>&nbsp Cancel</a>
@@ -66,7 +69,11 @@
                 </div>
               </div>
           {% else %}
-          {{ event.date }}
+                  <span class="tooltiptext" id="tooltipadd">
+                    <button type="button" name="button">
+                      <a href="{% url 'add' event.id %}">Add to schedule</a>
+                    </button>
+                  </span>
             <span class="time-left" style="color:grey;">{{ participant }} - {{ event.date }}</span>
           {% endif %}
         {% endfor %}
@@ -180,7 +187,7 @@
                     location: "Universum",
                     people: "{% for person in i.participants.all %}{{ person }}, {% endfor %}"
                   },
-                  color: 'green'
+                  color: 'rgb(178,34,34, 0.8)'
               },
               {% endfor %}
 
@@ -198,7 +205,7 @@
                     location: "Universum",
                     people: "{% for person in i.participants.all %}{{ person }}, {% endfor %}"
                   },
-                  color: 'blue'
+                  color: 'rgb(32,178,170, 0.8)'
               },
               {% endfor %}
             ],
@@ -223,13 +230,17 @@
     // Disable review buttons for existing reviews
     function disable() {
 
-      elements = document.querySelectorAll("#welwel > div.text-right > a");
+      elements = document.querySelectorAll("#welwel > div.text-left > a");
 
       for (i = 0; i < elements.length; ++i) {
         temp = elements[i].parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
 
         if (temp.querySelectorAll("#yourreview")[0]) {
-            elements[i].style.display = "none";
+            // elements[i].style.display = "none";
+            elements[i].innerHTML = "Edit"
+            elements[i].setAttribute("style", "background-color: grey; border:none;");
+            // elements[i].setAttribute("style", "border: grey;");
+
         };
 
       }

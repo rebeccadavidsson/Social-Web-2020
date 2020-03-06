@@ -289,28 +289,44 @@ def addschedule(request):
     # TODO wat moet hier?
     return HttpResponse("test")
 
+def add(request, event_id):
+    """
+    Add a new event_id from the mainpage by clicking on
+    a review or past class from someone else.
+    """
+
+    # Get user to add to participants
+    profile = Profile.objects.get(user=request.user)
+
+    # Select event from event_id
+    item = ScheduleItem.objects.filter(id=event_id).first()
+    item.participants.add(profile)
+    return redirect('/')
 
 def review(request, event_id):
     """Save user's review of a training session."""
 
     # TODO check if comment and rating is entered --> javascript :)
     review = request.POST["comment"]
-    rating = request.POST["rating"]
+    rating = int(request.POST["rating"])
 
-    print(review, rating, event_id, "HSHKFJHSKJ")
     event = ScheduleItem.objects.get(id=event_id)
-    # Rating.objects.all().delete()
 
     # check if user already left rating, ask if they want to rerate the class
-    # if Rating.objects.filter(user=request.user, event=event).exists():
-    #     return render(request, "/", {"message": "You already left a rating for this course."})
+    event_to_rate = Rating.objects.filter(user=request.user, event=event).first()
 
-    # create new rating
-    new_rating = Rating(user=request.user,
-                        comment=review,
-                        rating=int(rating),
-                        event=event)
-    new_rating.save()
+    if event_to_rate:
+        event_to_rate.comment = review
+        event_to_rate.rating = rating
+        event_to_rate.save()
+
+    else:
+        # create new rating
+        new_rating = Rating(user=request.user,
+                            comment=review,
+                            rating=rating,
+                            event=event)
+        new_rating.save()
 
     return redirect("/")
 

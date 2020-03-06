@@ -50,8 +50,7 @@ var __slice=[].slice;(function(e,t){var n;n=function(){function t(t,n){var r,i,s
 function openreview(element) {
 
     var parent =  $(element).parent().parent();
-
-    console.log(parent, "PARENT");
+    var editable = false
     var reviewBox = parent.children("div.row");
     var newReview = parent.children("div.row").children("div").children("form").children("textarea");
     var openReviewBtn = parent.children("div.text-right").children("a")
@@ -73,6 +72,12 @@ function openreview(element) {
 
     closeReviewBtn.click(function(e)
     {
+      try {
+        openReviewBtn = openReviewBtn[0]
+        editable = true
+      } catch (error) {
+        // Do nothing
+      }
       e.preventDefault();
       reviewBox.slideUp(300, function()
         {
@@ -80,11 +85,10 @@ function openreview(element) {
           openReviewBtn.fadeIn(200);
         });
       closeReviewBtn.hide();
-
+      disable()
     });
 
     $('.starrr').on('starrr:change', function(e, value){
       ratingsField.val(value);
     });
-
 }
