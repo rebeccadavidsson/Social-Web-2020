@@ -36,14 +36,14 @@ def index(request):
     if empt:
         empt = empt[0]
 
-    events = ScheduleItem.objects.all()
+    events = ScheduleItem.objects.all().order_by('-start')
 
     previousevents, futurevents = geteventday(events)
 
     # Filter events for user
     context = {
         "profile": profile,
-        "events": ScheduleItem.objects.all(),
+        "events": ScheduleItem.objects.all().order_by('-start'),
         "events_aftertoday": futurevents,
         "events_beforetoday": previousevents,
         "events_user":  ScheduleItem.objects.filter(participants=profile).all(),
@@ -241,7 +241,7 @@ def settings_view(request,pk):
 def schedule_view(request):
 
     # Check if schedule was already refreshed this day TODO
-    # refreshschedule()
+    refreshschedule()
 
     # get user's profile model
     profile = Profile.objects.get(user=request.user)
@@ -290,6 +290,7 @@ def addschedule(request):
     # TODO wat moet hier?
     return HttpResponse("test")
 
+
 def add(request, event_id):
     """
     Add a new event_id from the mainpage by clicking on
@@ -303,6 +304,18 @@ def add(request, event_id):
     item = ScheduleItem.objects.filter(id=event_id).first()
     item.participants.add(profile)
     return redirect('/')
+
+
+def deleteevent(request, event_id):
+
+    # Get user to add to participants
+    profile = Profile.objects.get(user=request.user)
+
+    # Select event from event_id
+    item = ScheduleItem.objects.filter(id=event_id).first()
+    item.participants.remove(profile)
+
+    return redirect("/")
 
 def review(request, event_id):
     """Save user's review of a training session."""
@@ -351,6 +364,9 @@ def delete_profile(request, username):
 
     return redirect("index")
 
+
+def comment(request):
+    pass
 
 def logout_view(request):
     if request.user.is_authenticated:

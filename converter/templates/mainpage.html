@@ -12,6 +12,24 @@
 
 <div class="mainschedule">
     <div id='calendar'></div>
+    <div class="legend">
+      <span>
+        <div class="col-xs-2 btn-group">
+          <br>
+          <br>
+          <button class="btn btn-success" id="legendblue" disabled type="button"> </button>
+          <button class="btn btn-default" disabled type="button">You</button>
+        </div>
+      </span>
+      <span>
+        <div class="col-xs-2 btn-group">
+          <br>
+          <br>
+          <button class="btn btn-success" id="legendred" disabled type="button"> </button>
+          <button class="btn btn-default" disabled type="button">Following</button>
+        </div>
+      </span>
+  </div>
  </div>
 
  <div id="mainfeed">
@@ -22,31 +40,50 @@
 
       <div class="containerfeed darker">
         <img src="https://media-exp1.licdn.com/dms/image/C5603AQF54EcNtyGnyA/profile-displayphoto-shrink_200_200/0?e=1586995200&v=beta&t=TMMRXfh0RcT04rV6f8N-iJmTuxLo6Li5NU479VPgIVs" alt="Avatar" class="right">
-        <h4>{{ event.name }}</h4>
+        <h4>{{ event.name }} <span>- {{ event.date }}</span>
+          <span class="addbutton">
+            <a class="btn btn btn-lg" href="{% url 'add' event.id %}">
+            <span class="glyphicon glyphicon-plus-sign"></span>
+            </a>
+        </span>
+        <span class="deletebutton">
+          <a class="btn btn btn-lg" href="{% url 'delete' event.id %}">
+          <span class="glyphicon glyphicon-remove"></span>
+          </a>
+      </span>
+      </h4>
         <p>{{ event.teacher }}</p>
+<!-- <span class="glyphicon glyphicon-plus-sign"> -->
         {% for participant in event.participants.all %}
           {% if participant.user == request.user %}
-            <span class="time-left" style="color:black;">You - {{ event.date }}</span>
-            <br><br>
-            {% for rating in ratings_user %}
-              {% if event == rating.event %}
-              <hr>
-              <h5 style="color:grey;" id="yourreview">Your review:</h5>
-              <span style="float:left; font-size:16px; margin:0;">{{rating.comment }}</span>
-              <span style="float:right; font-size:12px;"> / 5</span>
-              <span style="float:right; font-size:17px; font-weight:600;">{{rating.rating }} </span>
-              <div class="space">
+              <span class="time-left" style="color:black;">You - {{ event.date }}</span>
+              <br><br>
+              {% for rating in ratings_user %}
+                {% if event == rating.event %}
+                <hr>
+                <h5  id="yourreview">Your review:</h5>
+                <span style="float:left; font-size:16px; margin:0;">{{rating.comment }}</span>
+                <span style="float:right; font-size:12px;"> / 5</span>
+                <span style="float:right; font-size:17px; font-weight:600;">{{rating.rating }} </span>
+                <div class="space">
 
-              </div>
-              {% endif %}
-            {% endfor %}
+                </div>
+                {% endif %}
+
+              {% endfor %}
 
               <div class="container">
                 <div class="row">
                   <div class="col-md-6">
                     <div class="well well-sm" id="welwel">
                       <div class="text-left">
+                        <!-- <span>
+                          <button class="btn btn-info btn">Leave a comment</button>
+                        </span> -->
                           <a class="btn btn-success btn-green" onclick="openreview(this)" name="open-review-box">Leave a Review</a>
+                          <!-- <div class="commentinput">
+                              <input type="text" name="" value="" placeholder="Leave a comment">
+                          </div> -->
                       </div>
                       <div class="row" name="post-review-box" style="display:none;">
                         <div class="col-md-12">
@@ -57,8 +94,8 @@
 
                               <div class="text-left">
                                 <div class="stars starrr" data-rating="0"></div>
-                                <a class="btn btn-danger btn-lg" href="#" name="close-review-box" style="display:none; margin-right: 10px;">
-                                <span class="glyphicon glyphicon-remove"></span>&nbsp Cancel</a>
+                                <!-- <a class="btn btn-danger btn-lg" href="#" name="close-review-box" style="display:none; margin-right: 10px;"> -->
+                                <!-- <span class="glyphicon glyphicon-remove"></span>&nbsp Cancel</a> -->
                                 <button class="btn btn-success btn-lg" type="submit">Save</button>
                               </div>
                           </form>
@@ -69,14 +106,18 @@
                 </div>
               </div>
           {% else %}
-                  <span class="tooltiptext" id="tooltipadd">
+
+                  <!-- <span class="tooltiptext" id="tooltipadd">
                     <button type="button" name="button">
                       <a href="{% url 'add' event.id %}">Add to schedule</a>
                     </button>
-                  </span>
-            <span class="time-left" style="color:grey;">{{ participant }} - {{ event.date }}</span>
+                  </span> -->
+
+            <span class="time-left" style="color:black;">{{ participant }}</span>
+            <br><br>
           {% endif %}
         {% endfor %}
+
       </div>
     <br>
     {% endfor %}
@@ -205,7 +246,7 @@
                     location: "Universum",
                     people: "{% for person in i.participants.all %}{{ person }}, {% endfor %}"
                   },
-                  color: 'rgb(32,178,170, 0.8)'
+                  color: 'navy'
               },
               {% endfor %}
             ],
@@ -230,16 +271,40 @@
     // Disable review buttons for existing reviews
     function disable() {
 
+      var commentsinput = document.querySelectorAll(".commentinput");
+      commentsinput.forEach((item, i) => {
+        item.style.display = "inline-block"
+      });
+
+
       elements = document.querySelectorAll("#welwel > div.text-left > a");
 
       for (i = 0; i < elements.length; ++i) {
         temp = elements[i].parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
 
+        temp.setAttribute("style", "background-color: darkgrey; border:none;");
+
+        var inputs = temp.querySelectorAll(".commentinput")
+        inputs.forEach((item, i) => {
+          item.style.display = "none";
+        });
+
+        var buttons = temp.querySelectorAll(".addbutton");
+        buttons.forEach((item, i) => {
+          item.style.display = "none";
+        });
+
+        var deletebuttons = temp.querySelectorAll(".deletebutton");
+        deletebuttons.forEach((item, i) => {
+          item.style.display = "inline";
+        });
+
+
+
+
         if (temp.querySelectorAll("#yourreview")[0]) {
-            // elements[i].style.display = "none";
-            elements[i].innerHTML = "Edit"
+            elements[i].innerHTML = "Edit review"
             elements[i].setAttribute("style", "background-color: grey; border:none;");
-            // elements[i].setAttribute("style", "border: grey;");
 
         };
 

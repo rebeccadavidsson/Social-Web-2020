@@ -7,7 +7,7 @@ tbody.fc-body {
 }
 
 .mainschedule {
-  height: 87vh;
+  /* height: 87vh; */
   margin-top: 2%;
   margin-left: 5%;
   width: 55%;
@@ -208,7 +208,7 @@ font-size: 12px;
 color: #fff;
 text-align: center;
 border-radius: 6px;
-padding: 20px;
+padding: 10px;
 position: absolute;
 z-index: 3;
 bottom: 105%;
@@ -237,4 +237,48 @@ transition: opacity 0.3s;
 #tooltipadd a {
   color: white;
   font-size: 16px;
+}
+
+#calendar > div.fc-view-container > div > table > tbody > tr > td > div > div > div.fc-content-skeleton > table > tbody > tr > td > div > div > a > div.fc-content > div.fc-time > span {
+  color: white;
+}
+
+.commentinput {
+  display: none;
+  width: 100%;
+  padding: 8px;
+}
+
+.deletebutton {
+  display: none;
+  color: black;
+}
+
+.glyphicon-remove:before {
+  color: black;
+}
+
+#legendblue {
+  background-color: navy;
+  border: none;
+  /* width: 100px; */
+  opacity: 1.0;
+}
+
+#legendred {
+  background-color: maroon;
+  border: none;
+  /* width: 100px; */
+  opacity: 1.0;
+}
+
+.legend {
+  margin-top: 5%;
+}
+
+.legend button{
+  font-size: 16px;
+  background-color: rgb(228, 228, 228);
+  color: black;
+  font-weight: 600;
 }
