@@ -566,7 +566,8 @@ TODO: more distinction between this file and common.css
 .fc-unthemed .fc-popover,
 .fc-unthemed .fc-list-view,
 .fc-unthemed .fc-list-heading td {
-  border-color: rgb(255,255,255,0.1);
+  border-color: lightgrey;
+  /* color: black; */
   /* border: none; */
   /* border-top:1px; */
   border-right: 1px;
@@ -583,15 +584,6 @@ TODO: more distinction between this file and common.css
 .fc-unthemed .fc-list-heading td {
   background: #eee;
 }
-
-/*.fc-unthemed td.fc-today {*/
-  /*background: black;
-  border-color: yellowgreen;
-  border-width: 4px;
-  border-style: solid;
-  border-bottom-style: solid;*/
-  /*TODO TODAY BACKGROUND*/
-/*}*/
 
 .fc-unthemed .fc-disabled-day {
   background: #d7d7d7;
@@ -727,8 +719,8 @@ Lots taken from Flatly (MIT): https://bootswatch.com/4/flatly/bootstrap.css
 /* "primary" coloring */
 .fc-button-primary {
   color: #fff;
-  background-color: #2C3E50;
-  border-color: #2C3E50;
+  background-color: gold;
+  border-color: gold;
 }
 
 .fc-button-primary:hover {
@@ -744,15 +736,15 @@ Lots taken from Flatly (MIT): https://bootswatch.com/4/flatly/bootstrap.css
 
 .fc-button-primary:disabled {
   color: #fff;
-  background-color: #2C3E50;
-  border-color: #2C3E50;
+  background-color: #dba100;
+  border-color: #dba100;
 }
 
 .fc-button-primary:not(:disabled):active,
 .fc-button-primary:not(:disabled).fc-button-active {
   color: #fff;
-  background-color: #1a252f;
-  border-color: #151e27;
+  background-color: #dba100;
+  border-color: #dba100;
 }
 
 .fc-button-primary:not(:disabled):active:focus,

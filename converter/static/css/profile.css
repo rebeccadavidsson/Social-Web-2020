@@ -4,12 +4,12 @@
 
 .emp-profile{
     padding: 7%;
-    margin-right: 6%;
+    margin: auto;
     border-radius: 0.5rem;
-    background: rgba(61, 61, 61, 0.3);
-    color: white;
+    background: rgba(61, 61, 61, 0.1);
+    color: #495057;
     overflow-y: scroll;
-    max-height: 800px;
+    max-height: 100vh;
 }
 
 .emp-profile::-webkit-scrollbar {
@@ -42,11 +42,11 @@
     top: 0;
 }
 .profile-head h4{
-    color: white;
+    color: #495057;
     text-transform: capitalize;
 }
 .profile-head h6{
-    color: white;
+    color: #495057;
     text-transform: capitalize;
 }
 .profile-edit-btn{
@@ -145,7 +145,7 @@ ul#wrapper {
 }
 
 #wrapper li {
-  color: white;
+  color: #495057;
   /* width:inherit; */
 }
 
@@ -320,7 +320,7 @@ body > div.container.emp-profile > form > div > div.col-md-4 > div.toprated > p 
 }
 
 #history_personal {
-  background-color: silver;
+  background-color: white;
   width: 95%;
   color: black;
 }

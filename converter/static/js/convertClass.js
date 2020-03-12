@@ -50,10 +50,9 @@ for (const button of selector) {
   btn.addEventListener('click', function(e) {
     var result = e.target;
     ineer_html = result.parentElement.parentElement.innerHTML;
-
+    console.log(ineer_html, "HOIHOIH");
     var data = new FormData();
     data.append('data', ineer_html)
-
     var input = document.querySelector("#exampleModal > div > div > div.modal-body");
 
     input.innerHTML += ineer_html;

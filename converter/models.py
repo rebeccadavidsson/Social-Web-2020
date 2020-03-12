@@ -55,6 +55,9 @@ class Rating(models.Model):
     # event_id = models.IntegerField(default=0)
     event = models.ForeignKey(ScheduleItem, on_delete=models.CASCADE, null=True)
 
+    def __str__(self):
+        return f'{self.comment} - {self.rating}'
+
 
 class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

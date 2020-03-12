@@ -2,59 +2,14 @@
 
 var __slice=[].slice;(function(e,t){var n;n=function(){function t(t,n){var r,i,s,o=this;this.options=e.extend({},this.defaults,n);this.$el=t;s=this.defaults;for(r in s){i=s[r];if(this.$el.data(r)!=null){this.options[r]=this.$el.data(r)}}this.createStars();this.syncRating();this.$el.on("mouseover.starrr","span",function(e){return o.syncRating(o.$el.find("span").index(e.currentTarget)+1)});this.$el.on("mouseout.starrr",function(){return o.syncRating()});this.$el.on("click.starrr","span",function(e){return o.setRating(o.$el.find("span").index(e.currentTarget)+1)});this.$el.on("starrr:change",this.options.change)}t.prototype.defaults={rating:void 0,numStars:5,change:function(e,t){}};t.prototype.createStars=function(){var e,t,n;n=[];for(e=1,t=this.options.numStars;1<=t?e<=t:e>=t;1<=t?e++:e--){n.push(this.$el.append("<span class='glyphicon .glyphicon-star-empty'></span>"))}return n};t.prototype.setRating=function(e){if(this.options.rating===e){e=void 0}this.options.rating=e;this.syncRating();return this.$el.trigger("starrr:change",e)};t.prototype.syncRating=function(e){var t,n,r,i;e||(e=this.options.rating);if(e){for(t=n=0,i=e-1;0<=i?n<=i:n>=i;t=0<=i?++n:--n){this.$el.find("span").eq(t).removeClass("glyphicon-star-empty").addClass("glyphicon-star")}}if(e&&e<5){for(t=r=e;e<=4?r<=4:r>=4;t=e<=4?++r:--r){this.$el.find("span").eq(t).removeClass("glyphicon-star").addClass("glyphicon-star-empty")}}if(!e){return this.$el.find("span").removeClass("glyphicon-star").addClass("glyphicon-star-empty")}};return t}();return e.fn.extend({starrr:function(){var t,r;r=arguments[0],t=2<=arguments.length?__slice.call(arguments,1):[];return this.each(function(){var i;i=e(this).data("star-rating");if(!i){e(this).data("star-rating",i=new n(e(this),r))}if(typeof r==="string"){return i[r].apply(i,t)}})}})})(window.jQuery,window);$(function(){return $(".starrr").starrr()})
 
-// $(function(){
-//
-//   var post_revew = "#mainfeed > div:nth-child(5) > div > div > div > div > div.row"
-//   var new_review = "#mainfeed > div:nth-child(5) > div > div > div > div > div.row > div > form > textarea"
-//   var open_review_box = "#mainfeed > div:nth-child(5) > div > div > div > div > div.text-right > a"
-//   var closeReviewBtn = "#mainfeed > div:nth-child(5) > div > div > div > div > div.row > div > form > div > a"
-//   var ratingsField =
-//
-//   $(new_review).autosize({append: "\n"});
-//
-//   var reviewBox = $(post_revew);
-//   var newReview = $(new_review);
-//   var openReviewBtn = $(open_review_box);
-//   var closeReviewBtn = $(closeReviewBtn);
-//   var ratingsField = $('#ratings-hidden');
-//
-//   openReviewBtn.click(function(e)
-//   {
-//     reviewBox.slideDown(400, function()
-//       {
-//         $(new_review).trigger('autosize.resize');
-//         newReview.focus();
-//       });
-//     openReviewBtn.fadeOut(100);
-//     closeReviewBtn.show();
-//   });
-//
-//   closeReviewBtn.click(function(e)
-//   {
-//     e.preventDefault();
-//     reviewBox.slideUp(300, function()
-//       {
-//         newReview.focus();
-//         openReviewBtn.fadeIn(200);
-//       });
-//     closeReviewBtn.hide();
-//
-//   });
-//
-//   $('.starrr').on('starrr:change', function(e, value){
-//     ratingsField.val(value);
-//   });
-// });
-
 
 function openreview(element) {
 
     var parent =  $(element).parent().parent();
-
-    console.log(parent, "PARENT");
+    var editable = false
     var reviewBox = parent.children("div.row");
     var newReview = parent.children("div.row").children("div").children("form").children("textarea");
-    var openReviewBtn = parent.children("div.text-right").children("a")
+    var openReviewBtn = parent.children("div.text-left").children("a")
     var closeReviewBtn = parent.children("div.row").children("div").children("form").children("div").children("a");
     var ratingsField = parent.children("div.row").children("div").children("form").children("input[type=hidden]:nth-child(2)");
 
@@ -62,6 +17,7 @@ function openreview(element) {
 
     openReviewBtn.click(function(e)
     {
+      console.log("hoihoi");
       reviewBox.slideDown(400, function()
         {
           $(newReview).trigger('autosize.resize');
@@ -73,6 +29,12 @@ function openreview(element) {
 
     closeReviewBtn.click(function(e)
     {
+      try {
+        openReviewBtn = openReviewBtn[0]
+        editable = true
+      } catch (error) {
+        // Do nothing
+      }
       e.preventDefault();
       reviewBox.slideUp(300, function()
         {
@@ -80,11 +42,10 @@ function openreview(element) {
           openReviewBtn.fadeIn(200);
         });
       closeReviewBtn.hide();
-
+      disable()
     });
 
     $('.starrr').on('starrr:change', function(e, value){
       ratingsField.val(value);
     });
-
 }
