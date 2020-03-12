@@ -18,7 +18,7 @@
           <br>
           <br>
           <button class="btn btn-success" id="legendblue" disabled type="button"> </button>
-          <button class="btn btn-default" disabled type="button">You</button>
+          <button class="btn btn-default" disabled type="button">Your friends</button>
         </div>
       </span>
       <span>
@@ -26,7 +26,7 @@
           <br>
           <br>
           <button class="btn btn-success" id="legendred" disabled type="button"> </button>
-          <button class="btn btn-default" disabled type="button">Following</button>
+          <button class="btn btn-default" disabled type="button">You</button>
         </div>
       </span>
   </div>
@@ -223,12 +223,13 @@
                   allDay:   false,
                   displayEventTime: true,
                   displayEventEnd: true,
+                  color: 'rgb(178,34,34, 0.8)',
                   extendedProps: {
                     teacher: "{{ i.teacher }}",
                     location: "Universum",
-                    people: "{% for person in i.participants.all %}{{ person }}, {% endfor %}"
-                  },
-                  color: 'rgb(178,34,34, 0.8)'
+                    people: "{% for person in i.participants.all %}{{ person }}, {% endfor %}",
+                    textColor: 'gold'
+                  }
               },
               {% endfor %}
 
@@ -240,19 +241,20 @@
                   allDay:   false,
                   displayEventTime: true,
                   displayEventEnd: true,
+                  color: 'navy',
                   description: "test",
                   extendedProps: {
                     teacher: "{{ i.teacher }}",
                     location: "Universum",
-                    people: "{% for person in i.participants.all %}{{ person }}, {% endfor %}"
-                  },
-                  color: 'navy'
+                    people: "{% for person in i.participants.all %}{{ person }}, {% endfor %}",
+                    textColor: 'gold'
+                  }
               },
               {% endfor %}
             ],
             eventRender: function(info) {
                 let tooltip = new Tooltip(info.el, {
-                title: '<h4>' + info.event.extendedProps.people + '</h4>',
+                title: '<u><h3 style ="color:' + info.event.extendedProps.textColor +'">' + info.event.extendedProps.teacher +'</h3></u>' + '<h4>' + info.event.extendedProps.people.slice(0, -2) + '<button>Button</button></h4>',
                 placement: 'top',
                 trigger: 'hover',
                 container: 'body',
@@ -267,6 +269,9 @@
             // }
             calendar.render()
     }
+
+    var tooltips = document.getElementsByClassName("tooltip")
+    console.log(tooltips)
 
     // Disable review buttons for existing reviews
     function disable() {
