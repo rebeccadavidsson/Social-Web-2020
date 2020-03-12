@@ -113,7 +113,7 @@ hr {
 /* Style images */
 .containerfeed img {
   float: left;
-  max-width: 40px;
+  max-width: 25px;
   width: 100%;
   margin-right: 20px;
   border-radius: 50%;
@@ -281,4 +281,22 @@ transition: opacity 0.3s;
   background-color: rgb(228, 228, 228);
   color: black;
   font-weight: 600;
+}
+
+#mainfeed span {
+  float: right;
+}
+
+#mainfeed .addbutton, #mainfeed .deletebutton {
+  margin-top: -3px;
+  float: left;
+  margin-left: -5px;
+}
+
+.text-left span {
+  float: left !important;
+}
+
+#welwel > span {
+  float: left !important;
 }
