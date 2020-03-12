@@ -379,11 +379,14 @@ def delete_profile(request, username):
 
     return redirect("index")
 
+
 def schedule2(request):
     return render(request, "schedule2.html")
 
+
 def comment(request):
     pass
+
 
 def logout_view(request):
     if request.user.is_authenticated:

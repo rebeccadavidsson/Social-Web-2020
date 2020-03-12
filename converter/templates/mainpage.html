@@ -39,8 +39,7 @@
     {% for event in events %}
 
       <div class="containerfeed darker">
-        <img src="https://media-exp1.licdn.com/dms/image/C5603AQF54EcNtyGnyA/profile-displayphoto-shrink_200_200/0?e=1586995200&v=beta&t=TMMRXfh0RcT04rV6f8N-iJmTuxLo6Li5NU479VPgIVs" alt="Avatar" class="right">
-        <h4>{{ event.name }} <span>- {{ event.date }}</span>
+          <h4>{{ event.name }} <span>{{ event.date }}</span>
           <span class="addbutton">
             <a class="btn btn btn-lg" href="{% url 'add' event.id %}">
             <span class="glyphicon glyphicon-plus-sign"></span>
@@ -56,7 +55,9 @@
 <!-- <span class="glyphicon glyphicon-plus-sign"> -->
         {% for participant in event.participants.all %}
           {% if participant.user == request.user %}
-              <span class="time-left" style="color:black;">You - {{ event.date }}</span>
+          <img src="https://media-exp1.licdn.com/dms/image/C5603AQF54EcNtyGnyA/profile-displayphoto-shrink_200_200/0?e=1586995200&v=beta&t=TMMRXfh0RcT04rV6f8N-iJmTuxLo6Li5NU479VPgIVs" alt="Avatar" class="right">
+
+              <span class="time-left" style="color:black; font-weight:600;">You</span>
               <br><br>
               {% for rating in ratings_user %}
                 {% if event == rating.event %}
@@ -106,6 +107,7 @@
                 </div>
               </div>
           {% else %}
+          <img src="https://media-exp1.licdn.com/dms/image/C5603AQF54EcNtyGnyA/profile-displayphoto-shrink_200_200/0?e=1586995200&v=beta&t=TMMRXfh0RcT04rV6f8N-iJmTuxLo6Li5NU479VPgIVs" alt="Avatar" class="right">
 
                   <!-- <span class="tooltiptext" id="tooltipadd">
                     <button type="button" name="button">
@@ -113,7 +115,7 @@
                     </button>
                   </span> -->
 
-            <span class="time-left" style="color:black;">{{ participant }}</span>
+            <span class="time-left" style="color:black;">{{ participant.user.first_name }} {{ participant.user.last_name }}</span>
             <br><br>
           {% endif %}
         {% endfor %}
