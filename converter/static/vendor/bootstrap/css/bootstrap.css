@@ -4740,7 +4740,7 @@ button.close {
   line-break: auto;
   font-size: 0.875rem;
   word-wrap: break-word;
-  opacity: 0;
+  opacity: 0.3;
 }
 
 .tooltip.show {

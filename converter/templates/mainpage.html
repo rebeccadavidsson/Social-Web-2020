@@ -44,12 +44,12 @@
             <a class="btn btn btn-lg" href="{% url 'add' event.id %}">
             <span class="glyphicon glyphicon-plus-sign"></span>
             </a>
-        </span>
-        <span class="deletebutton">
-          <a class="btn btn btn-lg" href="{% url 'delete' event.id %}">
-          <span class="glyphicon glyphicon-remove"></span>
-          </a>
-      </span>
+          </span>
+          <span class="deletebutton">
+            <a class="btn btn btn-lg" href="{% url 'delete_event' event.id %}">
+            <span class="glyphicon glyphicon-remove"></span>
+            </a>
+          </span>
       </h4>
         <p>{{ event.teacher }}</p>
 <!-- <span class="glyphicon glyphicon-plus-sign"> -->
@@ -241,14 +241,14 @@
                   allDay:   false,
                   displayEventTime: true,
                   displayEventEnd: true,
-                  color: 'rgb(178,34,34, 0.8)',
+                  color: '#2F2E7E',
                   extendedProps: {
                     teacher: "{{ i.teacher }}",
                     location: "Universum",
                     people: "<p>Followed by: </p> {% for person in i.participants.all %} {% if person != profile %}<p> {% if person in profile.following %}{{ person }}</p>{% endif %} {% else %} <p> You</p> {% endif %} {% endfor %}",
-                    textColor: 'gold'
-                  },
-                  color: 'navy'
+                    textColor: 'gold',
+                    id : "{{i.id}}"
+                  }
               },
               {% endfor %}
 
@@ -260,23 +260,27 @@
                   allDay:   false,
                   displayEventTime: true,
                   displayEventEnd: true,
-                  color: 'navy',
+                  color: '#ED1C24',
                   description: "test",
                   extendedProps: {
                     teacher: "{{ i.teacher }}",
                     location: "Universum",
                     people: "<p>Followed by: </p> {% for person in i.participants.all %} {% if person != profile %}<p> {{ person }}</p> {% else %} <p> You</p> {% endif %} {% endfor %}",
-                    textColor: 'gold'
+                    textColor: 'gold',
+                    id : "{{i.id}}"
 
                     // people: "<p>Followed by: </p> {% for person in i.participants.all %} {% for name in person.following.all %} {% if person.name == name.name %}{{ person }}</p>{% endif %}{% endfor %}  {% endfor %}"
-                  },
-                  color: 'maroon'
+                  }
               },
               {% endfor %}
             ],
             eventRender: function(info) {
+              console.log(info.event.extendedProps.id)
                 let tooltip = new Tooltip(info.el, {
-                title: '<u><h3 style ="color:' + info.event.extendedProps.textColor +'">' + info.event.extendedProps.teacher +'</h3></u>' + '<h4>' + info.event.extendedProps.people.slice(0, -2) + '<button>Button</button></h4>',
+                // title: '<u><h3 style ="color:' + info.event.extendedProps.textColor +'">' + info.event.extendedProps.teacher +'</h3></u>' + '<h4>' + info.event.extendedProps.people.slice(0, -2) + '</h4><span class = deletebutton><a class="btn btn btn-lg">
+                //   <span class="glyphicon glyphicon-remove"></span>
+                //   </a></span>',
+                title: '<u><h3 style ="color:' + info.event.extendedProps.textColor +'">' + info.event.extendedProps.teacher +'</h3></u>' + '<h4>' + info.event.extendedProps.people.slice(0, -2) + '<span class = deletebutton style = "display: inline-block"><a class="btn btn btn-lg style="color:white" href="{% url "delete" ' + info.event.extendedProps.id + '%}">REMOVE</a></span></h4>',
                 placement: 'top',
                 trigger: 'hover',
                 container: 'body',
