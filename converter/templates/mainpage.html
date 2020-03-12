@@ -36,7 +36,7 @@
 
     <!-- <h4>This week</h4> -->
     <!-- <hr> -->
-    {% for event in events %}
+    {% for event in event_followers %}
 
       <div class="containerfeed darker">
           <h4>{{ event.name }} <span>{{ event.date }}</span>
@@ -62,15 +62,23 @@
               {% for rating in ratings_user %}
                 {% if event == rating.event %}
                 <hr>
-                <h5  id="yourreview">Your review:</h5>
-                <span style="float:left; font-size:16px; margin:0;">{{rating.comment }}</span>
+                {% if rating.user ==  request.user %}
+                <h5  id="yourreview">Reviews:</h5>
+                <span style="float:left; font-size:14px; margin:0;">{{ rating.comment }}</span>
                 <span style="float:right; font-size:12px;"> / 5</span>
                 <span style="float:right; font-size:17px; font-weight:600;">{{rating.rating }} </span>
+                <span style="float:right; font-size:14px;">{{rating.user.first_name }} rated: </span>
                 <div class="space">
-
+                  {% else %}
+                  <span style="float:left; font-size:14px; margin:0;">{{ rating.comment }}</span>
+                  <span style="float:right; font-size:12px;"> / 5</span>
+                  <span style="float:right; font-size:17px; font-weight:600;">{{rating.rating }} </span>
+                  <span style="float:right; font-size:12px;">{{rating.user.first_name }} rated: </span>
+                  <div class="space">
+                    {% endif %}
                 </div>
+                <br>
                 {% endif %}
-
               {% endfor %}
 
               <div class="container">
@@ -106,19 +114,27 @@
                   </div>
                 </div>
               </div>
+
           {% else %}
-          <img src="https://media-exp1.licdn.com/dms/image/C5603AQF54EcNtyGnyA/profile-displayphoto-shrink_200_200/0?e=1586995200&v=beta&t=TMMRXfh0RcT04rV6f8N-iJmTuxLo6Li5NU479VPgIVs" alt="Avatar" class="right">
 
-                  <!-- <span class="tooltiptext" id="tooltipadd">
-                    <button type="button" name="button">
-                      <a href="{% url 'add' event.id %}">Add to schedule</a>
-                    </button>
-                  </span> -->
-
-            <span class="time-left" style="color:black;">{{ participant.user.first_name }} {{ participant.user.last_name }}</span>
-            <br><br>
+              {% if participant.user.username in followersnames %}
+              <img src="{{ profile.photo.url }}" alt="" class="right"/>
+              <span class="time-left" style="color:black;">{{ participant.user.first_name }} {{ participant.user.last_name }}</span>
+                <br><br>
+              {% endif %}
           {% endif %}
         {% endfor %}
+
+      <span style="margin-left:5px;" class="likesspan">{{ event.likes }}</span>
+        <a href="{% url 'like' event.id %}" style="color:black;"><i class="fas fa-thumbs-up icon-4x"></i></a>
+        {% if event.hearts %}
+        <span style="margin-left:10px;" class="likesspan">{{ event.hearts }}</span>
+        <a href="{% url 'heart' event.id %}" style="color: #ff002e;"><i class="fas fa-heart"></i></a>
+        {% else %}
+        <span style="margin-left:10px;" class="likesspan">{{ event.hearts }}</span>
+        <a href="{% url 'heart' event.id %}" style="color: #black;"><i class="fas fa-heart"></i></a>
+        {% endif %}
+
 
       </div>
     <br>
@@ -293,7 +309,7 @@
       for (i = 0; i < elements.length; ++i) {
         temp = elements[i].parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
 
-        temp.setAttribute("style", "background-color: darkgrey; border:none;");
+        temp.setAttribute("style", "background-color: #dfdfdf; border:none;");
 
         var inputs = temp.querySelectorAll(".commentinput")
         inputs.forEach((item, i) => {

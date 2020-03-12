@@ -300,3 +300,11 @@ transition: opacity 0.3s;
 #welwel > span {
   float: left !important;
 }
+
+/* #mainfeed > div > span {
+  margin-bottom: 10px;
+} */
+
+.likesspan {
+  float: none !important;
+}
