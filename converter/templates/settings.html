@@ -17,6 +17,15 @@
 <div class="space"></div>
 <div class="container emp-profile">
 
+
+    <form action="{% url 'settings' profile.pk %}" enctype="multipart/form-data" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" value="Submit" class="btn btn-success"></input>
+    </form>
+
+    <hr/>
+    <!--
     <form method="post" action="{% url 'settings' profile.pk %}">
       {% csrf_token %}
 
@@ -58,7 +67,7 @@
                       <div class="col-6">
 
                         {% csrf_token %}
-                        {{ form.photo|as_crispy_field }}
+                        {{ form.as_p }}
 
                       </div>
                       <div class="col-6"></div>
@@ -89,9 +98,6 @@
                     <p>{{ username }}</p>
 
                 </div>
-                <!-- <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
-                <br> -->
-                <div class="space"></div>
 
 
             </div>
@@ -100,8 +106,11 @@
             </div>
         </div>
     </form>
+    -->
 </div>
 
+  <!-- <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
+  <br> -->
 
 <script>
   function show_alert() {

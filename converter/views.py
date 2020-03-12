@@ -8,7 +8,7 @@ from django.http import HttpResponse
 
 # from django.contrib.auth.decorators import permission_required
 from .models import Profile, ScheduleItem, Rating
-from .forms import ProfileForm, ProfileDeleteForm
+from .forms import ProfileForm, ProfileDeleteForm, RatingDeleteForm
 from .scrape import scrape_item
 from .helpers import convertdate, refreshschedule, geteventday
 
@@ -203,7 +203,7 @@ def unfollow(request, username):
     return redirect("profile")
 
 
-def settings_view(request,pk):
+def settings_view(request, pk):
     """
     Let user edit their profile.
     """
@@ -218,11 +218,14 @@ def settings_view(request,pk):
         form = ProfileForm(request.POST, request.FILES, instance=profile)
         print("----------------------------",form)
         print("))--", request.FILES)
+
         if form.is_valid():
             form.save(commit=False)
             form.photo = request.POST.get("photo")
             # file_type = form.photo.url.split('.')[-1].lower()
             form.save()
+
+            # profile.photo =
             return redirect("profile")
 
     else:
@@ -321,6 +324,18 @@ def home_view(request):
     # TODO
     return render(request, 'home.html', context)
 
+
+def delete_rating(request, pk):
+    rating = get_object_or_404(Rating, pk=pk)
+    if rating.user == request.user and request.method == "POST":
+        form = RatingDeleteForm(request.POST, instance=rating)
+        if form.is_valid():
+            rating.delete()
+            return redirect("index")
+    else:
+        form = PostDeleteForm(instance=rating)
+
+    return redirect("index")
 
 def delete_profile(request, username):
 
