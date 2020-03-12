@@ -23,6 +23,7 @@
     margin-top: -17%;
     width: 70%;
     height: 100%;
+    border-radius: 10px;
 }
 
 .profile-img .file {
@@ -74,7 +75,7 @@
 }
 .profile-work{
     padding: 14%;
-    margin-top: -15%;
+    margin-top: -30%;
 }
 .profile-work p{
     font-size: 12px;

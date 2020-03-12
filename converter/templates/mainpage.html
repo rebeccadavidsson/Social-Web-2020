@@ -36,40 +36,49 @@
 
     <!-- <h4>This week</h4> -->
     <!-- <hr> -->
-    {% for event in events %}
+    {% for event in event_followers %}
 
       <div class="containerfeed darker">
-        <img src="https://media-exp1.licdn.com/dms/image/C5603AQF54EcNtyGnyA/profile-displayphoto-shrink_200_200/0?e=1586995200&v=beta&t=TMMRXfh0RcT04rV6f8N-iJmTuxLo6Li5NU479VPgIVs" alt="Avatar" class="right">
-        <h4>{{ event.name }} <span>- {{ event.date }}</span>
+          <h4>{{ event.name }} <span>{{ event.date }}</span>
           <span class="addbutton">
             <a class="btn btn btn-lg" href="{% url 'add' event.id %}">
             <span class="glyphicon glyphicon-plus-sign"></span>
             </a>
-        </span>
-        <span class="deletebutton">
-          <a class="btn btn btn-lg" href="{% url 'delete' event.id %}">
-          <span class="glyphicon glyphicon-remove"></span>
-          </a>
-      </span>
+          </span>
+          <span class="deletebutton">
+            <a class="btn btn btn-lg" href="{% url 'delete_event' event.id %}">
+            <span class="glyphicon glyphicon-remove"></span>
+            </a>
+          </span>
       </h4>
         <p>{{ event.teacher }}</p>
 <!-- <span class="glyphicon glyphicon-plus-sign"> -->
         {% for participant in event.participants.all %}
           {% if participant.user == request.user %}
-              <span class="time-left" style="color:black;">You - {{ event.date }}</span>
+          <img src="https://media-exp1.licdn.com/dms/image/C5603AQF54EcNtyGnyA/profile-displayphoto-shrink_200_200/0?e=1586995200&v=beta&t=TMMRXfh0RcT04rV6f8N-iJmTuxLo6Li5NU479VPgIVs" alt="Avatar" class="right">
+
+              <span class="time-left" style="color:black; font-weight:600;">You</span>
               <br><br>
               {% for rating in ratings_user %}
                 {% if event == rating.event %}
                 <hr>
-                <h5  id="yourreview">Your review:</h5>
-                <span style="float:left; font-size:16px; margin:0;">{{rating.comment }}</span>
+                {% if rating.user ==  request.user %}
+                <h5  id="yourreview">Reviews:</h5>
+                <span style="float:left; font-size:14px; margin:0;">{{ rating.comment }}</span>
                 <span style="float:right; font-size:12px;"> / 5</span>
                 <span style="float:right; font-size:17px; font-weight:600;">{{rating.rating }} </span>
+                <span style="float:right; font-size:14px;">{{rating.user.first_name }} rated: </span>
                 <div class="space">
-
+                  {% else %}
+                  <span style="float:left; font-size:14px; margin:0;">{{ rating.comment }}</span>
+                  <span style="float:right; font-size:12px;"> / 5</span>
+                  <span style="float:right; font-size:17px; font-weight:600;">{{rating.rating }} </span>
+                  <span style="float:right; font-size:12px;">{{rating.user.first_name }} rated: </span>
+                  <div class="space">
+                    {% endif %}
                 </div>
+                <br>
                 {% endif %}
-
               {% endfor %}
 
               <div class="container">
@@ -105,18 +114,27 @@
                   </div>
                 </div>
               </div>
+
           {% else %}
 
-                  <!-- <span class="tooltiptext" id="tooltipadd">
-                    <button type="button" name="button">
-                      <a href="{% url 'add' event.id %}">Add to schedule</a>
-                    </button>
-                  </span> -->
-
-            <span class="time-left" style="color:black;">{{ participant }}</span>
-            <br><br>
+              {% if participant.user.username in followersnames %}
+              <img src="{{ profile.photo.url }}" alt="" class="right"/>
+              <span class="time-left" style="color:black;">{{ participant.user.first_name }} {{ participant.user.last_name }}</span>
+                <br><br>
+              {% endif %}
           {% endif %}
         {% endfor %}
+
+      <span style="margin-left:5px;" class="likesspan">{{ event.likes }}</span>
+        <a href="{% url 'like' event.id %}" style="color:black;"><i class="fas fa-thumbs-up icon-4x"></i></a>
+        {% if event.hearts %}
+        <span style="margin-left:10px;" class="likesspan">{{ event.hearts }}</span>
+        <a href="{% url 'heart' event.id %}" style="color: #ff002e;"><i class="fas fa-heart"></i></a>
+        {% else %}
+        <span style="margin-left:10px;" class="likesspan">{{ event.hearts }}</span>
+        <a href="{% url 'heart' event.id %}" style="color: #black;"><i class="fas fa-heart"></i></a>
+        {% endif %}
+
 
       </div>
     <br>
@@ -223,14 +241,14 @@
                   allDay:   false,
                   displayEventTime: true,
                   displayEventEnd: true,
-                  color: 'rgb(178,34,34, 0.8)',
+                  color: '#2F2E7E',
                   extendedProps: {
                     teacher: "{{ i.teacher }}",
                     location: "Universum",
                     people: "<p>Followed by: </p> {% for person in i.participants.all %} {% if person != profile %}<p> {% if person in profile.following %}{{ person }}</p>{% endif %} {% else %} <p> You</p> {% endif %} {% endfor %}",
-                    textColor: 'gold'
-                  },
-                  color: 'navy'
+                    textColor: 'gold',
+                    id : "{{i.id}}"
+                  }
               },
               {% endfor %}
 
@@ -242,23 +260,27 @@
                   allDay:   false,
                   displayEventTime: true,
                   displayEventEnd: true,
-                  color: 'navy',
+                  color: '#ED1C24',
                   description: "test",
                   extendedProps: {
                     teacher: "{{ i.teacher }}",
                     location: "Universum",
                     people: "<p>Followed by: </p> {% for person in i.participants.all %} {% if person != profile %}<p> {{ person }}</p> {% else %} <p> You</p> {% endif %} {% endfor %}",
-                    textColor: 'gold'
+                    textColor: 'gold',
+                    id : "{{i.id}}"
 
                     // people: "<p>Followed by: </p> {% for person in i.participants.all %} {% for name in person.following.all %} {% if person.name == name.name %}{{ person }}</p>{% endif %}{% endfor %}  {% endfor %}"
-                  },
-                  color: 'maroon'
+                  }
               },
               {% endfor %}
             ],
             eventRender: function(info) {
+              console.log(info.event.extendedProps.id)
                 let tooltip = new Tooltip(info.el, {
-                title: '<u><h3 style ="color:' + info.event.extendedProps.textColor +'">' + info.event.extendedProps.teacher +'</h3></u>' + '<h4>' + info.event.extendedProps.people.slice(0, -2) + '<button>Button</button></h4>',
+                // title: '<u><h3 style ="color:' + info.event.extendedProps.textColor +'">' + info.event.extendedProps.teacher +'</h3></u>' + '<h4>' + info.event.extendedProps.people.slice(0, -2) + '</h4><span class = deletebutton><a class="btn btn btn-lg">
+                //   <span class="glyphicon glyphicon-remove"></span>
+                //   </a></span>',
+                title: '<u><h3 style ="color:' + info.event.extendedProps.textColor +'">' + info.event.extendedProps.teacher +'</h3></u>' + '<h4>' + info.event.extendedProps.people.slice(0, -2) + '<span class = deletebutton style = "display: inline-block"><a class="btn btn btn-lg style="color:white" href="{% url "delete" ' + info.event.extendedProps.id + '%}">REMOVE</a></span></h4>',
                 placement: 'top',
                 trigger: 'hover',
                 container: 'body',
@@ -291,7 +313,7 @@
       for (i = 0; i < elements.length; ++i) {
         temp = elements[i].parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
 
-        temp.setAttribute("style", "background-color: darkgrey; border:none;");
+        temp.setAttribute("style", "background-color: #dfdfdf; border:none;");
 
         var inputs = temp.querySelectorAll(".commentinput")
         inputs.forEach((item, i) => {

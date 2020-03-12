@@ -100,9 +100,9 @@
                 <br>
                 <div class="space"></div>
                 <div class="toprated">
-                  <h4>Top rated lessons</h4>
                   <br>
                   {% if ratings %}
+                    <h4>Top rated lessons</h4>
                     {% for rating in ratings %}
                         <p>{{ rating.event.name }}</p>
                         {% for i in n %}

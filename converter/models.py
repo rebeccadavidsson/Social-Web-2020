@@ -24,7 +24,8 @@ class ScheduleItem(models.Model):
     end = models.CharField(max_length=64)
     date = models.CharField(max_length=64)
     participants = models.ManyToManyField(Profile, related_name="participants")
-    # rating = models.ManyToManyField(Rating, related_name="ratings")
+    likes = models.IntegerField(default=0)
+    hearts = models.IntegerField(default=0)
 
     locations = [
         ("universum", "Universum"),

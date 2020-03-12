@@ -4,6 +4,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
+import collections
 # from subprocess import call
 
 # from django.contrib.auth.decorators import permission_required
@@ -25,16 +26,26 @@ def index(request):
     followers = profile.following.all()
 
     # Get events from other followers
-    empt = []
+    empt, followersnames = [], []
+
     for follower in followers:
         to_follow = Profile.objects.get(user__username=follower.username)
-        item = ScheduleItem.objects.filter(participants=to_follow).all()
+        item = ScheduleItem.objects.filter(participants=to_follow).all().order_by('-start')
         if item:
             empt.append(item)
+
+    for follower in profile.following.all():
+        followersnames.append(follower.first_name)
 
     # Index into query if the people you follow also have events
     if empt:
         empt = empt[0]
+
+    # ordered_empt = []
+    # first = empt[0].start
+    # for item in empt:
+    #     if item.start > first:
+    #         ordered_empt.append(item)
 
     events = ScheduleItem.objects.all().order_by('-start')
 
@@ -48,6 +59,7 @@ def index(request):
         "events_beforetoday": previousevents,
         "events_user":  ScheduleItem.objects.filter(participants=profile).all(),
         "event_followers": empt,
+        "followersnames": followersnames,
         "ratings_user": Rating.objects.all(),
         "rated_events": Rating.objects.filter(user=request.user),
         "checker": False
@@ -379,11 +391,26 @@ def delete_profile(request, username):
 
     return redirect("index")
 
+
+def like(request, event_id):
+    event = ScheduleItem.objects.filter(id=event_id).first()
+    event.likes += 1
+    event.save()
+    return redirect("/")
+
+def heart(request, event_id):
+    event = ScheduleItem.objects.filter(id=event_id).first()
+    event.hearts += 1
+    event.save()
+    return redirect("/")
+
 def schedule2(request):
     return render(request, "schedule2.html")
 
+
 def comment(request):
     pass
+
 
 def logout_view(request):
     if request.user.is_authenticated:
