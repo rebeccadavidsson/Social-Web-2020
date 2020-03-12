@@ -227,9 +227,10 @@
                   extendedProps: {
                     teacher: "{{ i.teacher }}",
                     location: "Universum",
-                    people: "{% for person in i.participants.all %}{{ person }}, {% endfor %}",
+                    people: "<p>Followed by: </p> {% for person in i.participants.all %} {% if person != profile %}<p> {% if person in profile.following %}{{ person }}</p>{% endif %} {% else %} <p> You</p> {% endif %} {% endfor %}",
                     textColor: 'gold'
-                  }
+                  },
+                  color: 'navy'
               },
               {% endfor %}
 
@@ -246,9 +247,12 @@
                   extendedProps: {
                     teacher: "{{ i.teacher }}",
                     location: "Universum",
-                    people: "{% for person in i.participants.all %}{{ person }}, {% endfor %}",
+                    people: "<p>Followed by: </p> {% for person in i.participants.all %} {% if person != profile %}<p> {{ person }}</p> {% else %} <p> You</p> {% endif %} {% endfor %}",
                     textColor: 'gold'
-                  }
+
+                    // people: "<p>Followed by: </p> {% for person in i.participants.all %} {% for name in person.following.all %} {% if person.name == name.name %}{{ person }}</p>{% endif %}{% endfor %}  {% endfor %}"
+                  },
+                  color: 'maroon'
               },
               {% endfor %}
             ],

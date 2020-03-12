@@ -24,4 +24,5 @@ urlpatterns = [
     path("delete_profile/<str:username>", views.delete_profile, name="delete"),
     path("comment", views.comment, name="comment"),
     path("deleteevent/<int:event_id>", views.deleteevent, name="delete"),
+    path("schedule2", views.schedule2, name="schedule2")
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

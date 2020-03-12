@@ -136,12 +136,12 @@ def personal_view(request):
     to_follow = User.objects.exclude(username__in=to_exclude)
 
     # get all events from this user
-    events_user = ScheduleItem.objects.filter(participants=profile).all()
+    events_user = ScheduleItem.objects.filter(participants=profile).all().order_by("-start")
 
     # get all rating from this user
     ratings = Rating.objects.filter(user=request.user).all()
 
-    events = ScheduleItem.objects.all()
+    events = ScheduleItem.objects.all().order_by("-start")
     # Seperate previous and future events
     previousevents, futurevents = geteventday(events)
 
@@ -241,7 +241,7 @@ def settings_view(request,pk):
 def schedule_view(request):
 
     # Check if schedule was already refreshed this day TODO
-    refreshschedule()
+    # refreshschedule()
 
     # get user's profile model
     profile = Profile.objects.get(user=request.user)
@@ -258,7 +258,7 @@ def addschedule(request):
     Create schedule item.
     default location = universum (TODO!)
     """
-
+    print(request.POST.get("data"), "PIRNITNR")
     data = scrape_item(request.POST.get("data"))
 
     # Get user to add to participants
@@ -364,6 +364,8 @@ def delete_profile(request, username):
 
     return redirect("index")
 
+def schedule2(request):
+    return render(request, "schedule2.html")
 
 def comment(request):
     pass
