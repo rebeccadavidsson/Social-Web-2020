@@ -259,14 +259,14 @@ transition: opacity 0.3s;
 }
 
 #legendblue {
-  background-color: navy;
+  background-color: #2F2E7E;
   border: none;
   /* width: 100px; */
   opacity: 1.0;
 }
 
 #legendred {
-  background-color: maroon;
+  background-color: #ED1C24;
   border: none;
   /* width: 100px; */
   opacity: 1.0;
@@ -281,4 +281,16 @@ transition: opacity 0.3s;
   background-color: rgb(228, 228, 228);
   color: black;
   font-weight: 600;
+}
+.fc-button-primary {
+  background-color: #F49B0E !important;
+  border-color: #F49B0E !important;
+}
+.fc-button-primary:hover {
+  background-color: #212529 !important;
+  border-color: #212529 !important;
+}
+
+.fc-button-primary:not(:disabled):active, .fc-button-primary:not(:disabled).fc-button-active {
+  opacity: 0.65;
 }
