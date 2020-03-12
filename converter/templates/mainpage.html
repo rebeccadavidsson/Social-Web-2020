@@ -18,7 +18,7 @@
           <br>
           <br>
           <button class="btn btn-success" id="legendblue" disabled type="button"> </button>
-          <button class="btn btn-default" disabled type="button">You</button>
+          <button class="btn btn-default" disabled type="button">Your friends</button>
         </div>
       </span>
       <span>
@@ -26,7 +26,7 @@
           <br>
           <br>
           <button class="btn btn-success" id="legendred" disabled type="button"> </button>
-          <button class="btn btn-default" disabled type="button">Following</button>
+          <button class="btn btn-default" disabled type="button">You</button>
         </div>
       </span>
   </div>
@@ -225,10 +225,12 @@
                   allDay:   false,
                   displayEventTime: true,
                   displayEventEnd: true,
+                  color: 'rgb(178,34,34, 0.8)',
                   extendedProps: {
                     teacher: "{{ i.teacher }}",
                     location: "Universum",
-                    people: "<p>Followed by: </p> {% for person in i.participants.all %} {% if person != profile %}<p> {% if person in profile.following %}{{ person }}</p>{% endif %} {% else %} <p> You</p> {% endif %} {% endfor %}"
+                    people: "<p>Followed by: </p> {% for person in i.participants.all %} {% if person != profile %}<p> {% if person in profile.following %}{{ person }}</p>{% endif %} {% else %} <p> You</p> {% endif %} {% endfor %}",
+                    textColor: 'gold'
                   },
                   color: 'navy'
               },
@@ -242,11 +244,13 @@
                   allDay:   false,
                   displayEventTime: true,
                   displayEventEnd: true,
+                  color: 'navy',
                   description: "test",
                   extendedProps: {
                     teacher: "{{ i.teacher }}",
                     location: "Universum",
-                    people: "<p>Followed by: </p> {% for person in i.participants.all %} {% if person != profile %}<p> {{ person }}</p> {% else %} <p> You</p> {% endif %} {% endfor %}"
+                    people: "<p>Followed by: </p> {% for person in i.participants.all %} {% if person != profile %}<p> {{ person }}</p> {% else %} <p> You</p> {% endif %} {% endfor %}",
+                    textColor: 'gold'
 
                     // people: "<p>Followed by: </p> {% for person in i.participants.all %} {% for name in person.following.all %} {% if person.name == name.name %}{{ person }}</p>{% endif %}{% endfor %}  {% endfor %}"
                   },
@@ -256,7 +260,7 @@
             ],
             eventRender: function(info) {
                 let tooltip = new Tooltip(info.el, {
-                title: '<h4>' + info.event.extendedProps.people + '</h4>',
+                title: '<u><h3 style ="color:' + info.event.extendedProps.textColor +'">' + info.event.extendedProps.teacher +'</h3></u>' + '<h4>' + info.event.extendedProps.people.slice(0, -2) + '<button>Button</button></h4>',
                 placement: 'top',
                 trigger: 'hover',
                 container: 'body',
@@ -271,6 +275,9 @@
             // }
             calendar.render()
     }
+
+    var tooltips = document.getElementsByClassName("tooltip")
+    console.log(tooltips)
 
     // Disable review buttons for existing reviews
     function disable() {

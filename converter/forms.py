@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Profile
+from .models import Profile, Rating
 from crispy_forms.helper import FormHelper
 from django.contrib.auth.models import User
 from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit
@@ -16,4 +16,10 @@ class ProfileForm(ModelForm):
 class ProfileDeleteForm(ModelForm):
     class Meta:
         model = User
+        fields = []
+
+
+class RatingDeleteForm(ModelForm):
+    class Meta:
+        model = Rating
         fields = []
