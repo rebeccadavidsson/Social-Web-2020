@@ -10,8 +10,8 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 class Profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     following = models.ManyToManyField(User, related_name='followers', null=True, blank=True)
-    interests = models.CharField(max_length=64, null=True, blank=True)  # Willen we hier ook een rating aan toevoegen?
-    photo = models.ImageField(upload_to = "images", default = "images/logo.png")
+    interests = models.CharField(max_length=64, null=True, blank=True)
+    photo = models.ImageField(upload_to = "images", default = "converter/media/images/logo.png")
 
     def __str__(self):
         return f'{self.user}'
@@ -63,10 +63,3 @@ class Rating(models.Model):
 class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.CharField(max_length=255)
-
-
-# class Course(models.Model):
-#     name = models.CharField(max_length=64)
-#     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
-#     scheduled_courses = models.ManyToManyField(ScheduleItem, on_delete=models.CASCADE)
-#     price = models.DecimalField(decimal_places=2, max_digits=4)

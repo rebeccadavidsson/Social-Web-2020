@@ -2,9 +2,11 @@
   <h1><a href="{% url 'mainpage' %}" class="logo">USC
     <div class="space">
 
+    {% load static %}
+
     </div>
     <div class="profile-img">
-        <img src="{{ profile.photo.url }}" alt="FOTO"/>
+        <img src="{{ MEDIA_URL }}/images/logo.png" alt="USC Logo"/>
     </div></a></h1>
 
   <div class="space">
