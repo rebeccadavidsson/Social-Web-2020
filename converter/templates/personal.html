@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="profile-img">
-                    <img src="{{ profile.photo.url }}" alt="FOTOFOTO"/>
+                    <img src="{{ profile.photo.url }}" alt="Profile picture"/>
                 </div>
 
             </div>
@@ -24,14 +24,14 @@
                 <input type="text" name="search" value="" autocomplete="off" id="myinput" onkeyup="searchFunction()" onkeydown="release()" placeholder="Search">
                   <ul id="wrapper">
                     <!-- SEARCH OPTIONS -->
-                    {% for name in users %}
+                    {% for name in profiles_to_follow %}
                       <div id="friendoption" style="display:none;">
                         <a href="{% url 'searchprofile' name %}" style="color:white">{{ name }}</a>
                         <span class="time-right">
                           <button type="button" name="button" class="followbutton"><a href="{% url 'follow' name %}">Follow +</a></button>
                           <!-- <a href="{% url 'follow' username %}" class="btn btn-success">Follow +</a> -->
                         </span>
-                        <span class="time-right"><img src="https://media-exp1.licdn.com/dms/image/C5603AQF54EcNtyGnyA/profile-displayphoto-shrink_200_200/0?e=1586995200&v=beta&t=TMMRXfh0RcT04rV6f8N-iJmTuxLo6Li5NU479VPgIVs" alt="Avatar" class="right"></span>
+                        <span class="time-right"><img src="{{ name.photo.url }}" alt="Avatar" class="right"></span>
                       </div>
                       {% endfor %}
                   </ul>
@@ -48,31 +48,35 @@
                           <a class="arrow right" id="scrollfriends"></a>
                         </div>
 
-                        {% for person in following %}
+                        {% for person in following_profiles %}
                         <div class="col-sm">
                           <div class="card">
                             <div class="cardbackground">
                               <div class="card-body">
-                                <h5 class="card-title">{{ person.first_name }}</h5>
-                                <p>{{ person.last_name }}</p>
-                                <img src="https://media-exp1.licdn.com/dms/image/C5603AQF54EcNtyGnyA/profile-displayphoto-shrink_200_200/0?e=1586995200&v=beta&t=TMMRXfh0RcT04rV6f8N-iJmTuxLo6Li5NU479VPgIVs" alt="">
-                                <a href="{% url 'unfollow' person.username %}" class="btn btn-light">Unfollow +</a>
+                                <h5 class="card-title">{{ person.first.user.first_name }}</h5>
+                                <p>{{ person.first.user.last_name }}</p>
+                                <img src={{person.first.photo.url}} alt="">
+                                <a href="{% url 'unfollow' person.first.user %}" class="btn btn-light">Unfollow +</a>
                               </div>
                             </div>
                           </div>
                         </div>
+
+
                         {% endfor %}
 
-                        {% for person in users %}
-                        {% if person.username != "admin" %}
+
+
+                        {% for person in profiles_to_follow %}
+                        {% if person.user.username != "admin" %}
                         <div class="col-sm">
                           <div class="card">
                             <div class="cardbackground">
                               <div class="card-body">
-                                <h5 class="card-title">{{ person.first_name }}</h5>
-                                <p>{{ person.last_name }}</p>
-                                <img src="https://media-exp1.licdn.com/dms/image/C5603AQF54EcNtyGnyA/profile-displayphoto-shrink_200_200/0?e=1586995200&v=beta&t=TMMRXfh0RcT04rV6f8N-iJmTuxLo6Li5NU479VPgIVs" alt="">
-                                <a href="{% url 'follow' person.username %}" class="btn btn-success">Follow +</a>
+                                <h5 class="card-title">{{ person.user.first_name }}</h5>
+                                <p>{{ person.user.last_name }}</p>
+                                <img src="{{person.photo.url}}" alt="">
+                                <a href="{% url 'follow' person.user.username %}" class="btn btn-success">Follow +</a>
                               </div>
                             </div>
                           </div>
@@ -120,7 +124,11 @@
             <div class="col-md-8">
               <div class="card" id="history_personal">
                 <div class="card-body">
+                  {% if events_user %}
                   <h4 style="color:grey; font-weight:500;">Recent classes</h4>
+                  {% else %}
+                  <h4 style="color:grey; font-weight:500;">You haven't added any classes yet.</h4>
+                  {% endif  %}
                   <br>
                   {% for event in events_user %}
                     <h2>
@@ -132,14 +140,11 @@
                     <hr>
                   {% endfor %}
 
-                  {% for event in previousevents %}
-                  {{ event }} TEST TEST
-                  {% endfor %}
                 </div>
               </div>
 
-              <img src="https://www.pngkey.com/png/full/238-2383266_line-graph-png-transparent-line-graph-png.png" id="firstgraph" alt="">
-              <img src="https://images.vexels.com/media/users/3/129159/isolated/preview/b6536fdfc4c89f86e1ecf2fa85f2ca95-2d-colorful-bar-chart-infographic-by-vexels.png" alt="">
+              <!-- <img src="https://www.pngkey.com/png/full/238-2383266_line-graph-png-transparent-line-graph-png.png" id="firstgraph" alt="">
+              <img src="https://images.vexels.com/media/users/3/129159/isolated/preview/b6536fdfc4c89f86e1ecf2fa85f2ca95-2d-colorful-bar-chart-infographic-by-vexels.png" alt=""> -->
             </div>
         </div>
     </form>

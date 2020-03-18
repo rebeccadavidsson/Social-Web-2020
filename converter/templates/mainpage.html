@@ -36,8 +36,7 @@
 
     <!-- <h4>This week</h4> -->
     <!-- <hr> -->
-    {% for event in event_followers %}
-
+    {% for event in event_followers_includingown %}
       <div class="containerfeed darker">
           <h4>{{ event.name }} <span>{{ event.date }}</span>
           <span class="addbutton">
@@ -55,7 +54,7 @@
 <!-- <span class="glyphicon glyphicon-plus-sign"> -->
         {% for participant in event.participants.all %}
           {% if participant.user == request.user %}
-          <img src="https://media-exp1.licdn.com/dms/image/C5603AQF54EcNtyGnyA/profile-displayphoto-shrink_200_200/0?e=1586995200&v=beta&t=TMMRXfh0RcT04rV6f8N-iJmTuxLo6Li5NU479VPgIVs" alt="Avatar" class="right">
+          <img src="{{participant.photo.url}}" alt="Avatar" class="right">
 
               <span class="time-left" style="color:black; font-weight:600;">You</span>
               <br><br>
@@ -117,8 +116,9 @@
 
           {% else %}
 
-              {% if participant.user.username in followersnames %}
-              <img src="{{ profile.photo.url }}" alt="" class="right"/>
+              {% if participant.user.first_name in followersnames %}
+
+              <img src="{{ participant.photo.url }}" alt="" class="right"/>
               <span class="time-left" style="color:black;">{{ participant.user.first_name }} {{ participant.user.last_name }}</span>
                 <br><br>
               {% endif %}
@@ -254,7 +254,7 @@
               },
               {% endfor %}
 
-              {% for i in event_followers %}
+              {% for i in event_followers_includingown %}
               {
                   title :   "{{ i.name }}",
                   start :   '{{ i.start }}',

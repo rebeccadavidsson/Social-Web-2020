@@ -34,18 +34,16 @@ def index(request):
         if item:
             empt.append(item)
 
+    empt2 = empt
+
     for follower in profile.following.all():
         followersnames.append(follower.first_name)
 
     # Index into query if the people you follow also have events
     if empt:
+        empt.append(ScheduleItem.objects.filter(participants=profile).all().order_by('-start'))
         empt = empt[0]
-
-    # ordered_empt = []
-    # first = empt[0].start
-    # for item in empt:
-    #     if item.start > first:
-    #         ordered_empt.append(item)
+        empt2 = empt2[0]
 
     events = ScheduleItem.objects.all().order_by('-start')
 
@@ -55,10 +53,12 @@ def index(request):
     context = {
         "profile": profile,
         "events": ScheduleItem.objects.all().order_by('-start'),
+        "ownevents": ScheduleItem.objects.filter(participants=profile).all().order_by('-start'),
         "events_aftertoday": futurevents,
         "events_beforetoday": previousevents,
         "events_user":  ScheduleItem.objects.filter(participants=profile).all(),
-        "event_followers": empt,
+        "event_followers_includingown": empt,
+        "event_followers": empt2,
         "followersnames": followersnames,
         "ratings_user": Rating.objects.all(),
         "rated_events": Rating.objects.filter(user=request.user),
@@ -135,6 +135,10 @@ def personal_view(request):
     # get following user profiles
     profile = Profile.objects.get(user=request.user)
     following = profile.following.all()
+    following_profiles = []
+
+    for usr in following:
+        following_profiles.append(Profile.objects.filter(user=usr))
 
     # list with usernames to exclude from 'to_follow', starts with own account
     to_exclude = [request.user.username]
@@ -143,11 +147,10 @@ def personal_view(request):
     usernames = [person['username'] for person in following.values('username')]
     to_exclude += usernames
 
-    # get all users
-    all_users = User.objects.all()
 
     # show only users that you can follow
     to_follow = User.objects.exclude(username__in=to_exclude)
+    profiles_to_follow = Profile.objects.exclude(user__username__in=to_exclude)
 
     # get all events from this user
     events_user = ScheduleItem.objects.filter(participants=profile).all().order_by("-start")
@@ -164,7 +167,9 @@ def personal_view(request):
         "username": request.user,
         "firstname": request.user.first_name,
         "lastname": request.user.last_name,
+        "following_profiles": following_profiles,
         "users": to_follow,
+        "profiles_to_follow": profiles_to_follow,
         "following": following,
         "events_user": events_user,
         "previousevents": previousevents,
@@ -324,7 +329,7 @@ def add(request, event_id):
 
 
 def deleteevent(request, event_id):
-
+    print(event_id, "hsodihf")
     # Get user to add to participants
     profile = Profile.objects.get(user=request.user)
 
