@@ -321,3 +321,7 @@ transition: opacity 0.3s;
 .likesspan {
   float: none !important;
 }
+
+.btn btn btn-lg {
+  color: #F49B0E;
+}

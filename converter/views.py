@@ -64,6 +64,8 @@ def index(request):
         "rated_events": Rating.objects.filter(user=request.user),
         "checker": False
     }
+    for event_blijkbaar in empt:
+        print("EVENT: ", event_blijkbaar)
 
     return render(request, 'mainpage.html', context)
 
