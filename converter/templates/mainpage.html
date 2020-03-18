@@ -275,12 +275,15 @@
               {% endfor %}
             ],
             eventRender: function(info) {
-              console.log(info.event.extendedProps.id)
+              console.log(info.event.extendedProps.id, "HOI HOIH OIH OH")
                 let tooltip = new Tooltip(info.el, {
                 // title: '<u><h3 style ="color:' + info.event.extendedProps.textColor +'">' + info.event.extendedProps.teacher +'</h3></u>' + '<h4>' + info.event.extendedProps.people.slice(0, -2) + '</h4><span class = deletebutton><a class="btn btn btn-lg">
                 //   <span class="glyphicon glyphicon-remove"></span>
                 //   </a></span>',
-                title: '<u><h3 style ="color:' + info.event.extendedProps.textColor +'">' + info.event.extendedProps.teacher +'</h3></u>' + '<h4>' + info.event.extendedProps.people.slice(0, -2) + '<span class = deletebutton style = "display: inline-block"><a class="btn btn btn-lg style="color:white" href="{% url "delete" ' + info.event.extendedProps.id + '%}">REMOVE</a></span></h4>',
+                title: '<u><h3 style ="color:' +
+                    info.event.extendedProps.textColor +'">' + info.event.extendedProps.teacher +
+                    '</h3></u>' + '<h4>' + info.event.extendedProps.people.slice(0, -2) +
+                    `<span class = "deletebutton" style = "display: inline-block"><a class="btn btn btn-lg style="color:white" href="/delete_event/${info.event.extendedProps.id}">REMOVE</a></span></h4>`,
                 placement: 'top',
                 trigger: 'hover',
                 container: 'body',

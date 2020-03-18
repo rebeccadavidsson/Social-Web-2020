@@ -322,7 +322,7 @@ def add(request, event_id):
 
 
 def deleteevent(request, event_id):
-
+    print(event_id, "hsodihf")
     # Get user to add to participants
     profile = Profile.objects.get(user=request.user)
 
