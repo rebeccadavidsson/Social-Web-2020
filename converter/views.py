@@ -333,7 +333,7 @@ def add(request, event_id):
 
 
 def deleteevent(request, event_id):
-    print(event_id, "hsodihf")
+
     # Get user to add to participants
     profile = Profile.objects.get(user=request.user)
 
@@ -348,7 +348,10 @@ def review(request, event_id):
 
     # TODO check if comment and rating is entered --> javascript :)
     review = request.POST["comment"]
-    rating = int(request.POST["rating"])
+    try:
+        rating = int(request.POST["rating"])
+    except:
+        rating = 0
 
     event = ScheduleItem.objects.get(id=event_id)
 

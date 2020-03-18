@@ -97,8 +97,8 @@
                         <div class="col-md-12">
                           <form accept-charset="UTF-8" action="{% url 'review' event.id %}" method="post">
                             {% csrf_token %}
-                              <input value="ratings-hidden" name="rating" type="hidden">
-                              <textarea class="form-control animated" cols="50" value="new-review" name="comment" placeholder="Enter your review here..." rows="5"></textarea>
+                              <input value="ratings-hidden" name="rating" type="hidden" required>
+                              <textarea class="form-control animated" cols="50" value="new-review" name="comment" placeholder="Enter your review here..." rows="5" required></textarea>
 
                               <div class="text-left">
                                 <div class="stars starrr" data-rating="0"></div>
