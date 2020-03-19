@@ -1,9 +1,15 @@
 
-
+#dropdownrow{
+  padding:2%;
+}
 .space {
   height: 25px;
 }
 
+.statstext{
+  font-size: 15px;
+
+}
 .emp-profile{
     padding: 7%;
     margin: auto;
@@ -16,6 +22,27 @@
 
 .emp-profile::-webkit-scrollbar {
     display: none;
+}
+
+.line {
+    fill: none;
+    stroke: #ffab00;
+    stroke-width: 3;
+}
+
+circle {
+  fill: #ffab00;
+  color:#ffab00
+}
+
+.area {
+  fill: lightsteelblue;
+}
+
+.domain {
+  fill: rgb(41, 41, 41, 0.5);
+  /* stroke: white;  */
+  stroke-width: 0;
 }
 
 .profile-img{
@@ -152,7 +179,7 @@
   line-height: 1;
   font-weight: bold;
   padding: 12px;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgb(41, 41, 41, 0.5);
   color: #fff;
   border-radius: 2px;
 }
@@ -177,6 +204,14 @@
   left: 0;
 }
 
+.xtitle{
+  /* color: red; */
+  /* color: rgb(41, 41, 41, 0.5); */
+  font-size: 18px;
+}
+.ytitle{
+  font-size: 18px
+}
 #wrapper {
   width:inherit;
 }
