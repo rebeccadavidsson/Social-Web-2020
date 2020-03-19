@@ -227,9 +227,9 @@ def personal_view(request):
     # get all the people that is following this person
     allprofiles = Profile.objects.all()
     followers_for_this_person = []
-    for profile in allprofiles:
-        if request.user in profile.following.all():
-            followers_for_this_person.append(profile)
+    for profiletemp in allprofiles:
+        if request.user in profiletemp.following.all():
+            followers_for_this_person.append(profiletemp)
 
     # list with usernames to exclude from 'to_follow', starts with own account
     to_exclude = [request.user.username]
@@ -251,7 +251,6 @@ def personal_view(request):
     events = ScheduleItem.objects.all().order_by("-start")
     # Seperate previous and future events
     previousevents, futurevents = geteventday(events)
-
     context = {
         "profile": profile,
         "username": request.user,
