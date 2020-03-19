@@ -5,7 +5,8 @@
 {% block nav %}{% include 'navigation.html' %}{% endblock nav %}
 
 {% block body %}
-
+<!-- <style> /* set the CSS */
+</style -->
 {% load static %}
 
 <div class="space"></div>
@@ -194,6 +195,429 @@
     </form>
 </div>
 
+<div id="option">
+    <input name="updateButton"
+           type="button"
+           value="Update"
+           onclick="updateData()" />
+</div>
+
+<!-- load the d3.js library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+
+<script type="text/javascript">
+
+// Set the dimensions of the canvas / graph
+var margin = {top: 30, right: 20, bottom: 30, left: 50},
+    width = 600 - margin.left - margin.right,
+    height = 270 - margin.top - margin.bottom;
+
+// Parse the date / time
+var parseDate = d3.time.format("%d-%b-%y").parse;
+
+// var div = d3.select("body").append("div")
+//     .attr("class", "tooltip")
+//     .style("opacity", 0);
+
+
+
+// Set the ranges
+var x = d3.scale.linear().range([0, width]);
+var y = d3.scale.linear().range([height, 0]);
+
+// Define the axes
+var xAxis = d3.svg.axis().scale(x)
+    .orient("bottom").ticks(5);
+
+var yAxis = d3.svg.axis().scale(y)
+    .orient("left").ticks(5);
+
+// Define the line
+// var valueline = d3.svg.line()
+//     .x(function(d) { return d.date; })
+//     .y(function(d) { return d.close; });
+
+var valueline2 = d3.svg.line()
+    .x(function(d) { return x(d.week); })
+    .y(function(d) { return y(d.stats); });
+
+// Adds the svg canvas
+var svg = d3.select("body")
+    .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .attr("id", "lineplot")
+    .append("g")
+        .attr("transform",
+              "translate(" + margin.left + "," + margin.top + ")");
+
+
+
+  var tip = d3.tip()
+              .attr("class", "d3-tip")
+              .offset([-10, 0])
+              .html(function(d) {
+                  return ("Activities:" + d.stats)
+
+              })
+var dropDown = d3.select("body").append("select")
+     .attr("name", "name-list");
+
+// Get the data
+{% load static %}
+Date.prototype.getWeek = function() {
+  var date = new Date(this.getTime());
+  date.setHours(0, 0, 0, 0);
+  // Thursday in current week decides the year.
+  date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+  // January 4 is always in week 1.
+  var week1 = new Date(date.getFullYear(), 0, 4);
+  // Adjust to Thursday in week 1 and count number of weeks from date to week1.
+  return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000
+                        - 3 + (week1.getDay() + 6) % 7) / 7);
+}
+
+Date.prototype.getWeekYear = function() {
+  var date = new Date(this.getTime());
+  date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+  return date.getFullYear();
+}
+var today = new Date("2-May-19");
+var weekno = today.getWeek();
+
+week_array = new Object;
+
+
+// Get the data again
+d3.csv("{% static 'data/test.csv' %}", function(error, data) {
+
+    data.forEach(function(d) {
+    var week_date = new Date(d.date);
+    var weekno = week_date.getWeek();
+    if (weekno in week_array) {
+      week_array[weekno] += 1
+    }
+    else{
+      week_array[weekno] = 1
+    }
+
+   });
+  data_stats = []
+
+  Object.keys(week_array).forEach(function(d){
+    obj = {week: +d, stats: +week_array[d]}
+    data_stats.push(obj)
+  })
+
+  // Get the <data</data>
+    // Scale the range of the data
+    x.domain([d3.min(data_stats, function(d) { return d.week; }), d3.max(data_stats, function(d) { return d.week; })]);
+    y.domain([0, d3.max(data_stats, function(d) { return d.stats; })]);
+
+
+    // console.log(valueline(data_stats))
+    // Add the valueline path.
+    svg.append("path")
+        .attr("class", "line")
+        .attr("d", valueline2(data_stats));
+
+    // Add the X Axis
+    svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis);
+
+    // Add the Y Axis
+    svg.append("g")
+        .attr("class", "y axis")
+        .call(yAxis);
+
+    d3.select("#lineplot").call(tip);
+    d3.select("#lineplot").append("g")
+        .append("g")
+        .attr("class", "line-and-dots")
+        .attr("transform", "translate(" + ((margin.left + margin.right+ margin.top) / 2) + "," + margin.top + ")")
+        // .attr("transform", "translate(" + width +"," + height + ")")
+      .selectAll("line-circle")
+      .data(data_stats)
+      .enter().append("circle")
+       .attr("class", "data-circle")
+       .attr("r", 5)
+       .attr("cx", function(d) { return x(d.week); })
+       .attr("cy", function(d) { return y(d.stats); })
+       // .attr("r", function(d) { return d.r; })
+        .style("fill", function(d){ return "blue"; })
+
+    .on("mouseover", function(d){
+          tip.show(d);
+           d3.select(this)
+             .style("opacity", 1)
+             .style("stroke","white")
+             .style("stroke-width",3);
+        })
+    .on("mouseout", function(d) {
+          tip.hide(d);
+          d3.select(this)
+            .style("opacity", 0.8)
+            .style("stroke","white")
+            .style("stroke-width",0);
+      });
+
+});
+
+  // Object.keys(data).forEach(function(d){
+  //   // Scale the range of the data
+  //   x.domain(d3.extent(Object.keys(data), function(d) { return d; }));
+  //   y.domain([0, d3.max(Object.values(data), function(d) { return week_array[d]; })]);
+  //   // Add the valueline path.
+  //   svg.append("path")
+  //       .attr("class", "line")
+  //       .attr("d", valueline2(data);
+  //
+  //   // d3.svg.line()
+  //   //     .x(function(d) { return x(d); })
+  //   //     .y(function(e) { return y(e); });
+  //
+  //   // Add the X Axis
+  //   svg.append("g")
+  //       .attr("class", "x axis")
+  //       .attr("transform", "translate(0," + height + ")")
+  //       .call(xAxis);
+  //
+  //   // Add the Y Axis
+  //   svg.append("g")
+  //       .attr("class", "y axis")
+  //       .call(yAxis);
+  // })
+  //
+	// });
+
+
+// console.log(Object.keys(week_array))
+// console.log(week_array)
+// for (i in week_array) {
+//   console.log(i);
+// }
+
+// // Set the dimensions of the canvas / graph
+// var margin = {top: 30, right: 20, bottom: 30, left: 50},
+//     width = 600 - margin.left - margin.right,
+//     height = 270 - margin.top - margin.bottom;
+//
+// // Parse the date / time
+// var parseDate = d3.time.format("%d-%b-%y").parse;
+//
+// // Set the ranges
+// var x = d3.time.scale().range([0, width]);
+// var y = d3.scale.linear().range([height, 0]);
+//
+// // Define the axes
+// var xAxis = d3.svg.axis().scale(x)
+//     .orient("bottom").ticks(5);
+//
+// var yAxis = d3.svg.axis().scale(y)
+//     .orient("left").ticks(5);
+//
+// // Define the line
+// var valueline = d3.svg.line()
+//     .x(function(d) { return x(d.date); })
+//     .y(function(d) { return y(d.close); });
+//
+// // Adds the svg canvas
+// var svg = d3.select("body")
+//     .append("svg")
+//         .attr("width", width + margin.left + margin.right)
+//         .attr("height", height + margin.top + margin.bottom)
+//     .append("g")
+//         .attr("transform",
+//               "translate(" + margin.left + "," + margin.top + ")");
+//
+//
+// d3.csv("{% static 'data/data.csv' %}", function(error, data) {
+// 		data.forEach(function(d) {
+// 		d.date = parseDate(d.date);
+// 		d.close = +d.close;
+//
+	// });
+
+    // // Scale the range of the data
+    // x.domain(d3.extent(data, function(d) { return d.date; }));
+    // y.domain([0, d3.max(data, function(d) { return d.close; })]);
+    // // Add the valueline path.
+    // svg.append("path")
+    //     .attr("class", "line")
+    //     .attr("d", valueline(data));
+    //
+    // // Add the X Axis
+    // svg.append("g")
+    //     .attr("class", "x axis")
+    //     .attr("transform", "translate(0," + height + ")")
+    //     .call(xAxis);
+    //
+    // // Add the Y Axis
+    // svg.append("g")
+    //     .attr("class", "y axis")
+    //     .call(yAxis);
+
+// });
+
+// ** Update data section (Called from the onclick)
+function updateData() {
+
+  Date.prototype.getWeek = function() {
+    var date = new Date(this.getTime());
+    date.setHours(0, 0, 0, 0);
+    // Thursday in current week decides the year.
+    date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+    // January 4 is always in week 1.
+    var week1 = new Date(date.getFullYear(), 0, 4);
+    // Adjust to Thursday in week 1 and count number of weeks from date to week1.
+    return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000
+                          - 3 + (week1.getDay() + 6) % 7) / 7);
+  }
+
+  Date.prototype.getWeekYear = function() {
+    var date = new Date(this.getTime());
+    date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+    return date.getFullYear();
+  }
+  var today = new Date("2-May-19");
+  var weekno = today.getWeek();
+
+  week_array = new Object;
+
+    // Get the data again
+    d3.csv("{% static 'data/test-alt.csv' %}", function(error, data) {
+      data.forEach(function(d) {
+        console.log(d)
+      var week_date = new Date(d.date);
+      var weekno = week_date.getWeek();
+      if (weekno in week_array) {
+        week_array[weekno] += 1
+      }
+      else{
+        week_array[weekno] = 1
+      }
+
+     });
+    data_stats = []
+    Object.keys(week_array).forEach(function(d){
+      obj = {week: +d, stats: +week_array[d]}
+      data_stats.push(obj)
+      // console.log(week_array[d])
+    })
+    // console.log(valueline2(data_stats))
+
+    	// Scale the range of the data <again</again>
+
+    	x.domain([d3.min(data_stats, function(d) { return d.week; }), d3.max(data_stats, function(d) { return d.week; })]);
+	    y.domain([0, d3.max(data_stats, function(d) { return d.stats; })]);
+
+      var xAxis = d3.svg.axis().scale(x)
+          .orient("bottom").ticks(5);
+
+      var yAxis = d3.svg.axis().scale(y)
+          .orient("left").ticks(5);
+    // Select the section we want to apply our changes to
+    var svg = d3.select("body").transition()
+    .duration(500);
+    console.log(data_stats)
+
+    // Make the changes
+        svg.select(".line")   // change the line
+            .duration(750)
+            .attr("d", valueline2(data_stats));
+        svg.select(".x.axis") // change the x axis
+            .duration(750)
+            .call(xAxis);
+        svg.select(".y.axis") // change the y axis
+            .duration(750)
+            .call(yAxis);
+
+      // d3.select('data-circle')
+      //   .duration(750)
+      //
+      //   .transition(data_stats)
+      //    .attr("cx", function(d) { return x(d.week); })
+      //    .attr("cy", function(d) { return y(d.stats); })
+      // d3.selectAll("line-circle")
+
+      // .transition(750)
+       var circle = d3.select(".line-and-dots").selectAll("circle")
+       .data(data_stats);
+
+        circle.exit().remove();
+
+      circle.data(data_stats).enter().append("circle")
+        .attr("class", "data-circle")
+        .attr("r", 5)
+        .attr("cx", function(d) { return x(d.week); })
+        .attr("cy", function(d) { return y(d.stats); })
+        .style("fill", function(d){ return "red"; })
+        .on("mouseover", function(d){
+              tip.show(d);
+               d3.select(this)
+                 .style("opacity", 1)
+                 .style("stroke","white")
+                 .style("stroke-width",3);
+            })
+        .on("mouseout", function(d) {
+              tip.hide(d);
+              d3.select(this)
+                .style("opacity", 0.8)
+                .style("stroke","white")
+                .style("stroke-width",0);
+          });
+                        // .attr("r",0);//create any new circles needed
+       //
+       circle.transition()
+       .duration(500)
+       .attr("r", 5)
+       .attr("cx", function(d) { console.log(x(d.week));return x(d.week); })
+       .attr("cy", function(d) { return y(d.stats); })
+       // .attr("r", function(d) { return d.r; })
+        .style("fill", function(d){ return "red"; });
+
+
+
+
+         // d3.selectAll("#data-circle")
+         // .data(data_stats).transition()
+         //              .duration(1000)
+         //              .attr("cx", function(d) { return d.week; })
+         //              .attr("cy", function(d) { return d.stats; })
+                      // .attr("r", function(d, i) { return d.r; });
+         // var selectValue = d3.select('select').property('value')
+        // var data2 = data[selectValue]
+        // svg.selectAll('circle')
+        //    .data(data_stats)
+        //    .transition()
+        //    .duration(1000)
+        //    .attr('cx', function (d) { return d.cx })
+        //    .attr('cy', function (d) { return d.cy })
+        //    .attr('r', function (d) { return d.r })
+        //    .attr('fill', function (d) { return d.fill })
+
+            // d3.select("svg").append("g")
+            //     .append("g")
+            //     .attr("class", "line-and-dots")
+            //     .attr("transform", "translate(" + ((margin.left + margin.right+ margin.top) / 2) + "," + margin.top + ")")
+            //     // .attr("transform", "translate(" + width +"," + height + ")")
+            //   .selectAll("line-circle")
+            //   .data(data_stats)
+            //   .enter().append("circle")
+            //    .attr("class", "data-circle")
+            //    .attr("r", 5)
+            //    .attr("cx", function(d) { return x(d.week); })
+            //    .attr("cy", function(d) { return y(d.stats); })
+            //    // .attr("r", function(d) { return d.r; })
+            //     .style("fill", function(d){ return "blue"; });
+
+    });
+}
+
+</script>
 <script type="text/javascript">
 
   function searchFunction() {
