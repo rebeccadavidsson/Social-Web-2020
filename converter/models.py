@@ -9,9 +9,9 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 class Profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    following = models.ManyToManyField(User, related_name='followers')
-    interests = models.CharField(max_length=64)  # Willen we hier ook een rating aan toevoegen?
-    photo = models.ImageField(upload_to = "static/images", default = "media/logo.png")
+    following = models.ManyToManyField(User, related_name='followers', null=True, blank=True)
+    interests = models.CharField(max_length=64, null=True, blank=True)
+    photo = models.ImageField(upload_to = "images", default = "converter/media/images/logo.png")
 
     def __str__(self):
         return f'{self.user}'
@@ -24,7 +24,8 @@ class ScheduleItem(models.Model):
     end = models.CharField(max_length=64)
     date = models.CharField(max_length=64)
     participants = models.ManyToManyField(Profile, related_name="participants")
-    # rating = models.ManyToManyField(Rating, related_name="ratings")
+    likes = models.IntegerField(default=0)
+    hearts = models.IntegerField(default=0)
 
     locations = [
         ("universum", "Universum"),
@@ -40,7 +41,7 @@ class ScheduleItem(models.Model):
     )
 
     def __str__(self):
-        return self.name
+        return f'{self.name} - {self.id}'
 
 
 class Rating(models.Model):
@@ -55,14 +56,10 @@ class Rating(models.Model):
     # event_id = models.IntegerField(default=0)
     event = models.ForeignKey(ScheduleItem, on_delete=models.CASCADE, null=True)
 
+    def __str__(self):
+        return f'{self.comment} - {self.rating}'
+
 
 class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.CharField(max_length=255)
-
-
-# class Course(models.Model):
-#     name = models.CharField(max_length=64)
-#     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
-#     scheduled_courses = models.ManyToManyField(ScheduleItem, on_delete=models.CASCADE)
-#     price = models.DecimalField(decimal_places=2, max_digits=4)

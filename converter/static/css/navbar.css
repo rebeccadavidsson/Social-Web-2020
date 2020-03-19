@@ -1,18 +1,4 @@
 
-.navbar {
-  padding: 15px 10px;
-  background: #fff;
-  border: none;
-  border-radius: 0;
-  margin-bottom: 40px;
-  -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); }
-
-.navbar-btn {
-  -webkit-box-shadow: none;
-  box-shadow: none;
-  outline: none !important;
-  border: none; }
 
 .line {
   width: 100%;
@@ -26,11 +12,13 @@
 #sidebar {
   /* justify-content: left;
   align-items: left; */
+  padding-top: 50px;
+  height: 110%;
+  margin-top: -20px;
   float: left;
   min-width: 310px;
   max-width: 310px;
-  background: #000B18;
-  color: #000B18;
+  background: #363636;
   -webkit-transition: all 0.3s;
   -o-transition: all 0.3s;
   transition: all 0.3s; }

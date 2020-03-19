@@ -7,7 +7,7 @@ tbody.fc-body {
 }
 
 .mainschedule {
-  height: 90vh;
+  /* height: 87vh; */
   margin-top: 2%;
   margin-left: 5%;
   width: 55%;
@@ -18,7 +18,7 @@ tbody.fc-body {
 
 #calendar span {
   margin-left : 0px ! important;
-  color: silver;
+  color: black;
 }
 
 #calendar {
@@ -30,7 +30,7 @@ tbody.fc-body {
 }*/
 
 #mainfeed {
-  background: rgba(31, 31, 31, 0.5);
+  background: rgba(31, 31, 31, 0.05);
   height: 100vh;
   width:24%;
   padding: 10px;
@@ -99,8 +99,8 @@ hr {
 
 /* Darker chat container */
 .darker {
-  border-color: #ccc;
-  background-color: #ddd;
+  /* border-color: silver; */
+  background-color: lightgrey;
 }
 
 /* Clear floats */
@@ -113,7 +113,7 @@ hr {
 /* Style images */
 .containerfeed img {
   float: left;
-  max-width: 40px;
+  max-width: 25px;
   width: 100%;
   margin-right: 20px;
   border-radius: 50%;
@@ -189,6 +189,135 @@ hr {
   border-bottom-bottom-radius: 0px;
 }
 
-#welwel > div.text-right > a {
+#welwel > div.text-left > a {
   color:white;
+  margin-top:5px;
+}
+
+.containerfeed {
+  position: relative;
+  /* display: inline-block; */
+  /* border-bottom: 1px dotted black; */
+}
+
+.containerfeed .tooltiptext {
+  /* visibility: hidden; */
+width: 200px;
+background-color: #555;
+font-size: 12px;
+color: #fff;
+text-align: center;
+border-radius: 6px;
+padding: 10px;
+position: absolute;
+z-index: 3;
+bottom: 105%;
+left: 50%;
+margin-left: -60px;
+opacity: 0;
+transition: opacity 0.3s;
+}
+
+.containerfeed .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.containerfeed:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+#tooltipadd a {
+  color: white;
+  font-size: 16px;
+}
+
+#calendar > div.fc-view-container > div > table > tbody > tr > td > div > div > div.fc-content-skeleton > table > tbody > tr > td > div > div > a > div.fc-content > div.fc-time > span {
+  color: white;
+}
+
+.commentinput {
+  display: none;
+  width: 100%;
+  padding: 8px;
+}
+
+.deletebutton {
+  display: none;
+  color: black;
+}
+
+.glyphicon-remove:before {
+  color: black;
+}
+
+#legendblue {
+  background-color: #ED1C24;
+  border: none;
+  /* width: 100px; */
+  opacity: 1.0;
+}
+
+#legendred {
+  background-color: #2F2E7E;
+  border: none;
+  /* width: 100px; */
+  opacity: 1.0;
+}
+
+.legend {
+  margin-top: 5%;
+}
+
+.legend button{
+  font-size: 16px;
+  background-color: rgb(228, 228, 228);
+  color: black;
+  font-weight: 600;
+}
+
+.fc-button-primary {
+  background-color: #F49B0E !important;
+  border-color: #F49B0E !important;
+}
+.fc-button-primary:hover {
+  background-color: #212529 !important;
+  border-color: #212529 !important;
+}
+
+.fc-button-primary:not(:disabled):active, .fc-button-primary:not(:disabled).fc-button-active {
+  opacity: 0.65;
+}
+
+#mainfeed span {
+  float: right;
+}
+
+#mainfeed .addbutton, #mainfeed .deletebutton {
+  margin-top: -3px;
+  float: left;
+  margin-left: -5px;
+}
+
+.text-left span {
+  float: left !important;
+}
+
+#welwel > span {
+  float: left !important;
+}
+
+/* #mainfeed > div > span {
+  margin-bottom: 10px;
+} */
+
+.likesspan {
+  float: none !important;
 }

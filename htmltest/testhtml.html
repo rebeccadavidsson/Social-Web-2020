@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="jumbotron text-center">
+  <h1>My First Bootstrap Page</h1>
+  <p>Resize this responsive page to see the effect!</p>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4">
+      <h3>Column 1</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+    </div>
+    <div class="col-sm-4">
+			<form action="/action_page.php" method="get" id="nameform">
+			  <label for="fname">First name:</label>
+			  <input type="text" id="fname" name="fname"><br><br>
+  			<input type="submit" value="Post">
+			</form>
+
+			<p class="font-weight-bold">Bootstrap feed is a component which allows visualizing the activity of the users.</p>
+
+			<p><strong>Detailed documentation and more examples of Bootstrap feed you can find in our <a href="https://mdbootstrap.com/docs/jquery/sections/social/"
+				target="_blank">Bootstrap Social Sections Docs</a>.</p>
+
+			<hr class="my-5">
+
+
+
+			<hr class="my-5">
+
+			<h2 class="my-5 h2">v.2</h2>
+
+			<!-- Section: Social newsfeed v.2 -->
+			<section class="my-5">
+
+				<!-- Grid row -->
+				<div class="row">
+
+					<!-- Grid column -->
+					<div class="col-lg-6">
+
+						<!-- Newsfeed -->
+						<div class="mdb-feed">
+
+							<!-- First news -->
+							<div class="news">
+
+								<!-- Label -->
+								<div class="label">
+									<img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-1-mini.jpg" class="rounded-circle z-depth-1-half">
+								</div>
+
+								<!-- Excerpt -->
+								<div class="excerpt">
+
+									<!-- Brief -->
+									<div class="brief">
+										<a class="name">John Doe</a> added you as a friend
+										<div class="date">1 hour ago</div>
+									</div>
+
+									<!-- Feed footer -->
+									<div class="feed-footer">
+										<a class="comment" data-toggle="collapse" href="#collapseExample-1" aria-expanded="false"
+											aria-controls="collapseExample-1">Comment</a> &middot;
+										<span>
+											<a>7</a>
+										</span>
+										<a class="thumbs" data-toggle="tooltip" data-placement="top" title="I like it">
+											<i class="fa fa-thumbs-up"></i>
+										</a>
+										<a class="thumbs" data-toggle="tooltip" data-placement="top" title="I don't like it">
+											<i class="fa fa-thumbs-down"></i>
+										</a>
+										<div class="collapse" id="collapseExample-1">
+											<div class="card card-body mt-1">
+
+												<!-- Add comment -->
+												<div class="md-form mt-1 mb-1">
+													<textarea type="text" id="form7" class="form-control md-textarea" rows="3"></textarea>
+													<label for="form7">Add comment</label>
+												</div>
+												<div class="d-flex justify-content-end">
+													<button type="button" class="btn btn-flat waves-effect" data-toggle="collapse" data-target="#collapseExample-1"
+														aria-expanded="false" aria-controls="collapseExample-1">Cancel</button>
+													<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample-1"
+														aria-expanded="false" aria-controls="collapseExample-1">Reply</button>
+												</div>
+
+											</div>
+										</div>
+									</div>
+									<!-- Feed footer -->
+
+								</div>
+								<!-- Excerpt -->
+
+							</div>
+							<!-- First news -->
+
+						</div>
+						<!-- Newsfeed -->
+
+					</div>
+					<!-- Grid column -->
+
+				</div>
+				<!-- Grid row -->
+
+			</section>
+			<!-- Section: Social newsfeed v.2 -->
+
+    </div>
+
+  </div>
+</div>
+
+</body>
+
+
+</html>

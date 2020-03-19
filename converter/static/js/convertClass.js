@@ -53,7 +53,6 @@ for (const button of selector) {
 
     var data = new FormData();
     data.append('data', ineer_html)
-
     var input = document.querySelector("#exampleModal > div > div > div.modal-body");
 
     input.innerHTML += ineer_html;

@@ -2,7 +2,7 @@
   color: white;
   height: 100vh;
   /* margin-top: 4%; */
-  margin-left: 5%;
+  margin-left: 15%;
   width: 80%;
   /* float:left; */
   overflow-y: scroll;
@@ -17,7 +17,7 @@
 
 .rooster p.title {
   font: 24px/24px 'Open Sans', sans-serif;
-  color: white;
+  color: #495057;
   font-size: 18px;
   font-weight: 700;
   margin: 15px 0 5px;
@@ -148,7 +148,6 @@
   font: 14px/24px 'Open Sans', sans-serif;
   border-spacing: 1px;
   font-size: 13px;
-  /* line-height: 5px; */
   box-sizing: border-box;
   background: rgb(255,255,255,0);
   padding: 5px 8px;

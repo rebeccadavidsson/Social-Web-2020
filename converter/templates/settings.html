@@ -17,6 +17,73 @@
 <div class="space"></div>
 <div class="container emp-profile">
 
+  <div class="row">
+
+      <div class="col-md-4">
+          <div class="profile-img">
+              <img src="https://usc.uva.nl/wp-content/themes/usc/img/logo-usc.png" alt="FOTOFOTO"/>
+          </div>
+
+      </div>
+      <div class="col-md-6">
+
+          <div class="profile-head">
+            <h3 style="color:black">Hello, {{ user.first_name }}!</h3>
+            <hr>
+            <h4 style="color:black" autocapitalize="off">Currently logged in as: {{ user.username }}</h4>
+              <ul class="nav nav-tabs" id="myTab" role="tablist" style="width:97%;">
+                <br>
+              </ul>
+              <div class="space"></div>
+          </div>
+
+          <h1>Edit profile settings</h1><br>
+
+          <!-- django crispy form -->
+          <form action="{% url 'settings' profile.pk %}" enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+
+            <div class="row">
+              <div class="col-12">
+
+                {% csrf_token %}
+                {{ form.interests|as_crispy_field }}
+
+              </div>
+
+            </div>
+            <div class="space"></div>
+
+            <div class="row">
+              <div class="col-6">
+
+                {% csrf_token %}
+                {{ form.photo|as_crispy_field }}
+
+              </div>
+              <div class="col-6"></div>
+            </div>
+            <div class="space"></div>
+
+            <input type="submit" value="Submit" class="btn btn-success"></input>
+          </form>
+
+          <!-- delete profile -->
+          <br><br><br><br><h2>Do you want to delete your profile?</h2><br>
+          <form action="{% url 'delete' profile.user.username %}" enctype="multipart/form-data" method="post" onsubmit="show_alert()">
+              {% csrf_token %}
+              <button class="btn btn-danger" type="submit">Delete</button>
+          </form>
+
+          <br><br>
+
+      </div>
+      <div class="col-md-2"></div>
+  </div>
+  <hr/>
+
+</div>
+    <!--
     <form method="post" action="{% url 'settings' profile.pk %}">
       {% csrf_token %}
 
@@ -27,10 +94,7 @@
                 <div class="profile-img">
                     <img src="https://usc.uva.nl/wp-content/themes/usc/img/logo-usc.png" alt="FOTOFOTO"/>
                 </div>
-                <!-- <div class="profile-img">
-                  <p>{{ MEDIA_URL }}</p>
-                    <img src="{{ MEDIA_URL }}logo.png" alt="FOTOFOTO"/>
-                </div> -->
+
             </div>
             <div class="col-md-6">
 
@@ -61,7 +125,7 @@
                       <div class="col-6">
 
                         {% csrf_token %}
-                        {{ form.photo|as_crispy_field }}
+                        {{ form.as_p }}
 
                       </div>
                       <div class="col-6"></div>
@@ -70,6 +134,12 @@
                     <div class="space"></div>
 
                     <button class="btn btn-success" type="submit">Update</button>
+                </form>
+
+                <br><br><br><br><h2>Do you want to delete your profile?</h2><br>
+                <form action="{% url 'delete' profile.user.username %}" enctype="multipart/form-data" method="post" onsubmit="show_alert()">
+                    {% csrf_token %}
+                    <button class="btn btn-danger" type="submit">Delete</button>
                 </form>
 
                 <br><br>
@@ -86,9 +156,6 @@
                     <p>{{ username }}</p>
 
                 </div>
-                <!-- <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
-                <br> -->
-                <div class="space"></div>
 
 
             </div>
@@ -97,6 +164,19 @@
             </div>
         </div>
     </form>
-</div>
+    -->
+
+
+  <!-- <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
+  <br> -->
+
+<script>
+  function show_alert() {
+    if(!confirm("Are you sure you want to delete your profile? You cannot undo this action.")) {
+      return false;
+    }
+    this.form.submit();
+  }
+</script>
 
 {% endblock %}

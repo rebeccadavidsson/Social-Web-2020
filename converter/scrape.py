@@ -79,7 +79,13 @@ def scrape_item(input):
     month_dict = {"januari": 1, "februari": 2, "maart": 3, "april": 4} #TODO: OOIT MOET DIT NAAR ENGELS
 
     # convert day
-    date = all_p[5].get_text()
+    try:
+        date = all_p[5].get_text()
+        secondweek = False
+    except:
+        date = all_p[4].get_text()
+        secondweek = True
+
     for key in month_dict:
         if key in date:
             month = month_dict[key]

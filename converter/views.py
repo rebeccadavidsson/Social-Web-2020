@@ -1,17 +1,17 @@
 #!/usr/bin/python
 import os
-from django.shortcuts import redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-from subprocess import call
+import collections
+# from subprocess import call
 
 # from django.contrib.auth.decorators import permission_required
 from .models import Profile, ScheduleItem, Rating
-from .forms import ProfileForm
+from .forms import ProfileForm, ProfileDeleteForm, RatingDeleteForm
 from .scrape import scrape_item
-from .helpers import convertdate, refreshschedule
+from .helpers import convertdate, refreshschedule, geteventday
 
 
 def index(request):
@@ -26,42 +26,60 @@ def index(request):
     followers = profile.following.all()
 
     # Get events from other followers
-    empt = []
+    empt, followersnames = [], []
+
     for follower in followers:
         to_follow = Profile.objects.get(user__username=follower.username)
-        item = ScheduleItem.objects.filter(participants=to_follow).all()
+        item = ScheduleItem.objects.filter(participants=to_follow).exclude(participants=profile).all().order_by('-start')
         if item:
-            empt.append(item)
+            empt.append(item.all())
 
+    empt2 = empt
+
+    for follower in profile.following.all():
+        followersnames.append(follower.first_name)
+
+    tempempt = []
     # Index into query if the people you follow also have events
     if empt:
-        empt = empt[0]
+        # empt.append(ScheduleItem.objects.filter(participants=profile).all().order_by('-start'))
+        for i in empt:
+            tempempt.append(i[0])
+        empt2 = empt2[0]
+    empt = tempempt
+    events = ScheduleItem.objects.all().order_by('-start')
 
+    previousevents, futurevents = geteventday(events)
+
+    # Get events for logged in user
     events_user = ScheduleItem.objects.filter(participants=profile).all()
 
-    ratings_user = Rating.objects.all()
+    to_exclude = []
+    # Exclude double events of friends
+    for item in events_user:
+        if item in empt:
+            to_exclude.append(item.id)
 
-    rated_events = Rating.objects.filter(user=request.user)
-
-
-    # user_ratings = []
-    # for ratings in events_user:
-    #     user_ratings.append(Rating.objects.filter(event=ratings))
-    #
-    # if user_ratings:
-    #     user_ratings = user_ratings[0]
-
+    events_user = events_user.exclude(id__in=to_exclude)
 
     # Filter events for user
     context = {
         "profile": profile,
-        "events": ScheduleItem.objects.all(),
+        "events": ScheduleItem.objects.all().order_by('-start'),
+        "ownevents": ScheduleItem.objects.filter(participants=profile).all().order_by('-start'),
+        "events_aftertoday": futurevents,
+        "events_beforetoday": previousevents,
         "events_user": events_user,
-        "event_followers": empt,
-        "ratings_user": ratings_user,
-        "rated_events": rated_events,
+        "event_followers_includingown": empt,
+        "event_followers": empt2,
+        "followersnames": followersnames,
+        "ratings_user": Rating.objects.all(),
+        "rated_events": Rating.objects.filter(user=request.user),
         "checker": False
     }
+    for event_blijkbaar in empt2:
+        if event_blijkbaar in ScheduleItem.objects.filter(participants=profile).all():
+            print("EVENT: ", event_blijkbaar)
 
     return render(request, 'mainpage.html', context)
 
@@ -131,6 +149,17 @@ def personal_view(request):
     # get following user profiles
     profile = Profile.objects.get(user=request.user)
     following = profile.following.all()
+    following_profiles = []
+
+    for usr in following:
+        following_profiles.append(Profile.objects.filter(user=usr))
+
+    # get all the people that is following this person
+    allprofiles = Profile.objects.all()
+    followers_for_this_person = []
+    for profile in allprofiles:
+        if request.user in profile.following.all():
+            followers_for_this_person.append(profile)
 
     # list with usernames to exclude from 'to_follow', starts with own account
     to_exclude = [request.user.username]
@@ -139,31 +168,40 @@ def personal_view(request):
     usernames = [person['username'] for person in following.values('username')]
     to_exclude += usernames
 
-    # get all users
-    all_users = User.objects.all()
-
     # show only users that you can follow
     to_follow = User.objects.exclude(username__in=to_exclude)
-
+    profiles_to_follow = Profile.objects.exclude(user__username__in=to_exclude)
+    searchprofiles = Profile.objects.exclude(user__username__in=[profile])
     # get all events from this user
-    events_user = ScheduleItem.objects.filter(participants=profile).all()
+    events_user = ScheduleItem.objects.filter(participants=profile).all().order_by("-start")
 
     # get all rating from this user
     ratings = Rating.objects.filter(user=request.user).all()
+
+    events = ScheduleItem.objects.all().order_by("-start")
+    # Seperate previous and future events
+    previousevents, futurevents = geteventday(events)
 
     context = {
         "profile": profile,
         "username": request.user,
         "firstname": request.user.first_name,
         "lastname": request.user.last_name,
+        "following_profiles": following_profiles,
         "users": to_follow,
+        "followers_for_this_person": followers_for_this_person,
+        "profiles_to_follow": profiles_to_follow,
+        "searchprofiles": searchprofiles,
         "following": following,
         "events_user": events_user,
+        "previousevents": previousevents,
         "ratings": ratings,
-        "n": [1,2,3,4,5]
+        "n": [1, 2, 3, 4, 5]
     }
-    # TODO
+
     return render(request, 'personal.html', context)
+
+
 
 
 def searchprofile(request, user):  # TODO, dit moet user_id worden
@@ -208,7 +246,7 @@ def unfollow(request, username):
     return redirect("profile")
 
 
-def settings_view(request,pk):
+def settings_view(request, pk):
     """
     Let user edit their profile.
     """
@@ -221,11 +259,16 @@ def settings_view(request,pk):
 
         # get form and validate form
         form = ProfileForm(request.POST, request.FILES, instance=profile)
+        print("----------------------------",form)
+        print("))--", request.FILES)
+
         if form.is_valid():
             form.save(commit=False)
-            form.photo = request.POST.get("photo", False)
+            form.photo = request.POST.get("photo")
             # file_type = form.photo.url.split('.')[-1].lower()
             form.save()
+
+            # profile.photo =
             return redirect("profile")
 
     else:
@@ -261,7 +304,7 @@ def addschedule(request):
     Create schedule item.
     default location = universum (TODO!)
     """
-
+    print(request.POST.get("data"), "PIRNITNR")
     data = scrape_item(request.POST.get("data"))
 
     # Get user to add to participants
@@ -294,27 +337,62 @@ def addschedule(request):
     return HttpResponse("test")
 
 
+def add(request, event_id):
+    """
+    Add a new event_id from the mainpage by clicking on
+    a review or past class from someone else.
+    """
+
+    # Get user to add to participants
+    profile = Profile.objects.get(user=request.user)
+
+    # Select event from event_id
+    item = ScheduleItem.objects.filter(id=event_id).first()
+    print(item)
+    print(item.participants, '-------------------------------------')
+    item.participants.add(profile)
+    print(item.participants, '-------------------------------------')
+    return redirect('/')
+
+
+def deleteevent(request, event_id):
+
+    # Get user to add to participants
+    profile = Profile.objects.get(user=request.user)
+
+    # Select event from event_id
+    item = ScheduleItem.objects.filter(id=event_id).first()
+    item.participants.remove(profile)
+
+    return redirect("/")
+
 def review(request, event_id):
     """Save user's review of a training session."""
 
     # TODO check if comment and rating is entered --> javascript :)
     review = request.POST["comment"]
-    rating = request.POST["rating"]
+    try:
+        rating = int(request.POST["rating"])
+    except:
+        rating = 0
 
-    print(review, rating, event_id, "HSHKFJHSKJ")
     event = ScheduleItem.objects.get(id=event_id)
-    # Rating.objects.all().delete()
 
     # check if user already left rating, ask if they want to rerate the class
-    # if Rating.objects.filter(user=request.user, event=event).exists():
-    #     return render(request, "/", {"message": "You already left a rating for this course."})
+    event_to_rate = Rating.objects.filter(user=request.user, event=event).first()
 
-    # create new rating
-    new_rating = Rating(user=request.user,
-                        comment=review,
-                        rating=int(rating),
-                        event=event)
-    new_rating.save()
+    if event_to_rate:
+        event_to_rate.comment = review
+        event_to_rate.rating = rating
+        event_to_rate.save()
+
+    else:
+        # create new rating
+        new_rating = Rating(user=request.user,
+                            comment=review,
+                            rating=rating,
+                            event=event)
+        new_rating.save()
 
     return redirect("/")
 
@@ -323,6 +401,52 @@ def home_view(request):
     context = {}
     # TODO
     return render(request, 'home.html', context)
+
+
+def delete_rating(request, pk):
+    rating = get_object_or_404(Rating, pk=pk)
+    if rating.user == request.user and request.method == "POST":
+        form = RatingDeleteForm(request.POST, instance=rating)
+        if form.is_valid():
+            rating.delete()
+            return redirect("index")
+    else:
+        form = PostDeleteForm(instance=rating)
+
+    return redirect("index")
+
+def delete_profile(request, username):
+
+    user = get_object_or_404(User, username=username)
+    if request.method == "POST":
+        form = ProfileDeleteForm(request.POST, instance=user)
+        if form.is_valid():
+            user.delete()
+            return redirect("login")
+    else:
+        form = PostDeleteForm(instance=form)
+
+    return redirect("index")
+
+
+def like(request, event_id):
+    event = ScheduleItem.objects.filter(id=event_id).first()
+    event.likes += 1
+    event.save()
+    return redirect("/")
+
+def heart(request, event_id):
+    event = ScheduleItem.objects.filter(id=event_id).first()
+    event.hearts += 1
+    event.save()
+    return redirect("/")
+
+def schedule2(request):
+    return render(request, "schedule2.html")
+
+
+def comment(request):
+    pass
 
 
 def logout_view(request):

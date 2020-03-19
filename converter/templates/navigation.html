@@ -1,7 +1,18 @@
-<nav id="sidebar" class="active" style="height: 100%;">
-  <h1><a href="{% url 'mainpage' %}" class="logo">USC</a></h1>
+<nav id="sidebar" class="active" style="height: 103vh;">
+  <h1><a href="{% url 'mainpage' %}" class="logo">USC
+    <div class="space">
 
-  <h5 style="color:white; text-transform: capitalize;">{{ user.first_name }}</h5>
+    {% load static %}
+
+  </div>
+    <div class="profile-img">
+        <img src="{{ MEDIA_URL }}/images/logo.png" alt="USC Logo"/>
+    </div></a></h1>
+
+  <div class="space">
+
+  </div>
+  <h3 style="color:white; text-transform: capitalize; font-size:22px;">{{ user.first_name }}</h3>
   <ul class="list-unstyled components mb-5">
     <br>
     <li class="active">
