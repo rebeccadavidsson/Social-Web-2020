@@ -299,7 +299,7 @@ d3.select("#form1")
 .append("div")
 .attr("class", "col-sm-1")
 .text("From: ")
-.attr("class", "statstext")
+// .attr("class", "statstext")
 
 var dropDown1 = d3.select("#dropdownrow")
 
@@ -316,7 +316,7 @@ d3.select('#dropdownrow')
 .append("div")
 .attr("class", "col-sm-1")
 .text("to: ")
-.attr("class", "statstext")
+// .attr("class", "statstext")
 
 
 var dropDown2 = d3.select("#dropdownrow")
@@ -381,6 +381,9 @@ var button = d3.select("#dropdownrow")
 var svg = d3.select("#form1")
     .append("div")
     .attr("class", "row")
+    .attr("id", "statsrow")
+    .append("div")
+    .attr("class", "col-sm-8")
     .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
@@ -389,6 +392,7 @@ var svg = d3.select("#form1")
         .attr("transform",
               "translate(" + margin.left + "," + margin.top + ")");
 
+makeRating()
   var xTitle = svg.append("text")
        .attr("class", "xtitle")
        .attr("transform",
@@ -424,6 +428,125 @@ var svg = d3.select("#form1")
 
 // Get the data
 {% load static %}
+function makeRating(){
+
+
+  d3.select("#statsrow")
+  .append("div")
+  .attr("class", "col-sm-4")
+  .attr("id", "top3")
+
+  d3.csv("{% static 'data/test.csv' %}", function(error, data) {
+    activities = {}
+
+    data.forEach(function(d) {
+      if (d.class in activities){
+        activities[d.class] +=1
+      }
+      else{
+        activities[d.class] = 1
+      }
+
+
+    })
+
+    actsSorted = Object.keys(activities).sort(function(a,b){return activities[a]-activities[b]})
+  actsSorted.reverse()
+  console.log(actsSorted)
+
+  no1 = actsSorted[0]
+  no2 = actsSorted[1]
+  no3 = actsSorted[2]
+  //
+  d3.select("#dropdownrow")
+  .append("div")
+  .attr("id", "textje")
+  // .attr("class", "col-sm-5")
+  .append("h3")
+  .text("Your most visited classes:")
+
+
+  // var list = d3.select("#top3")
+  // .append("div")
+  // .attr("class", "row")
+  // .append("div")
+  // .attr("class", "col-sm-12")
+  // .append("h3")
+  // .text("Your most visited classes")
+
+
+  d3.select("#top3")
+  .append("div")
+  .attr("class", "rank")
+  .attr("id", "no1")
+  .attr("class", "row")
+  .append("div")
+  .attr("class", "col-sm-3")
+  .append("img")
+    .attr("id", "no1img")
+    .attr("src","{% static 'data/logo1.svg' %}")
+    .attr("width", 50)
+    .attr("height", 50)
+
+  d3.select("#no1")
+  .append("div")
+  .attr("class", "col-sm-8")
+  .append("div")
+  .attr("class", "ranktext")
+  .text(function(){
+    return no1 + ": " + activities[no1] +" times";
+  })
+
+  var list = d3.select("#top3")
+  .append("div")
+  .attr("class", "rank")
+  .attr("id", "no2")
+  .attr("class", "row")
+  .append("div")
+  .attr("class", "col-sm-3")
+  .append("img")
+    .attr("id", "no2img")
+    .attr("src","{% static 'data/logo2.svg' %}")
+    .attr("width", 50)
+    .attr("height", 50)
+
+  d3.select("#no2")
+  .append("div")
+  .attr("class", "col-sm-8")
+  .append("div")
+  .attr("class", "ranktext")
+  .text(function(){
+    return no2 + ": " + activities[no2] +" times";
+  })
+
+  var list = d3.select("#top3")
+  .append("div")
+  .attr("class", "rank")
+  .attr("id", "no3")
+  .attr("class", "row")
+  .append("div")
+  .attr("class", "col-sm-3")
+  .append("img")
+    .attr("id", "no3img")
+    .attr("src","{% static 'data/logo3.svg' %}")
+    .attr("width", 50)
+    .attr("height", 50)
+
+  d3.select("#no3")
+  .append("div")
+  .attr("class", "col-sm-8")
+  .append("div")
+  .attr("class", "ranktext")
+  .text(function(){
+    return no3 + ": " + activities[no3] +" times";
+  })
+
+
+
+
+
+})
+}
 Date.prototype.getWeek = function() {
   var date = new Date(this.getTime());
   date.setHours(0, 0, 0, 0);
@@ -467,6 +590,7 @@ d3.csv("{% static 'data/test.csv' %}", function(error, data) {
     obj = {week: +d, stats: +week_array[d]}
     data_stats.push(obj)
   })
+
   dropDown1.selectAll("option")
                 .data(data_stats)
               .enter().append("option")
@@ -713,6 +837,8 @@ function release() {
   // ul = document.getElementById('wrapper');
   // ul.style.display = "none"
 }
+
+
 
 document.getElementById('myinput').addEventListener('keydown', function (event) {
   if (event.keyCode == 8 || event.keyCode == 46 || event.keyCode == 27) {

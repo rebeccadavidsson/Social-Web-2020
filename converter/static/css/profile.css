@@ -1,15 +1,35 @@
 
 #dropdownrow{
   padding:2%;
+  font-size: 15px;
+}
+
+#textje{
+  margin-left:4%;
 }
 .space {
   height: 25px;
 }
 
-.statstext{
-  font-size: 15px;
-
+.rank .row{
+  padding: 7%;
 }
+
+#no1{
+  padding: 5%;
+}
+#no2{
+  padding: 5%;
+}
+#no3{
+  padding: 5%;
+}
+.ranktext{
+  text-align: left;
+  /* vertical-align: middle; */
+  font-size: 18px
+}
+
 .emp-profile{
     padding: 7%;
     margin: auto;
@@ -26,7 +46,7 @@
 
 .line {
     fill: none;
-    stroke: #ffab00;
+    stroke: #F2A034;
     stroke-width: 3;
 }
 
