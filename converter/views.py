@@ -105,7 +105,6 @@ def index(request):
         if items:
 
             for item in items:
-                print(item.participants.all(), "JAJA")
 
                 temp.append(ScheduleItem.objects.get(id=item.id))
             empt.append(item)
