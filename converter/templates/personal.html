@@ -11,17 +11,19 @@
 
 <div class="space"></div>
 <div class="container emp-profile">
+
     <form method="post" action="{% url 'settings' profile.pk %}">
       {% csrf_token %}
+
         <div class="row">
             <div class="col-md-4">
-                <div class="profile-img">
-
-                    <img src="{{ profile.photo.url }}" alt="Profile picture"/>
-                </div>
+              <div class="profile-img">
+                <img src="{{ profile.photo.url }}" alt="Profile picture"/>
+              </div>
 
             </div>
             <div class="col-md-8">
+
               <div class="search-bar">
                 <input type="text" name="search" value="" autocomplete="off" id="myinput" onkeyup="searchFunction()" onkeydown="release()" placeholder="Search">
                   <ul id="wrapper">
@@ -97,13 +99,17 @@
               <br>
                 <div class="profile-work">
                     <a href=""> {{ firstname }} {{ lastname }}</a><br/>
-                    <p>Logged in as: {{ username }}</p>
-                    <!-- {% if profile.interests %}
-                    <p>Interests:<br>{{ profile.interests }}
-                      {% endif %} -->
+                    <!-- <p>Logged in as: {{ username }}</p> -->
+
+                    {% if profile.interests %}
+                      <br>
+                      <h4>Interests:</h4>
+                      <br>
+                      <h5>{{ profile.interests }}</h5>
+                    {% endif %}
 
                 </div>
-                <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
+                <a href="{% url 'settings' profile.pk %}"><input class="btn profile-edit-btn" name="btnAddMore" value="Edit Profile"/></a>
                 <br>
                 <div class="space"></div>
 
