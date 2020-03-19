@@ -28,4 +28,5 @@ urlpatterns = [
     path("delete_rating/<int:pk>", views.delete_rating, name="delete_rating"),
     path("like/<int:event_id>", views.like, name="like"),
     path("heart/<int:event_id>", views.heart, name="heart"),
+    path("reset_password", views.reset_password, name="reset_password"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

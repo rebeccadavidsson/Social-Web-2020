@@ -13,14 +13,16 @@
 <div class="container emp-profile">
     <form method="post" action="{% url 'settings' profile.pk %}" id="form1" >
       {% csrf_token %}
+
         <div class="row">
             <div class="col-md-4">
-                <div class="profile-img">
-                    <img src="{{ profile.photo.url }}" alt="Profile picture"/>
-                </div>
+              <div class="profile-img">
+                <img src="{{ profile.photo.url }}" alt="Profile picture"/>
+              </div>
 
             </div>
             <div class="col-md-8">
+
               <div class="search-bar">
                 <input type="text" name="search" value="" autocomplete="off" id="myinput" onkeyup="searchFunction()" onkeydown="release()" placeholder="Search">
                   <ul id="wrapper">
@@ -96,45 +98,68 @@
               <br>
                 <div class="profile-work">
                     <a href=""> {{ firstname }} {{ lastname }}</a><br/>
-                    <p>Logged in as: {{ username }}</p>
-                    <!-- {% if profile.interests %}
-                    <p>Interests:<br>{{ profile.interests }}
-                      {% endif %} -->
+                    <!-- <p>Logged in as: {{ username }}</p> -->
+
+                    {% if profile.interests %}
+                      <br>
+                      <h4>Interests:</h4>
+                      <br>
+                      <h5>{{ profile.interests }}</h5>
+                    {% endif %}
 
                 </div>
-                <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
+                <a href="{% url 'settings' profile.pk %}"><input class="btn profile-edit-btn" name="btnAddMore" value="Edit Profile"/></a>
                 <br>
                 <div class="space"></div>
 
             <div class="followers_for_this_person">
               <div class="row">
                   <div class="col">
+                    <button type="button" name="button" onclick="showfollowers()">
                       <div class="leftcol">
                         <h3>Followers</h3>
                           {{ followers_for_this_person|length }}
                       </div>
+                      </button>
                   </div>
 
                   <div class="col">
+                    <button type="button" name="button" onclick="showFollowing()">
                       <div class="rightcol">
                         <h3>Following</h3>
                           {{ following_profiles|length }}
                       </div>
+                      </button>
                   </div>
               </div>
+              <div class="showfollowing1">
 
-              {% if followers_for_this_person %}
-              <br>
-              <h2>Your followers:</h2>
-              {% for follower in followers_for_this_person %}
-              <br>
-              <hr>
-              <span style="float:left;"><p>{{ follower.user.first_name }} {{ follower.user.last_name }}</p></span>
-              <span><img src="{{follower.photo.url}}" alt=""></span>
-              {% endfor %}
+                {% if followers_for_this_person %}
+                <br>
+                <h2>Your followers:</h2>
+                {% for follower in followers_for_this_person %}
+                <br>
+                <hr>
+                <span style="float:left;"><p>{{ follower.user.first_name }} {{ follower.user.last_name }}</p></span>
+                <span><img src="{{follower.photo.url}}" alt=""></span>
+                {% endfor %}
 
+                {% endif %}
+              </div>
+              <div class="showfollowing">
 
-            {% endif %}
+                {% if following_profiles %}
+                <br>
+                <h2>Following:</h2>
+                {% for follower in following_profiles %}
+                <br>
+                <hr>
+                <span style="float:left;"><p>{{ follower.first.user.first_name }} {{ follower.first.user.last_name }}</p></span>
+                <span><img src="{{follower.first.photo.url}}" alt=""></span>
+                {% endfor %}
+
+                {% endif %}
+              </div>
             </div>
             <div class="toprated">
               <div class="row">
@@ -201,6 +226,23 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
 <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 
+<script type="text/javascript">
+
+  function showFollowing() {
+    var div = $(".showfollowing");
+    var div2 = $(".showfollowing1");
+    div[0].style.display = "block";
+    div2[0].style.display = "none";
+  }
+
+  function showfollowers() {
+    var div = $(".showfollowing1");
+    var div2 = $(".showfollowing");
+    div[0].style.display = "block";
+    div2[0].style.display = "none";
+  }
+
+</script>
 <script type="text/javascript">
 
 // Set the dimensions of the canvas / graph

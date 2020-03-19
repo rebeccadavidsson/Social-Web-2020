@@ -14,6 +14,76 @@ from .scrape import scrape_item
 from .helpers import convertdate, refreshschedule, geteventday
 
 
+# def index(request):
+#     """ Render main page when website is opened for the first time. """
+#
+#     # Check if user is logged in
+#     if not request.user.is_authenticated or request.user.username == "admin":
+#         return render(request, "login.html")
+#
+#     # Get user profile and the people this user is following
+#     profile = Profile.objects.get(user=request.user)
+#     followers = profile.following.all()
+#
+#     # Get events from other followers
+#     empt, followersnames = [], []
+#
+#     for follower in followers:
+#         to_follow = Profile.objects.get(user__username=follower.username)
+#         item = ScheduleItem.objects.filter(participants=to_follow).exclude(participants=profile).all().order_by('-start')
+#         if item:
+#             empt.append(item.all())
+#
+#     empt2 = empt
+#
+#     for follower in profile.following.all():
+#         followersnames.append(follower.first_name)
+#
+#     tempempt = []
+#     # Index into query if the people you follow also have events
+#     if empt:
+#         empt.append(ScheduleItem.objects.filter(participants=profile).all().order_by('-start'))
+#         for i in empt:
+#             tempempt.append(i[0])
+#         empt2 = empt2[0]
+#     empt = tempempt
+#     events = ScheduleItem.objects.all().order_by('-start')
+#
+#     previousevents, futurevents = geteventday(events)
+#
+#     # Get events for logged in user
+#     events_user = ScheduleItem.objects.filter(participants=profile).all()
+#
+#     to_exclude = []
+#     # Exclude double events of friends
+#     for item in events_user:
+#         if item in empt:
+#             to_exclude.append(item.id)
+#
+#     events_user = events_user.exclude(id__in=to_exclude)
+#
+#     print(empt, "HAMBURGER")
+#
+#     # Filter events for user
+#     context = {
+#         "profile": profile,
+#         "events": ScheduleItem.objects.all().order_by('-start'),
+#         "ownevents": ScheduleItem.objects.filter(participants=profile).all().order_by('-start'),
+#         "events_aftertoday": futurevents,
+#         "events_beforetoday": previousevents,
+#         "events_user": events_user,
+#         "event_followers_includingown": empt,
+#         "event_followers": empt2,
+#         "followersnames": followersnames,
+#         "ratings_user": Rating.objects.all(),
+#         "rated_events": Rating.objects.filter(user=request.user),
+#     }
+#     # for event_blijkbaar in empt2:
+#     #     if event_blijkbaar in ScheduleItem.objects.filter(participants=profile).all():
+#     #         print("EVENT: ", event_blijkbaar)
+#
+#     return render(request, 'mainpage.html', context)
+
 def index(request):
     """ Render main page when website is opened for the first time. """
 
@@ -26,41 +96,41 @@ def index(request):
     followers = profile.following.all()
 
     # Get events from other followers
-    empt, followersnames = [], []
+    empt, empt1, followersnames, temp = [], [], [], []
 
     for follower in followers:
         to_follow = Profile.objects.get(user__username=follower.username)
-        item = ScheduleItem.objects.filter(participants=to_follow).exclude(participants=profile).all().order_by('-start')
-        if item:
-            empt.append(item.all())
+        # item = ScheduleItem.objects.filter(participants=to_follow).exclude(participants=profile).all().order_by('-start')
+        items = ScheduleItem.objects.filter(participants=to_follow).all().order_by('-start')
+        if items:
+
+            for item in items:
+
+                temp.append(ScheduleItem.objects.get(id=item.id))
+            empt.append(item)
+
+        item1 = ScheduleItem.objects.filter(participants=to_follow).exclude(participants=profile).all().order_by('-start')
+        if item1:
+            empt1.append(item1)
 
     empt2 = empt
+
 
     for follower in profile.following.all():
         followersnames.append(follower.first_name)
 
-    tempempt = []
     # Index into query if the people you follow also have events
     if empt:
-        # empt.append(ScheduleItem.objects.filter(participants=profile).all().order_by('-start'))
-        for i in empt:
-            tempempt.append(i[0])
+        empt = empt[0]
         empt2 = empt2[0]
-    empt = tempempt
+
+    if empt1:
+        empt1 = empt1[0]
+
     events = ScheduleItem.objects.all().order_by('-start')
 
     previousevents, futurevents = geteventday(events)
 
-    # Get events for logged in user
-    events_user = ScheduleItem.objects.filter(participants=profile).all()
-
-    to_exclude = []
-    # Exclude double events of friends
-    for item in events_user:
-        if item in empt:
-            to_exclude.append(item.id)
-
-    events_user = events_user.exclude(id__in=to_exclude)
 
     # Filter events for user
     context = {
@@ -69,19 +139,19 @@ def index(request):
         "ownevents": ScheduleItem.objects.filter(participants=profile).all().order_by('-start'),
         "events_aftertoday": futurevents,
         "events_beforetoday": previousevents,
-        "events_user": events_user,
-        "event_followers_includingown": empt,
+        "events_user":  ScheduleItem.objects.filter(participants=profile).all(),
+        "event_followers_includingown": temp,
+        "emp1": empt1,
         "event_followers": empt2,
         "followersnames": followersnames,
         "ratings_user": Rating.objects.all(),
         "rated_events": Rating.objects.filter(user=request.user),
         "checker": False
     }
-    for event_blijkbaar in empt2:
-        if event_blijkbaar in ScheduleItem.objects.filter(participants=profile).all():
-            print("EVENT: ", event_blijkbaar)
+
 
     return render(request, 'mainpage.html', context)
+
 
 
 def login_view(request):
@@ -157,9 +227,9 @@ def personal_view(request):
     # get all the people that is following this person
     allprofiles = Profile.objects.all()
     followers_for_this_person = []
-    for profile in allprofiles:
-        if request.user in profile.following.all():
-            followers_for_this_person.append(profile)
+    for profiletemp in allprofiles:
+        if request.user in profiletemp.following.all():
+            followers_for_this_person.append(profiletemp)
 
     # list with usernames to exclude from 'to_follow', starts with own account
     to_exclude = [request.user.username]
@@ -181,7 +251,6 @@ def personal_view(request):
     events = ScheduleItem.objects.all().order_by("-start")
     # Seperate previous and future events
     previousevents, futurevents = geteventday(events)
-
     context = {
         "profile": profile,
         "username": request.user,
@@ -348,10 +417,8 @@ def add(request, event_id):
 
     # Select event from event_id
     item = ScheduleItem.objects.filter(id=event_id).first()
-    print(item)
-    print(item.participants, '-------------------------------------')
     item.participants.add(profile)
-    print(item.participants, '-------------------------------------')
+
     return redirect('/')
 
 
@@ -415,6 +482,7 @@ def delete_rating(request, pk):
 
     return redirect("index")
 
+
 def delete_profile(request, username):
 
     user = get_object_or_404(User, username=username)
@@ -425,6 +493,19 @@ def delete_profile(request, username):
             return redirect("login")
     else:
         form = PostDeleteForm(instance=form)
+
+    return redirect("index")
+
+
+def reset_password(request):
+    user = request.user
+
+    if request.method == "POST":
+        print("post")
+        return render(request, "reset_password.html", {"message": "An email has been sent to your account."})
+
+    else:
+        return render(request, "reset_password.html", {"message": ""})
 
     return redirect("index")
 

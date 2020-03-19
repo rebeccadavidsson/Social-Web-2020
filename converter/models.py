@@ -10,7 +10,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 class Profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     following = models.ManyToManyField(User, related_name='followers', null=True, blank=True)
-    interests = models.CharField(max_length=64, null=True, blank=True)
+    interests = models.CharField(max_length=255, default="No interests yet", blank=True)
     photo = models.ImageField(upload_to = "images", default = "converter/media/images/logo.png")
 
     def __str__(self):
