@@ -54,7 +54,7 @@
   background-color: rgb(41, 41, 41, 0.5);
     border: none;
     border-radius: 1.0rem;
-    width: 80%;
+    width: 90%;
     padding: 5%;
     font-weight: 600;
     color: white;
@@ -334,4 +334,34 @@ body > div.container.emp-profile > form > div > div.col-md-4 > div.toprated > p 
 .vl {
   border-left: 6px solid green;
   height: 500px;
+}
+
+.followers_for_this_person {
+  background-color: #9e9e9e30;
+  font-size: 18px;
+  padding: 10px;
+  margin-left: 10%;
+  margin-top: -25%;
+}
+
+.followers_for_this_person h2 {
+  color: #000000b3;
+}
+
+.followers_for_this_person h3 {
+  color: black;
+}
+
+.followers_for_this_person img {
+  max-width: 10%;
+  float:right;
+}
+
+.followers_for_this_person .col {
+  text-align: center;
+}
+
+.followers_for_this_person .leftcol, .rightcol {
+  background-color: #9e9e9e59;
+  padding: 10px;
 }

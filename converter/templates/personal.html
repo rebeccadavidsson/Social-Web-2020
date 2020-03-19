@@ -44,9 +44,9 @@
                     <div class="friendsview">
 
                       <div class="row" id="friendsrow">
-                        <div class="arrows">
+                        <!-- <div class="arrows">
                           <a class="arrow right" id="scrollfriends"></a>
-                        </div>
+                        </div> -->
 
                         {% for person in following_profiles %}
                         <div class="col-sm">
@@ -96,8 +96,9 @@
                 <div class="profile-work">
                     <a href=""> {{ firstname }} {{ lastname }}</a><br/>
                     <p>Logged in as: {{ username }}</p>
-
+                    <!-- {% if profile.interests %}
                     <p>Interests:<br>{{ profile.interests }}
+                      {% endif %} -->
 
                 </div>
                 <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
@@ -106,7 +107,7 @@
                 <div class="toprated">
                   <br>
                   {% if ratings %}
-                    <h4>Top rated lessons</h4>
+                    <h4>Your rated lessons</h4>
                     {% for rating in ratings %}
                         <p>{{ rating.event.name }}</p>
                         {% for i in n %}
@@ -119,6 +120,35 @@
                     {% endfor %}
                   {% endif %}
                 </div>
+
+            <div class="followers_for_this_person">
+              <div class="row">
+                  <div class="col">
+                      <div class="leftcol">
+                        <h3>Followers</h3>
+                          {{ followers_for_this_person|length }}
+                      </div>
+                  </div>
+
+                  <div class="col">
+                      <div class="rightcol">
+                        <h3>Following</h3>
+                          {{ following_profiles|length }}
+                      </div>
+                  </div>
+              </div>
+
+              {% if followers_for_this_person %}
+              <br>
+              <h2>Your followers:</h2>
+              {% for follower in followers_for_this_person %}
+              <br>
+              <hr>
+              <span style="float:left;"><p>{{ follower.user.first_name }} {{ follower.user.last_name }}</p></span>
+              <span><img src="{{follower.photo.url}}" alt=""></span>
+              {% endfor %}
+              </div>
+            {% endif %}
 
             </div>
             <div class="col-md-8">

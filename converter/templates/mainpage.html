@@ -17,7 +17,7 @@
         <div class="col-xs-2 btn-group">
           <br>
           <br>
-          <button class="btn btn-success" id="legendblue" disabled type="button"> </button>
+          <button class="btn btn-success" id="legendred" disabled type="button"> </button>
           <button class="btn btn-default" disabled type="button">Your friends</button>
         </div>
       </span>
@@ -25,7 +25,7 @@
         <div class="col-xs-2 btn-group">
           <br>
           <br>
-          <button class="btn btn-success" id="legendred" disabled type="button"> </button>
+          <button class="btn btn-success" id="legendblue" disabled type="button"> </button>
           <button class="btn btn-default" disabled type="button">You</button>
         </div>
       </span>
@@ -64,9 +64,10 @@
                 {% if rating.user ==  request.user %}
                 <h5  id="yourreview">Reviews:</h5>
                 <span style="float:left; font-size:14px; margin:0;">{{ rating.comment }}</span>
+                <br>
                 <span style="float:right; font-size:12px;"> / 5</span>
                 <span style="float:right; font-size:17px; font-weight:600;">{{rating.rating }} </span>
-                <span style="float:right; font-size:14px;">{{rating.user.first_name }} rated: </span>
+                <span style="float:right; font-size:14px;">You rated: </span>
                 <div class="space">
                   {% else %}
                   <span style="float:left; font-size:14px; margin:0;">{{ rating.comment }}</span>
@@ -270,8 +271,6 @@
                     textColor: 'gold',
                     id : "{{i.id}}",
                     self : false
-
-                    // people: "<p>Followed by: </p> {% for person in i.participants.all %} {% for name in person.following.all %} {% if person.name == name.name %}{{ person }}</p>{% endif %}{% endfor %}  {% endfor %}"
                   }
               },
               {% endfor %}

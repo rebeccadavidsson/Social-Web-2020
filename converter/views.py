@@ -32,22 +32,35 @@ def index(request):
         to_follow = Profile.objects.get(user__username=follower.username)
         item = ScheduleItem.objects.filter(participants=to_follow).all().order_by('-start')
         if item:
-            empt.append(item)
+            empt.append(item.all())
 
     empt2 = empt
 
     for follower in profile.following.all():
         followersnames.append(follower.first_name)
 
+    tempempt = []
     # Index into query if the people you follow also have events
     if empt:
-        empt.append(ScheduleItem.objects.filter(participants=profile).all().order_by('-start'))
-        empt = empt[0]
+        # empt.append(ScheduleItem.objects.filter(participants=profile).all().order_by('-start'))
+        for i in empt:
+            tempempt.append(i[0])
         empt2 = empt2[0]
-
+    empt = tempempt
     events = ScheduleItem.objects.all().order_by('-start')
 
     previousevents, futurevents = geteventday(events)
+
+    # Get events for logged in user
+    events_user = ScheduleItem.objects.filter(participants=profile).all()
+
+    to_exclude = []
+    # Exclude double events of friends
+    for item in events_user:
+        if item in empt:
+            to_exclude.append(item.id)
+
+    events_user = events_user.exclude(id__in=to_exclude)
 
     # Filter events for user
     context = {
@@ -56,7 +69,7 @@ def index(request):
         "ownevents": ScheduleItem.objects.filter(participants=profile).all().order_by('-start'),
         "events_aftertoday": futurevents,
         "events_beforetoday": previousevents,
-        "events_user":  ScheduleItem.objects.filter(participants=profile).all(),
+        "events_user": events_user,
         "event_followers_includingown": empt,
         "event_followers": empt2,
         "followersnames": followersnames,
@@ -138,13 +151,19 @@ def personal_view(request):
     for usr in following:
         following_profiles.append(Profile.objects.filter(user=usr))
 
+    # get all the people that is following this person
+    allprofiles = Profile.objects.all()
+    followers_for_this_person = []
+    for profile in allprofiles:
+        if request.user in profile.following.all():
+            followers_for_this_person.append(profile)
+
     # list with usernames to exclude from 'to_follow', starts with own account
     to_exclude = [request.user.username]
 
     # get usernames of following users and append to list
     usernames = [person['username'] for person in following.values('username')]
     to_exclude += usernames
-
 
     # show only users that you can follow
     to_follow = User.objects.exclude(username__in=to_exclude)
@@ -167,6 +186,7 @@ def personal_view(request):
         "lastname": request.user.last_name,
         "following_profiles": following_profiles,
         "users": to_follow,
+        "followers_for_this_person": followers_for_this_person,
         "profiles_to_follow": profiles_to_follow,
         "following": following,
         "events_user": events_user,
@@ -176,6 +196,8 @@ def personal_view(request):
     }
 
     return render(request, 'personal.html', context)
+
+
 
 
 def searchprofile(request, user):  # TODO, dit moet user_id worden
