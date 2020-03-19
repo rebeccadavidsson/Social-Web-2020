@@ -116,7 +116,7 @@ hr {
   max-width: 25px;
   width: 100%;
   margin-right: 20px;
-  border-radius: 20%;
+  border-radius: 50%;
 }
 
 /* Style the right image */
@@ -259,14 +259,14 @@ transition: opacity 0.3s;
 }
 
 #legendblue {
-  background-color: #2F2E7E;
+  background-color: #ED1C24;
   border: none;
   /* width: 100px; */
   opacity: 1.0;
 }
 
 #legendred {
-  background-color: #ED1C24;
+  background-color: #2F2E7E;
   border: none;
   /* width: 100px; */
   opacity: 1.0;

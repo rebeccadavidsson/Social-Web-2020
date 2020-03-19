@@ -218,6 +218,7 @@
               timeZone: 'UTC',
               minTime: "08:30:00",
               maxTime: "22:30:00",
+              slotDuration: "00:20:00",
               editable: true,
               themeSystem: 'bootstrap',
               defaultView : 'timeGridWeek',
@@ -246,9 +247,10 @@
                   extendedProps: {
                     teacher: "{{ i.teacher }}",
                     location: "Universum",
-                    people: "<p>Followed by: </p> {% for person in i.participants.all %} {% if person != profile %}<p> {% if person in profile.following %}{{ person }}</p>{% endif %} {% else %} <p> You</p> {% endif %} {% endfor %}",
-                    textColor: 'gold',
-                    id : "{{i.id}}",
+                    // people: "<p>Followed by: </p> {% for person in i.participants.all %} {% if person != profile %}<p> {% if person in profile.following %}{{ person }}</p>{% endif %} {% else %} <p> You</p> {% endif %} {% endfor %}",
+                    people: "<p>Followed by: </p> {% for person in i.participants.all %} {% if person != profile %}<p> {{ person }}</p> {% else %} <p> You</p> {% endif %} {% endfor %}",
+                    textColor: '#F49B0E',
+                    id : "{{i.id}}", 
                     self: true
                   }
               },
@@ -268,8 +270,8 @@
                     teacher: "{{ i.teacher }}",
                     location: "Universum",
                     people: "<p>Followed by: </p> {% for person in i.participants.all %} {% if person != profile %}<p> {{ person }}</p> {% else %} <p> You</p> {% endif %} {% endfor %}",
-                    textColor: 'gold',
-                    id : "{{i.id}}",
+                    textColor: '#F49B0E',
+                    id : "{{i.id}}", 
                     self : false
                   }
               },
@@ -286,9 +288,9 @@
                 // if(info.event.extendedProps.self == true) {
 
                 // }
-                title: '<u><h3 style ="color:' +
+                title: '<h3 style ="text-decoration:underline;text-decoration-color:#F49B0E;color:' +
                     info.event.extendedProps.textColor +'">' + info.event.extendedProps.teacher +
-                    '</h3></u>' + '<h4>' + info.event.extendedProps.people.slice(0, -2) +
+                    '</h3>' + '<h4>' + info.event.extendedProps.people.slice(0, -2) +
                     `<span class = "deletebutton" style = "display: inline-block"><a class="btn btn btn-lg style="color:white" href="/delete_event/${info.event.extendedProps.id}">REMOVE</a></span></h4>`,
                 placement: 'top',
                 trigger: 'hover',
@@ -299,9 +301,9 @@
 
               else {
                 let tooltip = new Tooltip(info.el, {
-                title: '<u><h3 style ="color:' +
+                title: '<h3 style ="text-decoration:underline;text-decoration-color:#F49B0E;color:' +
                     info.event.extendedProps.textColor +'">' + info.event.extendedProps.teacher +
-                    '</h3></u>' + '<h4>' + info.event.extendedProps.people.slice(0, -2) +
+                    '</h3>' + '<h4>' + info.event.extendedProps.people.slice(0, -2) +
                     `<span class = "addbutton" style = "display: inline-block"><a class="btn btn btn-lg style="color:white" href="/add/${info.event.extendedProps.id}">ADD</a></span></h4>`,
                 placement: 'top',
                 trigger: 'hover',

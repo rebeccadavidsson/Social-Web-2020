@@ -30,7 +30,7 @@ def index(request):
 
     for follower in followers:
         to_follow = Profile.objects.get(user__username=follower.username)
-        item = ScheduleItem.objects.filter(participants=to_follow).all().order_by('-start')
+        item = ScheduleItem.objects.filter(participants=to_follow).exclude(participants=profile).all().order_by('-start')
         if item:
             empt.append(item.all())
 
@@ -77,6 +77,9 @@ def index(request):
         "rated_events": Rating.objects.filter(user=request.user),
         "checker": False
     }
+    for event_blijkbaar in empt2:
+        if event_blijkbaar in ScheduleItem.objects.filter(participants=profile).all():
+            print("EVENT: ", event_blijkbaar)
 
     return render(request, 'mainpage.html', context)
 
@@ -344,7 +347,10 @@ def add(request, event_id):
 
     # Select event from event_id
     item = ScheduleItem.objects.filter(id=event_id).first()
+    print(item)
+    print(item.participants, '-------------------------------------')
     item.participants.add(profile)
+    print(item.participants, '-------------------------------------')
     return redirect('/')
 
 
