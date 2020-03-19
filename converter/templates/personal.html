@@ -24,9 +24,9 @@
                 <input type="text" name="search" value="" autocomplete="off" id="myinput" onkeyup="searchFunction()" onkeydown="release()" placeholder="Search">
                   <ul id="wrapper">
                     <!-- SEARCH OPTIONS -->
-                    {% for name in profiles_to_follow %}
+                    {% for name in searchprofiles %}
                       <div id="friendoption" style="display:none;">
-                        <a href="{% url 'searchprofile' name %}" style="color:white">{{ name }}</a>
+                        <a href="{% url 'searchprofile' name %}" style="color:white">{{ name.user.first_name }} {{ name.user.last_name }}</a>
                         <span class="time-right">
                           <button type="button" name="button" class="followbutton"><a href="{% url 'follow' name %}">Follow +</a></button>
                           <!-- <a href="{% url 'follow' username %}" class="btn btn-success">Follow +</a> -->
@@ -104,22 +104,6 @@
                 <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
                 <br>
                 <div class="space"></div>
-                <div class="toprated">
-                  <br>
-                  {% if ratings %}
-                    <h4>Your rated lessons</h4>
-                    {% for rating in ratings %}
-                        <p>{{ rating.event.name }}</p>
-                        {% for i in n %}
-                          {% if rating.rating >= i %}
-                            <span class="fa fa-star checked"></span>
-                          {% else %}
-                            <span class="fa fa-star"></span>
-                          {% endif %}
-                        {% endfor %}
-                    {% endfor %}
-                  {% endif %}
-                </div>
 
             <div class="followers_for_this_person">
               <div class="row">
@@ -147,9 +131,39 @@
               <span style="float:left;"><p>{{ follower.user.first_name }} {{ follower.user.last_name }}</p></span>
               <span><img src="{{follower.photo.url}}" alt=""></span>
               {% endfor %}
-              </div>
-            {% endif %}
 
+
+            {% endif %}
+            </div>
+            <div class="toprated">
+              <div class="row">
+                <div class="col">
+
+
+              <br>
+              <br>
+              {% if ratings %}
+                <h4>Your rated lessons</h4>
+                <ul>
+
+
+                {% for rating in ratings %}
+                <br>
+                <li>
+                    <p>{{ rating.event.name }}</p>
+                    {% for i in n %}
+                      {% if rating.rating >= i %}
+                        <span class="fa fa-star checked"></span>
+                      {% else %}
+                        <span class="fa fa-star"></span>
+                      {% endif %}
+                    {% endfor %}
+                  </li>
+                {% endfor %}
+                      </ul>
+              {% endif %}
+            </div>  </div>
+          </div>
             </div>
             <div class="col-md-8">
               <div class="card" id="history_personal">

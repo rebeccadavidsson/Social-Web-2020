@@ -191,7 +191,8 @@ ul#wrapper {
 
 .toprated {
   /* background: rgb(41, 41, 41, 0.2); */
-  height: 100px;
+  max-height: 100px;
+  overflow-y: scroll;
   margin-left: 10%;
 }
 
@@ -341,7 +342,9 @@ body > div.container.emp-profile > form > div > div.col-md-4 > div.toprated > p 
   font-size: 18px;
   padding: 10px;
   margin-left: 10%;
-  margin-top: -25%;
+  max-height: 400px;
+  overflow-y: scroll;
+  /* margin-top: -25%; */
 }
 
 .followers_for_this_person h2 {

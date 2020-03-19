@@ -171,7 +171,7 @@ def personal_view(request):
     # show only users that you can follow
     to_follow = User.objects.exclude(username__in=to_exclude)
     profiles_to_follow = Profile.objects.exclude(user__username__in=to_exclude)
-
+    searchprofiles = Profile.objects.exclude(user__username__in=[profile])
     # get all events from this user
     events_user = ScheduleItem.objects.filter(participants=profile).all().order_by("-start")
 
@@ -191,6 +191,7 @@ def personal_view(request):
         "users": to_follow,
         "followers_for_this_person": followers_for_this_person,
         "profiles_to_follow": profiles_to_follow,
+        "searchprofiles": searchprofiles,
         "following": following,
         "events_user": events_user,
         "previousevents": previousevents,
