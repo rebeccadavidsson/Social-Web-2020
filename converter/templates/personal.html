@@ -9,6 +9,7 @@
 </style -->
 {% load static %}
 
+  <!-- -->
 <div class="space"></div>
 <div class="container emp-profile">
     <form method="post" action="{% url 'settings' profile.pk %}" id="form1" >
@@ -243,7 +244,10 @@
   }
 
 </script>
+
+
 <script type="text/javascript">
+
 
 // Set the dimensions of the canvas / graph
 var margin = {top: 30, right: 20, bottom: 30, left: 50},
@@ -425,19 +429,44 @@ makeRating()
 
               })
 
-
+var date_dict = {"January": "Jan", "February": "Feb", "March":"Mar", "April": "Apr",
+"May":"May", "June":"Jun", "July":"Jul", "August":"Aug", "September":"Sep", "October":"Oct",
+"November":"Nov", "December":"Dec"};
 // Get the data
 {% load static %}
 function makeRating(){
-
-
   d3.select("#statsrow")
   .append("div")
   .attr("class", "col-sm-4")
   .attr("id", "top3")
 
+
+ // "Jan","Feb","Mar",
+ //                      "Apr","May","Jun",
+ //                      "Jul","Aug","Sep",
+ //                      "Oct","Nov","Dec"];
   d3.csv("{% static 'data/test.csv' %}", function(error, data) {
+    data2 = []
+    {% for event in events_user %}
+      date = '{{ event.date }}'
+      month = ""
+      day = ""
+      // GEHARDCODE 2020
+      year = "2020"
+      for(var i = 0; i < date.length; i++){
+        if( date[i].toUpperCase() != date[i].toLowerCase() ){
+          month = month + date[i]
+        }
+        else if(date[i] != " "){
+          day = day + date[i]
+        }
+      }
+      obj = {"class": '{{ event.name }}', "date": day+"-"+date_dict[month]+"-"+year}
+      data2.push(obj)
+
+    {% endfor %}
     activities = {}
+    data = data2
 
     data.forEach(function(d) {
       if (d.class in activities){
@@ -452,7 +481,6 @@ function makeRating(){
 
     actsSorted = Object.keys(activities).sort(function(a,b){return activities[a]-activities[b]})
   actsSorted.reverse()
-  console.log(actsSorted)
 
   no1 = actsSorted[0]
   no2 = actsSorted[1]
@@ -572,7 +600,27 @@ week_array = new Object;
 
 // Get the data again
 d3.csv("{% static 'data/test.csv' %}", function(error, data) {
+  data2 = []
+  {% for event in events_user %}
+    date = '{{ event.date }}'
+    month = ""
+    day = ""
+    // GEHARDCODE 2020
+    year = "2020"
+    for(var i = 0; i < date.length; i++){
+      if( date[i].toUpperCase() != date[i].toLowerCase() ){
+        month = month + date[i]
+      }
+      else if(date[i] != " "){
+        day = day + date[i]
+      }
+    }
+    obj = {"class": '{{ event.name }}', "date": day+"-"+date_dict[month]+"-"+year}
+    data2.push(obj)
 
+  {% endfor %}
+  activities = {}
+  data = data2
     data.forEach(function(d) {
     var week_date = new Date(d.date);
     var weekno = week_date.getWeek();
@@ -590,28 +638,29 @@ d3.csv("{% static 'data/test.csv' %}", function(error, data) {
     obj = {week: +d, stats: +week_array[d]}
     data_stats.push(obj)
   })
-
-  dropDown1.selectAll("option")
+  dropDown1.selectAll("option.statsdrop1")
                 .data(data_stats)
               .enter().append("option")
                 .attr("value", function (d) { return d.week; })
 
                 .text(function (d) {
                     return "Week " + d.week; // capitalize 1st letter
-                });
+                })
+                .classed("statsdrop1");
   dropDown1.
       on("change", function(d){
 
         var chosen_week = +this.value
-        dropDown2.selectAll("#drop2opts").remove()
+        dropDown2.selectAll(".drop2opts").remove()
 
-        dropDown2.selectAll("option")
+        dropDown2.selectAll("option.statsdrop2")
                       .data(data_stats)
                     .enter().append("option")
                     .attr("class", "drop2opts")
                       .attr("value", function (d) {
                          if (chosen_week <= d.week) {
                          return d.week;
+
 
                          }
                          else{
@@ -623,13 +672,15 @@ d3.csv("{% static 'data/test.csv' %}", function(error, data) {
                           return "Week " + d.week;
 
                         }
-        dropDown2.on("change", function(d){
-          chosen_week1 = chosen_week
-          chosen_week2 = +this.value
+                        dropDown2.on("change", function(d){
+                          chosen_week1 = chosen_week
+                          chosen_week2 = +this.value
 
-          // updateData(chosen_week1,chosen_week2)
-        })
-                      });
+
+                          })
+                      })
+                    .classed("statsdrop2");
+
 
       })
 
@@ -719,6 +770,28 @@ function updateData(chosen_week1, chosen_week2) {
 
     // Get the data again
     d3.csv("{% static 'data/test.csv' %}", function(error, data) {
+      data2 = []
+      {% for event in events_user %}
+        date = '{{ event.date }}'
+        month = ""
+        day = ""
+        // GEHARDCODE 2020
+        year = "2020"
+        for(var i = 0; i < date.length; i++){
+          if( date[i].toUpperCase() != date[i].toLowerCase() ){
+            month = month + date[i]
+          }
+          else if(date[i] != " "){
+            day = day + date[i]
+          }
+        }
+        obj = {"class": '{{ event.name }}', "date": day+"-"+date_dict[month]+"-"+year}
+        data2.push(obj)
+
+      {% endfor %}
+      activities = {}
+      data = data2
+
       data.forEach(function(d) {
       var week_date = new Date(d.date);
       var weekno = week_date.getWeek();
@@ -745,7 +818,6 @@ function updateData(chosen_week1, chosen_week2) {
 
       var xAxis = d3.svg.axis().scale(x)
           .orient("bottom").ticks(data_stats.length);
-      console.log(data_stats.length)
 
       var yAxis = d3.svg.axis().scale(y)
           .orient("left").ticks(5);
