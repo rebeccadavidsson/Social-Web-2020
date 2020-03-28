@@ -332,23 +332,6 @@ def addschedule(request):
     # TODO wat moet hier?
     return HttpResponse("test")
 
-def add_new_event(request):
-
-    # Get user to add to participants
-    profile = Profile.objects.get(user=request.user)
-
-    # Create new item
-    item = ScheduleItem(teacher=" ",
-                        name=" ",
-                        start=" ",
-                        end=" ",
-                        date=" "))
-    item.save()
-    item.participants.add(profile)
-
-    return HttpResponse("")
-
-
 def add(request, event_id):
     """
     Add a new event_id from the mainpage by clicking on
