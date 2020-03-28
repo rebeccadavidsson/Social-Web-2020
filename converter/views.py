@@ -425,6 +425,7 @@ def delete_rating(request, pk):
 
     return redirect("index")
 
+
 def delete_profile(request, username):
 
     user = get_object_or_404(User, username=username)
@@ -435,6 +436,19 @@ def delete_profile(request, username):
             return redirect("login")
     else:
         form = PostDeleteForm(instance=form)
+
+    return redirect("index")
+
+
+def reset_password(request):
+    user = request.user
+
+    if request.method == "POST":
+        print("post")
+        return render(request, "reset_password.html", {"message": "An email has been sent to your account."})
+
+    else:
+        return render(request, "reset_password.html", {"message": ""})
 
     return redirect("index")
 
