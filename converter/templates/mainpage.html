@@ -71,12 +71,17 @@
                 <span style="float:right; font-size:14px;">You rated: </span>
                 <div class="space">
                   {% else %}
+                  {% if rating.user.first_name in followersnames %}
+
+
                   <span style="float:left; font-size:14px; margin:0;">{{ rating.comment }}</span>
                   <span style="float:right; font-size:12px;"> / 5</span>
                   <span style="float:right; font-size:17px; font-weight:600;">{{rating.rating }} </span>
                   <span style="float:right; font-size:12px;">{{rating.user.first_name }} rated: </span>
-                  <div class="space">
                     {% endif %}
+                  <div class="space">
+
+                  {% endif %}
                 </div>
                 <br>
                 {% endif %}

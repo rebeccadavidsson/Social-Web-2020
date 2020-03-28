@@ -14,76 +14,6 @@ from .scrape import scrape_item
 from .helpers import convertdate, refreshschedule, geteventday
 
 
-# def index(request):
-#     """ Render main page when website is opened for the first time. """
-#
-#     # Check if user is logged in
-#     if not request.user.is_authenticated or request.user.username == "admin":
-#         return render(request, "login.html")
-#
-#     # Get user profile and the people this user is following
-#     profile = Profile.objects.get(user=request.user)
-#     followers = profile.following.all()
-#
-#     # Get events from other followers
-#     empt, followersnames = [], []
-#
-#     for follower in followers:
-#         to_follow = Profile.objects.get(user__username=follower.username)
-#         item = ScheduleItem.objects.filter(participants=to_follow).exclude(participants=profile).all().order_by('-start')
-#         if item:
-#             empt.append(item.all())
-#
-#     empt2 = empt
-#
-#     for follower in profile.following.all():
-#         followersnames.append(follower.first_name)
-#
-#     tempempt = []
-#     # Index into query if the people you follow also have events
-#     if empt:
-#         empt.append(ScheduleItem.objects.filter(participants=profile).all().order_by('-start'))
-#         for i in empt:
-#             tempempt.append(i[0])
-#         empt2 = empt2[0]
-#     empt = tempempt
-#     events = ScheduleItem.objects.all().order_by('-start')
-#
-#     previousevents, futurevents = geteventday(events)
-#
-#     # Get events for logged in user
-#     events_user = ScheduleItem.objects.filter(participants=profile).all()
-#
-#     to_exclude = []
-#     # Exclude double events of friends
-#     for item in events_user:
-#         if item in empt:
-#             to_exclude.append(item.id)
-#
-#     events_user = events_user.exclude(id__in=to_exclude)
-#
-#     print(empt, "HAMBURGER")
-#
-#     # Filter events for user
-#     context = {
-#         "profile": profile,
-#         "events": ScheduleItem.objects.all().order_by('-start'),
-#         "ownevents": ScheduleItem.objects.filter(participants=profile).all().order_by('-start'),
-#         "events_aftertoday": futurevents,
-#         "events_beforetoday": previousevents,
-#         "events_user": events_user,
-#         "event_followers_includingown": empt,
-#         "event_followers": empt2,
-#         "followersnames": followersnames,
-#         "ratings_user": Rating.objects.all(),
-#         "rated_events": Rating.objects.filter(user=request.user),
-#     }
-#     # for event_blijkbaar in empt2:
-#     #     if event_blijkbaar in ScheduleItem.objects.filter(participants=profile).all():
-#     #         print("EVENT: ", event_blijkbaar)
-#
-#     return render(request, 'mainpage.html', context)
-
 def index(request):
     """ Render main page when website is opened for the first time. """
 
@@ -351,8 +281,6 @@ def settings_view(request, pk):
     return render(request, "settings.html", context)
 
 
-
-
 def schedule_view(request):
 
     # Check if schedule was already refreshed this day TODO
@@ -373,7 +301,6 @@ def addschedule(request):
     Create schedule item.
     default location = universum (TODO!)
     """
-    print(request.POST.get("data"), "PIRNITNR")
     data = scrape_item(request.POST.get("data"))
 
     # Get user to add to participants
@@ -404,6 +331,22 @@ def addschedule(request):
 
     # TODO wat moet hier?
     return HttpResponse("test")
+
+def add_new_event(request):
+
+    # Get user to add to participants
+    profile = Profile.objects.get(user=request.user)
+
+    # Create new item
+    item = ScheduleItem(teacher=" ",
+                        name=" ",
+                        start=" ",
+                        end=" ",
+                        date=" "))
+    item.save()
+    item.participants.add(profile)
+
+    return HttpResponse("")
 
 
 def add(request, event_id):
