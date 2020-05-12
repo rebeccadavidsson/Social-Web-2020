@@ -13,13 +13,13 @@ This page included all followers, user statistics and a short overview of the hi
 
 
 ![](images/1.png)
-![](images/4.png)
+
 
 ### The homepage (calendar)
 The homepage includes the interactive calendar that is linked to the USC schedule.
 
 
-![](images/2.png)
+
 
 ### The schedule
 A seperate page is made for the overview of the USC schedule.
