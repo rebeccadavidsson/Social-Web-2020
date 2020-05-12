@@ -12,8 +12,6 @@ First, a short summary is made of the web app. Later on, the installation instru
 This page included all followers, user statistics and a short overview of the history of the user.
 
 
-![](images/1.png)
-
 
 ### The homepage (calendar)
 The homepage includes the interactive calendar that is linked to the USC schedule.
